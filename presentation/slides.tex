@@ -1,0 +1,135 @@
+\iffalse
+
+n casale
+
+ece 592
+individual project slides
+17/10/31
+
+\fi
+
+% class stuff
+\documentclass{beamer}
+\usetheme{Boadilla}
+\usecolortheme{beaver}
+
+\RequirePackage{stackrel} % to add extra lower text field
+\RequirePackage{bbm} % cool math font
+\RequirePackage{eufrak}
+%\RequirePackage{yfonts}
+
+% miniscule font size switches based on original size
+\makeatletter
+  \newcommand{\miniscule}{\@setfontsize\miniscule{4}{5}}% \tiny: 5/6
+\makeatother
+
+%Setting subsection and subsubsection title color
+\RequirePackage{xcolor}
+\definecolor{Red}{RGB}{123, 25, 25}
+
+\setbeamercolor*{title}{bg=gray!10,fg=Red}
+\setbeamercolor{frametitle}{fg=Red,bg=gray!10}
+\setbeamerfont{frametitle}{size=\huge}
+\setbeamercolor{section number projected}{bg=white,fg=Red}
+\setbeamercolor{subsection number projected}{bg=gray,fg=Red}
+\setbeamertemplate{sections/subsections in toc}[square]
+\setbeamertemplate{itemize item}{\color{Red}$\circ$}
+\setbeamertemplate{itemize subitem}{\color{gray!50}\miniscule$\blacksquare$}
+
+\setbeamertemplate{navigation symbols}{} % remove navigation symbols
+
+% footer
+\setbeamercolor{author in head/foot}{fg=white,bg=Red}
+\setbeamercolor{title in head/foot}{fg=white,bg=Red}
+\setbeamercolor{date in head/foot}{fg=white,bg=Red}
+\setbeamertemplate{author in head/foot}{align=left}
+
+% remove title/block shadow
+\setbeamertemplate{title page}[default][colsep=-4bp,rounded=true]
+\setbeamertemplate{blocks}[rounded][shadow=false]
+\setbeamercolor{block body example}{bg=Red!10}
+%
+\setbeamerfont{title}{size=\Huge}
+\setbeamerfont{date}{size=\scriptsize}
+% enumerate
+\setbeamercovered{transparent}
+\setbeamertemplate{enumerate items}[default]
+\setbeamercolor{item}{fg=Red,bg=white}
+
+\newcommand{\showProgress}{
+	\begin{frame}<beamer>
+		\frametitle{progress}
+		\tableofcontents[currentsection, currentsubsection, hideothersubsections, subsectionstyle=show/shaded]
+	\end{frame}
+}
+
+\RequirePackage{subfiles} % to modularize tex files
+
+% for pictures
+\RequirePackage{graphicx}
+\graphicspath{ {images/}{../images/} } % location of source images, available to subfiles and main file
+
+% make citations smaller
+%\renewcommand*{\bibfont}{\scriptsize}
+%\appto{\citesetup}{\small}
+%\setbeamerfont{bibliography item}{size=\footnotesize}
+%\renewcommand{\cite}[1]{{\scriptsize\cite{{#1}}}}
+
+% for overlays floating text
+\usepackage[absolute,overlay]{textpos}
+
+% doc stuff
+\title{review of clustering algorithms}
+\subtitle{\small DBSCAN, expectation-maximization, k-means}
+\author{nico casale}
+\institute{NCSU}
+\date{2017/11/29}
+
+% num samples
+\newcommand{\N}{2000 }
+
+\begin{document}
+
+% Title
+\begingroup
+\setbeamercolor{background canvas}{bg=gray!10}
+\begin{frame}[plain]
+~\\
+\titlepage
+\end{frame}
+\endgroup
+
+% TOC
+\begin{frame}
+\frametitle{outline}
+\tableofcontents
+\end{frame}
+
+% Sections
+\section{introduction}
+
+	\subfile{sections/introduction}
+		
+\section{DBSCAN}
+
+	\showProgress
+	
+	\subfile{sections/dbscan}
+		
+\section{EM Algorithm}
+
+	\showProgress
+
+	\subfile{sections/em}
+		
+\section{\textit{k-means}}
+
+	\showProgress
+	
+	\subfile{sections/kmeans}
+
+\section{conclusion}
+
+	\subfile{sections/conclusion}
+
+\end{document}

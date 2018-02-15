@@ -1,0 +1,25 @@
+\begin{frame}
+\frametitle{DBSCAN}
+
+\begin{itemize}
+	\item clusters dense regions of points
+	\item requires three steps {\scriptsize\cite{wiki:dbscan}\cite{dbscan:algorithmicthoughts}}
+		\begin{enumerate}
+		\itemsep 1em
+			\item find neighbors (using $\epsilon$) of each point. \\ assign points with $\geq minPts$ neighbors as \textit{core points}.
+		\item connect \textit{core points} with mutual neighbors.
+		\item assign \textit{non-core} points to a cluster if $\epsilon$-neighbor, otherwise ignore.
+		\end{enumerate}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{DBSCAN}
+
+	{
+	     \centering
+	     \includegraphics[height=\dimexpr\textheight-0.4in]{dbscan_clustered1}
+		\vfill
+	}
+
+\end{frame}

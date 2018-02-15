@@ -1,0 +1,38 @@
+\begin{frame}
+\frametitle{EM Algorithm}
+
+\begin{itemize}
+	\setlength{\itemindent}{-1em}
+	\item assuming mixture of Gaussians, maximum-likelihood estimate (MLE) is the marginal likelihood
+		\begin{equation}
+			\mathcal{L}(\Theta; X) = p(X|\Theta) = \int p(X,Z|\Theta)dZ
+		\end{equation}
+	\item approximates the MLE over iterations of two steps 	\cite{wiki:em}
+	\begin{enumerate}
+		\setlength{\itemindent}{-2em}
+		\item expectation (E): find expected value of log-likelihood \textit{w.r.t.} $P(Z|X,\Theta^{(t)})$
+			\begin{equation}
+				Q(\Theta|\Theta^{(t)}) = E_{Z|X,\Theta^{(t)}}[\text{log}\mathcal{L}(\Theta; X, Z)]
+			\end{equation}
+			where $t$ is the iteration, $\Theta$ are unknown parameters, $\Theta^{(t)}$ their estimate, $X$ the observed data, and $Z$ the unobserved data.
+		\item maximization (M): find parameters that maximize
+			\begin{equation}
+				\Theta^{(t+1)} =\ \stackrel[\Theta]{}{\text{arg max}}Q(\Theta|\Theta^{(t)})
+			\end{equation}
+	\end{enumerate}
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}
+\frametitle{EM Algorithm}
+
+	{
+	     \centering
+	     \includegraphics[height=\dimexpr\textheight-0.4in]{em_clustered1}
+		\vfill
+	}
+
+
+\end{frame}
