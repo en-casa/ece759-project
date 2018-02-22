@@ -9,7 +9,7 @@ ECE 759 Project
 returns:
 	train
 		1x2 cell
-		60e3 images - 28x28 pixels in row-major order
+		60e3 images - 28x28 pixels in row-major order in columns
 		60e3 labels - integers in  the set [0,9]
 	test
 		1x2 cell
@@ -29,9 +29,5 @@ function [train, test] = loadMNIST()
 	labelsTest = loadMNISTLabels('t10k-labels-idx1-ubyte');
 
 	test = {imagesTest, labelsTest};
-
-	% We are using display_network from the autoencoder code
-	%display_network(imagesTrain(:,1:100)); % Show the first 100 images
-	%disp(labels(1:10));
 
 end
