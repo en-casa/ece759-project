@@ -18,16 +18,27 @@ returns:
 
 %}
 
-function [train, test] = loadMNIST()
+function [train, test] = loadMNIST(N_train)
+
+	if nargin == 0
+		N_train = 60e3;
+	end
 
 	imagesTrain = loadMNISTImages('train-images-idx3-ubyte');
 	labelsTrain = loadMNISTLabels('train-labels-idx1-ubyte');
 
-	train = {imagesTrain, labelsTrain};
-
 	imagesTest = loadMNISTImages('t10k-images-idx3-ubyte');
 	labelsTest = loadMNISTLabels('t10k-labels-idx1-ubyte');
 
-	test = {imagesTest, labelsTest};
+	all{1} = [imagesTrain imagesTest];
+	all{2} = [labelsTrain; labelsTest];
+	
+	% random indices
+	inds = randperm(length(all{2}));
+	all{1} = all{1}(:, inds);
+	all{2} = all{2}(inds);
+	
+	train = {all{1}(:, 1:N_train) all{2}(1:N_train)};
+	test = {all{1}(:, N_train+1:end) all{2}(N_train+1:end)};
 
 end
