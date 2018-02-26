@@ -12,7 +12,7 @@ the decision tree classifier
 %}
 
 clear; close all;
-addpath('./utility');
+addpath('utility', 'MNIST', 'MNIST/data', 'MNIST/loadMNIST');
 
 seed = 152039828;
 rng(seed); % for reproducibility
@@ -30,8 +30,28 @@ rng(seed); % for reproducibility
 
 [train, test] = loadMNIST(35e3);
 
+%% dimensionality reduction / feature generation
+% via prinicpal component analysis (pca) (svd)
+
+sz = 28;
+
+% takes a few secs
+for i = 1:length(train{2})
+	%[train{3}{1,i}, train{3}{2,i}, train{3}{3,i}] = svd(reshape(train{1}(:,i),[sz, sz]));
+	%train{3}{2,i} = diag(train{3}{2,i});
+	[~, S, ~] = svd(reshape(train{1}(:,i),[sz, sz]));
+	train{3}(:,i) = diag(S);
+end
+
+% average singular value for each digit
+for i = 1:9
+	inds = find(train{2} == i);
+	digitAvg(:,i) = mean(train{3}(:,inds),2);
+end
+
+
 %% train
 
-
+tree = trainDecisionTree(train);
 
 %% test
