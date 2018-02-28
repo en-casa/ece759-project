@@ -12,7 +12,8 @@ the decision tree classifier
 %}
 
 clear; close all;
-addpath('utility', 'MNIST', 'MNIST/data', 'MNIST/loadMNIST');
+addpath('utility', 'MNIST', 'MNIST/data', 'MNIST/loadMNIST', ...
+	'decision tree');
 
 seed = 152039828;
 rng(seed); % for reproducibility
@@ -49,6 +50,7 @@ for i = 1:9
 	digitAvg(:,i) = mean(train{3}(:,inds),2);
 end
 
+clear i;
 
 %% train
 
