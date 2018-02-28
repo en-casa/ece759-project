@@ -50,7 +50,7 @@ for i = 1:9
 	digitAvg(:,i) = mean(train{3}(:,inds),2);
 end
 
-clear i;
+clear i S;
 
 %% train
 
