@@ -55,8 +55,12 @@ function tree = trainDecisionTree(set)
 		
 	end
 	
-	if (~info_gain_best)
+	if (~info_gain_best || ~attribute_best)
 		fprintf('error: couldn''t find an attribute to split on\n');
+		% return the single node tree root with label
+		% = mode label of set
+		tree = {'leaf', mode(set{2})};
+		return
 	end
 	
 	% recur on the sublists obtained by splitting on attribute_best, 
