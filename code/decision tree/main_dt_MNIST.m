@@ -54,16 +54,17 @@ for i = 1:9
 end
 
 clear i S;
-fprintf('\nFeatures Generated in %4.2f seconds\n\n',cputime - st);
+fprintf('Features Generated in %4.2f seconds\n',cputime - st);
 
-%% train
+%% train (~60 secs)
 st = cputime;
 
 % tree is about 1MB
 tree = trainDecisionTree(train);
 
-fprintf('\nTrained in %4.2f seconds\n\n',cputime - st);
-%% test
+fprintf('Trained in %4.2f seconds\n',cputime - st);
+
+%% test (~18 secs)
 st = cputime;
 % for each test sample
 for i = 1:N_te
@@ -108,9 +109,8 @@ for i = 1:N_te
 	
 end
 
-fprintf('\nTested in %4.2f seconds\n\n',cputime - st);
+fprintf('Tested in %4.2f seconds\n',cputime - st);
 
 % Classification Error
 errors = nnz(test{2}(:,1) ~= test{2}(:,2));
 errorRate = (errors/N_te)*100
-

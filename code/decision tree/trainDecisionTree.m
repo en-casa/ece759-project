@@ -23,6 +23,7 @@ function tree = trainDecisionTree(set)
 	end
 	
 	% 2. no more features to split on
+	% this condition seems rare.
 	if (isempty(set{3}))
 		% return the single node tree root with label
 		% = mode label of set
@@ -31,8 +32,8 @@ function tree = trainDecisionTree(set)
 		return
 	end
 	
-	% let attribute_best be the attribute with the highest normalized information
-	% gain (after splitting)
+	% let attribute_best be the attribute with the highest 
+	% normalized information gain (after splitting)
 	attribute_best = 0;
 	threshold_best = 0;
 	info_gain_best = 0;
@@ -41,22 +42,31 @@ function tree = trainDecisionTree(set)
 	for i = 1:size(set{3},1)
 		
 		% choose a splitting threshold
-		% naïve: split on halfway between min and max
-		threshold = (max(set{3}(i,:)) - min(set{3}(i,:))) / 2;
 		
-		% find the normalized information gain ratio from splitting on i.
-		info_gain = thisSetEntropy - getSplitEntropy(set, i, threshold);
-		
-		if (info_gain > info_gain_best)
-			attribute_best = i;
-			threshold_best = threshold;
-			info_gain_best = info_gain;
+		% optimize IG over thresholds
+		% see page 2: https://www.jair.org/media/279/live-279-1538-jair.pdf
+		% sort, then consider adjacent values- but skip if they're part of
+		% the same class.
+		for j = 1:size(set{3},2)
+			
+			% naïve: split on halfway between min and max
+			threshold = (max(set{3}(i,:)) - min(set{3}(i,:))) / 2;
+
+			% find the normalized information gain ratio from splitting on i.
+			info_gain = thisSetEntropy - getSplitEntropy(set, i, threshold);
+
+			if (info_gain > info_gain_best)
+				attribute_best = i;
+				threshold_best = threshold;
+				info_gain_best = info_gain;
+			end
+			
 		end
 		
 	end
 	
 	if (~info_gain_best || ~attribute_best)
-		fprintf('error: couldn''t find an attribute to split on\n');
+		fprintf('    error: couldn''t find an attribute to split on\n');
 		% return the single node tree root with label
 		% = mode label of set
 		tree = {'leaf', mode(set{2})};
