@@ -71,6 +71,7 @@ for i = 1:N_te
 	% generate features via svd
 	[~, S, ~] = svd(reshape(test{1}(:,i),[sz, sz]));
 	test{3}(:,i) = diag(S);
+	S = diag(S);
 	
 	% pass through the tree
 	tree_walked = tree;
@@ -79,10 +80,18 @@ for i = 1:N_te
 		
 		% if we're on a node
 		if strcmp('node', string(tree_walked(1)))
+			
+			attribute_tree = tree_walked{2};
+			threshold = tree_walked{3};
+			attribute_test = S(attribute_tree);
+			
+			% remove attribute
+			inds = 1:length(S) ~= attribute_tree;
+			S = S(inds);
+			
 			% compare attribute value to threshold
-			attribute = cell2mat(tree_walked(2));
-			threshold = cell2mat(tree_walked(3));
-			if (test{3}(attribute) < threshold)
+			if (attribute_test < threshold)
+				% choose left branch
 				tree_walked = tree_walked{4};
 			else
 				tree_walked = tree_walked{5};
@@ -101,7 +110,7 @@ end
 
 fprintf('\nTested in %4.2f seconds\n\n',cputime - st);
 
-%% Classification Error
-
+% Classification Error
 errors = nnz(test{2}(:,1) ~= test{2}(:,2));
+errorRate = (errors/N_te)*100
 
