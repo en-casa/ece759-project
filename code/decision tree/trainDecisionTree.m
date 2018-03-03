@@ -39,24 +39,33 @@ function tree = trainDecisionTree(set)
 	info_gain_best = 0;
 	
 	% for each attribute i
-	for i = 1:size(set{3},1)
+	for att = 1:size(set{3},1)
 		
-		% choose a splitting threshold
+		% TODO: sort by attribute value
 		
 		% optimize IG over thresholds
 		% see page 2: https://www.jair.org/media/279/live-279-1538-jair.pdf
-		% sort, then consider adjacent values- but skip if they're part of
-		% the same class.
-		for j = 1:size(set{3},2)
+		% for each member of the set
+		for j = 1:(size(set{3},2) - 1)
+			
+			% check if adjacent values are in the same class
+			% splitting on that value wouldn't improve the IG
+			% so we skip it
+			if (set{2}(j) == set{2}(j+1))
+				continue;
+			end
 			
 			% naïve: split on halfway between min and max
-			threshold = (max(set{3}(i,:)) - min(set{3}(i,:))) / 2;
+			%threshold = (max(set{3}(att,:)) - min(set{3}(att,:))) / 2;
+			
+			% split halfway between adjacent values
+			threshold = (set{3}(att,j) - set{3}(att,j)) / 2;
 
 			% find the normalized information gain ratio from splitting on i.
-			info_gain = thisSetEntropy - getSplitEntropy(set, i, threshold);
+			info_gain = thisSetEntropy - getSplitEntropy(set, att, threshold);
 
 			if (info_gain > info_gain_best)
-				attribute_best = i;
+				attribute_best = att;
 				threshold_best = threshold;
 				info_gain_best = info_gain;
 			end
