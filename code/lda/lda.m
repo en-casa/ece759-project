@@ -65,9 +65,24 @@ parfor n = 1:13
     accuracy(n) = classifyNN(n,transf_test', transf_train', test{1,2}, train{1,2});
 end
 % we plot the results to see the best number of nearest neighbors
-plot([1:13],accuracy*100, 'r.')
 
-% instead we can use Euclidean distance metric to evaluate the classes
+f = instantiateFig(1);
+plot([1:13],accuracy*100, 'r.')
+prettyPictureFig(f);
+xlabel('Nearest neighbor number');
+ylabel('Accuracy of test model');
+
+print('../images/NN after LDA', '-dpng');
+% instead we can use Euclidean distance metric to evaluate the classes by
+% calculating the distances from each class centroid
+for i = 0:k-1
+    ind = (train{1,2} == i);
+    N_i = sum(ind);
+    center(i+1) = mean(tranf_train, )
+    x = train{1,1}(:, ind);
+    mu_i = mean(x, 2);
+    
+end
 
 
 
