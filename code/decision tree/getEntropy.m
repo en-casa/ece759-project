@@ -12,6 +12,13 @@ function to get entropy of a set
 
 function ent = getEntropy(set)
 	
+	% initialize entropy
+	ent = 0;
+
+	if isempty(set{2})
+		return
+	end
+	
 	% find unique ~and~ count instances in O(n) (saves n computations)
 	classes = [set{2}(1) 1];
 	for i = 2:length(set{2})
@@ -27,10 +34,7 @@ function ent = getEntropy(set)
 		
 	end
 	
-	% initialize entropy
-	ent = 0;
-	
-	for i = 1:length(classes)
+	for i = 1:size(classes, 1)
 		
 		% proportion of the # of elements in class x 
 		% to the number of elements in set

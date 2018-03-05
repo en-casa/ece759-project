@@ -10,11 +10,11 @@ function to get entropy of a split set
 
 %}
 
-function splitEnt = getSplitEntropy(set, attribute, threshold)
+function splitEnt = getSplitEntropy(set, attribute, index)
 
 	splitEnt = 0;
 
-	subsets = getSubsets(set, attribute, threshold);
+	subsets = getSubsets(set, attribute, index);
 	
 	for t = 1:length(subsets)
 		
