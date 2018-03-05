@@ -17,23 +17,23 @@ function [accuracy] = classifyNN(num_neighbors,test_data, train_data, test_label
 % accuracy: a scalar number of the classification accuracy
 
 train_size = size(train_data, 2);
-test_size = size(test_data, 2);
-counter = zeros(test_size, 1);
+test_N = size(test_data, 2);
+counter = zeros(test_N, 1);
 
-parfor test_digit = 1:test_size
+parfor test_n = 1:test_N
 
-    test_mat = repmat(test_data(:, test_digit), [1,train_size]);
+    test_mat = repmat(test_data(:, test_n), [1,train_size]);
     distance = sum(abs(test_mat - train_data).^2);
     [~,distances_index] = sort(distance);
     neighbors=distances_index(1:num_neighbors);
     a = mode(train_label(neighbors));
-    if a == test_label(test_digit)
-        counter(test_digit) = counter(test_digit) + 1;
+    if a == test_label(test_n)
+        counter(test_n) = counter(test_n) + 1;
     end
 %     [M,I] = min(distance);
-%     if train_label(I) == test_label(test_digit)
-%         counter(test_digit) = counter(test_digit) + 1;
+%     if train_label(I) == test_label(test_n)
+%         counter(test_n) = counter(test_n) + 1;
 %     end
 end
 
-accuracy = double(sum(counter)) / test_size;
+accuracy = double(sum(counter)) / test_N;

@@ -33,10 +33,10 @@ for i=0:rows-1
   	for j=0:stride-1 
     	Y(i*sz+1:(i+1)*sz,j*sz+1:(j+1)*sz) ...
 			= reshape(faces(i*stride+j+1,:), [sz,sz]); 
-  	end 
-end 
+    end
+end
 
 f = instantiateFig(2);
-imagesc(Y); 
+imagesc(Y);
 colormap(gray);
 prettyPictureFig(f);
