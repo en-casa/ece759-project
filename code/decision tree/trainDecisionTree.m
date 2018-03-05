@@ -45,6 +45,8 @@ function tree = trainDecisionTree(set)
 		% sort by attribute value
 		[~,I] = sort(set{3}(att,:));
 		set{3} = set{3}(:,I);
+		set{2} = set{2}(I);
+		set{1} = set{1}(:,I);
 		
 		% optimize IG over thresholds
 		% see page 2: https://www.jair.org/media/279/live-279-1538-jair.pdf
