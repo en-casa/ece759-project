@@ -43,7 +43,7 @@ for i = 1:length(train{2})
 	%[train{3}{1,i}, train{3}{2,i}, train{3}{3,i}] = svd(reshape(train{1}(:,i),[sz, sz]));
 	%train{3}{2,i} = diag(train{3}{2,i});
 	[~, S, ~] = svd(reshape(train{1}(:,i),[sz, sz]));
-	train{3}(:,i) = diag(S(1:20,1:20));
+	train{3}(:,i) = diag(S(1:3,1:3));
 end
 
 % average singular value for each digit

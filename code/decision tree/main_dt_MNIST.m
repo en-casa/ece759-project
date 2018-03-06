@@ -15,6 +15,8 @@ clear; close all;
 addpath('utility', 'MNIST', 'MNIST/data', 'MNIST/loadMNIST', ...
 	'decision tree');
 
+fprintf('begin MNIST decision tree script\n');
+
 seed = 152039828;
 rng(seed); % for reproducibility
 
@@ -62,7 +64,7 @@ st = cputime;
 % tree is about 1MB
 tree = trainDecisionTree(train);
 
-fprintf('Trained in %4.2f seconds\n',cputime - st);
+fprintf('Trained in %4.2f minutes\n',(cputime - st)/60);
 
 %% test (~18 secs)
 st = cputime;

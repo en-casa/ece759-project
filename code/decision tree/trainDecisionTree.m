@@ -12,6 +12,12 @@ function to train a decision tree
 
 function tree = trainDecisionTree(set)
 
+	if length(set{2}) > 5000
+		printProgress = true;
+	else
+		printProgress = false;
+	end
+
 	% Check for base cases
 	% 1. all samples belong to the same class
 	thisSetEntropy = getEntropy(set);
@@ -51,7 +57,7 @@ function tree = trainDecisionTree(set)
 		% optimize IG over thresholds via line search
 		% see page 2: https://www.jair.org/media/279/live-279-1538-jair.pdf
 		
-		% note: set size is always at least 2 - see first if clause
+		% note: set size is always at least 2 - see 2nd if clause
 		midInd = round(size(set{3},2)/2);
 		% choose indices halfway between midpoint and endpoints
 		leftInd = ceil(midInd/2);
@@ -60,6 +66,7 @@ function tree = trainDecisionTree(set)
 		midInfoGain = 0;
 		closeToMax = false;
 		foundMax = false;
+		span = 10; % for fine steps
 		iter = 0;
 		while (~foundMax)
 			
@@ -76,20 +83,35 @@ function tree = trainDecisionTree(set)
 			leftInfoGain = thisSetEntropy - getSplitEntropy(set, att, leftInd);
 			rightInfoGain = thisSetEntropy - getSplitEntropy(set, att, rightInd);
 
-			fprintf('a: %d, l: %d, %1.5f, m: %d, %1.5f, r: %d, %1.5f\n', ...
-				att, leftInd, leftInfoGain, midInd, midInfoGain, rightInd, rightInfoGain);
+			if printProgress
+				fprintf('a: %d, l: %d, %1.5f, m: %d, %1.5f, r: %d, %1.5f\n', ...
+					att, leftInd, leftInfoGain, midInd, midInfoGain, rightInd, rightInfoGain);
+			end
 			
 			if (leftInfoGain > midInfoGain)
 				midInfoGain = leftInfoGain;
+				oldMidInd = midInd;
 				midInd = leftInd;
-				leftInd = ceil(midInd/2);
-				rightInd = floor((length(set{2})-midInd)/2) + midInd;
+				rightInd = floor((oldMidInd - leftInd)/2) + leftInd;
+				leftInd = leftInd - ceil((oldMidInd - leftInd)/2);
+				
+				% to diversify search if we were close
+				if closeToMax
+					rightInd = rightInd + 20;
+					leftInd = leftInd - 20;
+				end
 				closeToMax = false;
 			elseif (rightInfoGain > midInfoGain)
 				midInfoGain = rightInfoGain;
+				oldMidInd = midInd;
 				midInd = rightInd;
-				leftInd = ceil(midInd/2);
-				rightInd = floor((length(set{2})-midInd)/2) + midInd;
+				leftInd = ceil((rightInd - oldMidInd)/2) + oldMidInd;
+				rightInd = floor((rightInd - oldMidInd)/2) + rightInd;
+				
+				if closeToMax
+					rightInd = rightInd + span*2;
+					leftInd = leftInd - span*2;
+				end
 				closeToMax = false;
 			else % close to max
 				if ~closeToMax
@@ -97,14 +119,11 @@ function tree = trainDecisionTree(set)
 				end
 				closeToMax = true;
 				
-				% fine stochastic steps
-				span = 30;
+				% fine steps
 				if iter - closeIter > span
 					foundMax = true;
 				end
 				
-				%leftInd = midInd - (span - (iter - closeIter));
-				%rightInd = midInd + (span - (iter - closeIter));
 				leftInd = midInd - (iter - closeIter) - 1;
 				rightInd = midInd + (iter - closeIter) + 1;
 			end

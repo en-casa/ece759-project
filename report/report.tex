@@ -9,6 +9,14 @@ ece 759 project part 1
 
 \documentclass[]{ncmathy}
 
+% for algorithms
+%\usepackage[section]{algorithm}
+\usepackage[ruled,vlined, linesnumbered, algosection]{algorithm2e}
+\usepackage{algorithmic}
+
+% for 2 column table of contents
+\usepackage[toc]{multitoc}
+
 \newcommand{\theassignment}{Project Part 1}
 \newcommand{\thecourse}{Pattern Recognition\\ECE 759}
 
@@ -31,8 +39,10 @@ ece 759 project part 1
 	\subfile{sections/introduction}
 
 \section{Feature Selection}
+	\subfile{sections/features}
 
 \section{Algorithmic Interpretation}
+	\subfile{sections/algo_DT}
 
 \section{Code Listings}
 
@@ -42,3 +52,8 @@ Below are the primary scripts that solve the project. Please see the
 %\lstinputlisting[language=Matlab, caption=Code for 2.35]{code/2p35.m}
 
 \end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
