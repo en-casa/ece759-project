@@ -10,7 +10,7 @@ function to train a decision tree
 
 %}
 
-function tree = trainDecisionTree(set)
+function tree = brutetrainDecisionTree(set)
 
 	% Check for base cases
 	% 1. all samples belong to the same class

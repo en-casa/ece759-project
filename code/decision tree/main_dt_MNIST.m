@@ -43,7 +43,7 @@ for i = 1:length(train{2})
 	%train{3}{2,i} = diag(train{3}{2,i});
 	[~, S, ~] = svd(reshape(train{1}(:,i),[sz, sz]));
 	%train{3}(:,i) = diag(S);
-	% just take the first 20 singular values
+	% just take the first x singular values
 	train{3}(:,i) = diag(S(1:20,1:20));
 end
 

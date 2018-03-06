@@ -32,12 +32,12 @@ function tree = trainDecisionTree(set)
 		return
 	end
 	
-	% let attribute_best be the attribute with the highest 
+	% let attributeBest be the attribute with the highest 
 	% normalized information gain (after splitting)
-	attribute_best = 0;
-	threshold_best = 0;
-	info_gain_best = 0;
-	ind_best = 0;
+	attributeBest = 0;
+	thresholdBest = 0;
+	infoGainBest = 0;
+	indBest = 0;
 	
 	% for each attribute
 	for att = 1:size(set{3},1)
@@ -48,127 +48,85 @@ function tree = trainDecisionTree(set)
 		set{2} = set{2}(I);
 		set{1} = set{1}(:,I);
 		
-		% optimize IG over thresholds
+		% optimize IG over thresholds via line search
 		% see page 2: https://www.jair.org/media/279/live-279-1538-jair.pdf
-		% for each member of the set
 		
-		
+		% note: set size is always at least 2 - see first if clause
+		midInd = round(size(set{3},2)/2);
+		% choose indices halfway between midpoint and endpoints
+		leftInd = ceil(midInd/2);
+		rightInd = floor((length(set{2})-midInd)/2) + midInd;
+
+		midInfoGain = 0;
+		closeToMax = false;
+		foundMax = false;
+		iter = 0;
+		while (~foundMax)
+			
+			% don't exceed array dimensions
+			if rightInd > length(set{2})
+				rightInd = length(set{2});
+			end
+			if leftInd < 1
+				leftInd = 1;
+			end
+			
+			% find the normalized information gain ratio from splitting on att
+			midInfoGain = thisSetEntropy - getSplitEntropy(set, att, midInd);
+			leftInfoGain = thisSetEntropy - getSplitEntropy(set, att, leftInd);
+			rightInfoGain = thisSetEntropy - getSplitEntropy(set, att, rightInd);
+
+			fprintf('a: %d, l: %d, %1.5f, m: %d, %1.5f, r: %d, %1.5f\n', ...
+				att, leftInd, leftInfoGain, midInd, midInfoGain, rightInd, rightInfoGain);
+			
+			if (leftInfoGain > midInfoGain)
+				midInfoGain = leftInfoGain;
+				midInd = leftInd;
+				leftInd = ceil(midInd/2);
+				rightInd = floor((length(set{2})-midInd)/2) + midInd;
+				closeToMax = false;
+			elseif (rightInfoGain > midInfoGain)
+				midInfoGain = rightInfoGain;
+				midInd = rightInd;
+				leftInd = ceil(midInd/2);
+				rightInd = floor((length(set{2})-midInd)/2) + midInd;
+				closeToMax = false;
+			else % close to max
+				if ~closeToMax
+					closeIter = iter;
+				end
+				closeToMax = true;
+				
+				% fine stochastic steps
+				span = 30;
+				if iter - closeIter > span
+					foundMax = true;
+				end
+				
+				%leftInd = midInd - (span - (iter - closeIter));
+				%rightInd = midInd + (span - (iter - closeIter));
+				leftInd = midInd - (iter - closeIter) - 1;
+				rightInd = midInd + (iter - closeIter) + 1;
+			end
+			
+			% prevent infinite loop
+			iter = iter + 1;
+			if (iter > size(set{3},2))
+				break;
+			end
 	
-		
-		%% old
-		
-		% two loops to improve computational complexity
-		if size(set{3},2) > 10000
-			skipMed = false;
-			J = round(linspace(1, size(set{3},2)-1, 100));
-		elseif size(set{3},2) > 100
-			skipMed = false;
-			J = round(linspace(1, size(set{3},2)-1, 50));
-		else
-			skipMed = true;
-			J = 1:size(set{3},2);
 		end
-		
-		% coarse approximation of best IG
-		for j = J
-			
-			if j > size(set{3},2)-1
-					break;
-			end
-			
-			fprintf('-- a: %d, j: %d\n', att, j);
-			
-			% split halfway between adjacent values
-			threshold = (set{3}(att,j) + set{3}(att,j+1)) / 2;
 
-			% find the normalized information gain ratio from splitting on i.
-			info_gain = thisSetEntropy - getSplitEntropy(set, att, j);
-
-			if (info_gain > info_gain_best)
-				attribute_best = att;
-				threshold_best = threshold;
-				info_gain_best = info_gain;
-				ind_best = j;
-			end
-			
-		end
-		
-		if ~skipMed
-		
-			% medium approximation of best IG
-			stride_J = J(2)-J(1)+1;
-			if size(set{3},2) > 10000
-				K = ind_best-stride_J:10:ind_best+stride_J;
-			else
-				K = ind_best-stride_J:10:ind_best+stride_J;
-			end
-			
-			for k = K
-				
-				if k < 1 
-					continue;
-				elseif k > size(set{3},2)-1
-					break;
-				end
-			
-				fprintf('-- a: %d, j: %d, k: %d\n', att, j, k);
-
-				% split halfway between adjacent values
-				threshold = (set{3}(att,k) + set{3}(att,k+1)) / 2;
-
-				% find the normalized information gain ratio from splitting on i.
-				info_gain = thisSetEntropy - getSplitEntropy(set, att, k);
-
-				if (info_gain > info_gain_best)
-					attribute_best = att;
-					threshold_best = threshold;
-					info_gain_best = info_gain;
-					ind_best = k;
-				end
-			
-			end
-			
-			% fine approximation of best IG
-			L = ind_best-10:ind_best+10;
-			
-			for l = L
-				
-				if l < 1 
-					continue;
-				elseif l > size(set{3},2)-1
-					break;
-				end
-			
-				fprintf('-- a: %d, j: %d, k: %d, l: %d\n', att, j, k, l);
-
-				% check if adjacent values are in the same class
-				% splitting on that value wouldn't improve the IG
-				% so we skip it
-				if (set{2}(l) == set{2}(l+1))
-					fprintf('same class\n');
-					continue;
-				end
-
-				% split halfway between adjacent values
-				threshold = (set{3}(att,l) + set{3}(att,l+1)) / 2;
-
-				% find the normalized information gain ratio from splitting on i.
-				info_gain = thisSetEntropy - getSplitEntropy(set, att, l);
-
-				if (info_gain > info_gain_best)
-					attribute_best = att;
-					threshold_best = threshold;
-					info_gain_best = info_gain;
-					ind_best = l;
-				end
-			
-			end
-			
+		if (midInfoGain > infoGainBest)
+			attributeBest = att;
+			infoGainBest = midInfoGain;
+			indBest = midInd;
+			thresholdBest = (set{3}(att,indBest) + set{3}(att,indBest + 1)) / 2;
 		end
 		
 	end
 	
-	if (~info_gain_best || ~attribute_best)
+	if (~infoGainBest || ~attributeBest)
 		fprintf('    couldn''t find attribute to split on\n');
 		% return the single node tree root with label
 		% = mode label of set
@@ -179,16 +137,16 @@ function tree = trainDecisionTree(set)
 	% recur on the sublists obtained by splitting on attribute_best, 
 	% and add those nodes as children of node.
 	% need to re-sort according to attribute_best
-	[~,I] = sort(set{3}(attribute_best,:));
+	[~,I] = sort(set{3}(attributeBest,:));
 	set{3} = set{3}(:,I);
 	set{2} = set{2}(I);
 	set{1} = set{1}(:,I);
-	subsets = getSubsets(set, attribute_best, ind_best);
+	subsets = getSubsets(set, attributeBest, indBest);
 	subtree1 = trainDecisionTree(subsets{1});
 	subtree2 = trainDecisionTree(subsets{2});
 	
 	% create a decision node that splits on attribute_best.
-	tree = {'node', attribute_best, threshold_best, subtree1, subtree2};
+	tree = {'node', attributeBest, thresholdBest, subtree1, subtree2};
 	
 	return
 	
