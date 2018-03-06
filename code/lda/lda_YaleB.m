@@ -12,27 +12,18 @@ the linear discriminant analysis classifier
 %}
 
 clear; close all;
-addpath('utility', 'MNIST', 'MNIST/data', 'MNIST/loadMNIST', ...
-	'lda');
+addpath('../utility');
+addpath('../YaleB', '../YaleB/data', '../YaleB/50Train');
 
+[faces, labels] = loadYaleB();
+labels = labels - ones(size(labels,1));
 seed = 152039828;
 rng(seed); % for reproducibility
-
-% define parameters
-N_tr = 35e3; % training samples
-N_te = 35e3; % test samples
-k = 10; % number of classes
-% partition data
-
-%{
-	1/2 of the dataset should be for training
-	the other for testing
-	
-	MNIST contains 70k examples
-%}
-
-[train, test] = loadMNIST(N_tr);
-
+load('1.mat'); % we load the indices to train and test sets
+train = {faces(trainIdx, :)', labels(trainIdx)};
+test = {faces(testIdx, :)', labels(testIdx)};
+k = 38;
+N_tr = size(trainIdx,1);
 % Construct scatter matrices and calculate within-class and between class
 % covariance
 mu = mean(train{1,1}, 2);
@@ -49,7 +40,7 @@ end
 
 % We apply singular value decomposition in order to find eigenvalues and
 % eigenvectors
-[U D V] = svd(pinv(Si)*Sb);
+[U D V] = svd(inv(Si)*Sb);
 a = [];
 for i = 1:(k)
     a = [a D(i,i)]
@@ -72,7 +63,7 @@ prettyPictureFig(f);
 xlabel('Nearest neighbor number');
 ylabel('Accuracy of test model');
 
-print('../images/NN after LDA', '-dpng');
+print('../images/YaleB_NN_after_LDA', '-dpng');
 % instead we can use Euclidean distance metric to evaluate the classes by
 % calculating the distances from each class centroid
 centroid = zeros(k, k-1);
@@ -83,11 +74,3 @@ for i = 0:k-1
 end
 
 accuracy1 = classify_from_centroid(transf_test', test{1,2},centroid);
-
-
-
-
-
-
-
-
