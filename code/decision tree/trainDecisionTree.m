@@ -52,6 +52,11 @@ function tree = trainDecisionTree(set)
 		% see page 2: https://www.jair.org/media/279/live-279-1538-jair.pdf
 		% for each member of the set
 		
+		
+	
+		
+		%% old
+		
 		% two loops to improve computational complexity
 		if size(set{3},2) > 10000
 			skipMed = false;
@@ -72,10 +77,6 @@ function tree = trainDecisionTree(set)
 			end
 			
 			fprintf('-- a: %d, j: %d\n', att, j);
-			
-			% naïve: split on halfway between min and max 
-			% (~70% error rate with MNIST)
-			%threshold = (max(set{3}(att,:)) - min(set{3}(att,:))) / 2;
 			
 			% split halfway between adjacent values
 			threshold = (set{3}(att,j) + set{3}(att,j+1)) / 2;
@@ -177,6 +178,11 @@ function tree = trainDecisionTree(set)
 	
 	% recur on the sublists obtained by splitting on attribute_best, 
 	% and add those nodes as children of node.
+	% need to re-sort according to attribute_best
+	[~,I] = sort(set{3}(attribute_best,:));
+	set{3} = set{3}(:,I);
+	set{2} = set{2}(I);
+	set{1} = set{1}(:,I);
 	subsets = getSubsets(set, attribute_best, ind_best);
 	subtree1 = trainDecisionTree(subsets{1});
 	subtree2 = trainDecisionTree(subsets{2});

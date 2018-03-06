@@ -18,10 +18,6 @@ addpath('utility', 'MNIST', 'MNIST/data', 'MNIST/loadMNIST', ...
 seed = 152039828;
 rng(seed); % for reproducibility
 
-% define parameters
-N_tr = 35e3; % training samples
-N_te = 35e3; % test samples
-
 % partition data
 
 %{
@@ -30,6 +26,8 @@ N_te = 35e3; % test samples
 	
 	MNIST contains 70k examples
 %}
+N_tr = 35e3; % training samples
+N_te = 35e3; % test samples
 
 [train, test] = loadMNIST(N_tr);
 
@@ -44,7 +42,9 @@ for i = 1:length(train{2})
 	%[train{3}{1,i}, train{3}{2,i}, train{3}{3,i}] = svd(reshape(train{1}(:,i),[sz, sz]));
 	%train{3}{2,i} = diag(train{3}{2,i});
 	[~, S, ~] = svd(reshape(train{1}(:,i),[sz, sz]));
-	train{3}(:,i) = diag(S);
+	%train{3}(:,i) = diag(S);
+	% just take the first 20 singular values
+	train{3}(:,i) = diag(S(1:20,1:20));
 end
 
 % average singular value for each digit
