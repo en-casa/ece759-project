@@ -13,20 +13,14 @@ function to get subsets of a set
 function subsets = getSubsets(set, attribute, index)
 	
 	% exclude the attribute row 
-	indsExcludeAttr = 1:size(set{3},1) ~= attribute;
+	indsExcludeAttr = 1:size(set{2},1) ~= attribute;
 	
 	% these form the left branch
-	subsets{1} = {set{1}(:, 1:index), ...
-		set{2}(1:index), ...
-		set{3}(indsExcludeAttr, 1:index)};
+	subsets{1} = {set{1}(1:index), ...
+		set{2}(indsExcludeAttr, 1:index)};
 	
 	% right branch forms a set partition
-	if index+1 > numel(set{2})
-		subsets{2} = {[],[],[]};
-	else
-		subsets{2} = {set{1}(:, index+1:end), ...
-			set{2}(index+1:end), ...
-			set{3}(indsExcludeAttr, index+1:end)};
-	end
+	subsets{2} = {set{1}(index+1:end), ...
+		set{2}(indsExcludeAttr, index+1:end)};
 
 end

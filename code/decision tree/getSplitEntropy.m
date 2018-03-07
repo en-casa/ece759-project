@@ -19,7 +19,7 @@ function splitEnt = getSplitEntropy(set, attribute, index)
 	for t = 1:length(subsets)
 		
 		% proportion of # elements in subsets to the # of elements in set
-		probSub = numel(subsets{t}{2})/numel(set{2});
+		probSub = numel(subsets{t}{1})/numel(set{1});
 		
 		splitEnt = splitEnt + probSub*getEntropy(subsets{t});
 		

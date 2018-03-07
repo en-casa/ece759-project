@@ -37,7 +37,8 @@ N_te = 35e3; % test samples
 % via prinicpal component analysis (pca) (svd)
 st = cputime;
 
-X = train{1}';
+X = [train{1}';
+	  test{1}'];
 
 % subtract column-wise empirical mean from each column 
 % to render each column zero mean
@@ -57,7 +58,7 @@ numFeatures = 20;
 train{3} = T(:,1:numFeatures)';
 
 % save space
-clear U T X S i colAvg
+%clear U T X S i colAvg
 
 fprintf('Features Generated in %4.2f minutes\n', (cputime - st)/60);
 
@@ -65,7 +66,7 @@ fprintf('Features Generated in %4.2f minutes\n', (cputime - st)/60);
 st = cputime;
 
 % tree is about 1MB
-tree = trainDecisionTree(train);
+tree = trainDecisionTree({train{2:3}});
 
 fprintf('Trained in %4.2f minutes\n',(cputime - st)/60);
 

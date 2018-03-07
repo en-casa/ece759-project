@@ -12,7 +12,7 @@ function to train a decision tree
 
 function tree = trainDecisionTree(set)
 
-	if length(set{2}) > 5000
+	if length(set{1}) > 5000
 		printProgress = true;
 	else
 		printProgress = false;
@@ -24,17 +24,17 @@ function tree = trainDecisionTree(set)
 	if (~thisSetEntropy)
 		% create leaf node for decision tree to choose that class
 		fprintf('    all samples in same class\n');
-		tree = {'leaf', set{2}(1)};
+		tree = {'leaf', set{1}(1)};
 		return
 	end
 	
 	% 2. no more features to split on
 	% this condition seems rare
-	if (isempty(set{3}))
+	if (isempty(set{2}))
 		% return the single node tree root with label
 		% = mode label of set
 		fprintf('    no more features to split on\n');
-		tree = {'leaf', mode(set{2})};
+		tree = {'leaf', mode(set{1})};
 		return
 	end
 	
@@ -46,13 +46,13 @@ function tree = trainDecisionTree(set)
 	indBest = 0;
 	
 	% for each attribute
-	for att = 1:size(set{3},1)
+	for att = 1:size(set{2},1)
 		
 		% sort by attribute value
-		[~,I] = sort(set{3}(att,:));
-		set{3} = set{3}(:,I);
-		set{2} = set{2}(I);
-		set{1} = set{1}(:,I);
+		[~,I] = sort(set{2}(att,:));
+		set{3} = set{2}(:,I);
+		set{2} = set{1}(I);
+		%set{1} = set{1}(:,I);
 		
 		% optimize IG over thresholds via line search
 		% see page 2: https://www.jair.org/media/279/live-279-1538-jair.pdf
@@ -71,8 +71,8 @@ function tree = trainDecisionTree(set)
 		while (~foundMax)
 			
 			% don't exceed array dimensions
-			if rightInd > length(set{2})
-				rightInd = length(set{2});
+			if rightInd > length(set{1})
+				rightInd = length(set{1});
 			end
 			if leftInd < 1
 				leftInd = 1;
@@ -130,7 +130,7 @@ function tree = trainDecisionTree(set)
 			
 			% prevent infinite loop
 			iter = iter + 1;
-			if (iter > size(set{3},2))
+			if (iter > length(set{1}))
 				break;
 			end
 	
@@ -140,7 +140,7 @@ function tree = trainDecisionTree(set)
 			attributeBest = att;
 			infoGainBest = midInfoGain;
 			indBest = midInd;
-			thresholdBest = (set{3}(att,indBest) + set{3}(att,indBest + 1)) / 2;
+			thresholdBest = (set{2}(att,indBest) + set{2}(att,indBest + 1)) / 2;
 		end
 		
 	end
@@ -149,7 +149,7 @@ function tree = trainDecisionTree(set)
 		fprintf('    couldn''t find attribute to split on\n');
 		% return the single node tree root with label
 		% = mode label of set
-		tree = {'leaf', mode(set{2})};
+		tree = {'leaf', mode(set{1})};
 		return
 	end
 	
@@ -157,9 +157,8 @@ function tree = trainDecisionTree(set)
 	% and add those nodes as children of node
 	% need to re-sort according to attribute_best
 	[~,I] = sort(set{3}(attributeBest,:));
-	set{3} = set{3}(:,I);
-	set{2} = set{2}(I);
-	set{1} = set{1}(:,I);
+	set{2} = set{2}(:,I);
+	set{1} = set{1}(I);
 	subsets = getSubsets(set, attributeBest, indBest);
 	subtree1 = trainDecisionTree(subsets{1});
 	subtree2 = trainDecisionTree(subsets{2});
