@@ -18,6 +18,7 @@ function test = testDecisionTree(test, tree)
 		% pass through the tree
 		tree_walked = tree;
 		classified = false;
+		S = test{3}(:,i);
 		
 		while (~classified)
 
@@ -29,7 +30,7 @@ function test = testDecisionTree(test, tree)
 				attribute_test = S(attribute_tree);
 
 				% remove attribute
-				inds = 1:size(test{3},1) ~= attribute_tree;
+				inds = 1:length(S) ~= attribute_tree;
 				S = S(inds);
 
 				% compare attribute value to threshold

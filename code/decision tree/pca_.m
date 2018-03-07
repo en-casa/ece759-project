@@ -10,7 +10,7 @@ function to get subsets of a set
 
 %}
 
-function set = pca_(set, numFeatures)
+function [set, U, V] = pca_(set, numFeatures)
 
 	X = set{1}';
 
@@ -25,7 +25,7 @@ function set = pca_(set, numFeatures)
 	end
 
 	% compute SVD of entire matrix
-	[U, S, ~] = svd(X);
+	[U, S, V] = svd(X);
 
 	T = U*S; % pca score matrix
 	set{3} = T(:,1:numFeatures)';
