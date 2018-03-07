@@ -60,3 +60,6 @@ Temporary Items
 *.toc
 
 *.zip
+
+# large matrices
+UV22.mat
