@@ -10,19 +10,15 @@ function to test a decision tree
 
 %}
 
-function test = testDecisionTree(test, sz, N_te, tree)
+function test = testDecisionTree(test, tree)
 
 	% for each test sample
-	for i = 1:N_te
-
-		% generate features via svd
-		[~, S, ~] = svd(reshape(test{1}(:,i),[sz, sz]));
-		test{3}(:,i) = diag(S);
-		S = diag(S);
+	for i = 1:size(test{2},1)
 
 		% pass through the tree
 		tree_walked = tree;
 		classified = false;
+		
 		while (~classified)
 
 			% if we're on a node
@@ -33,7 +29,7 @@ function test = testDecisionTree(test, sz, N_te, tree)
 				attribute_test = S(attribute_tree);
 
 				% remove attribute
-				inds = 1:length(S) ~= attribute_tree;
+				inds = 1:size(test{3},1) ~= attribute_tree;
 				S = S(inds);
 
 				% compare attribute value to threshold

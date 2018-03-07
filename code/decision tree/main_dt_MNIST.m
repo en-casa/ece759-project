@@ -37,28 +37,8 @@ N_te = 35e3; % test samples
 % via prinicpal component analysis (pca) (svd)
 st = cputime;
 
-X = [train{1}';
-	  test{1}'];
-
-% subtract column-wise empirical mean from each column 
-% to render each column zero mean
-colAvg = zeros(size(X,2),1);
-
-for i = 1:size(X,2)
-	colAvg(i) = mean(X(:,i));
-	X(:,i) = X(:,i) - colAvg(i);
-	colAvg(i) = mean(X(:,i));
-end
-
-% compute SVD of entire matrix
-[U, S, ~] = svd(X);
-
-T = U*S;
 numFeatures = 20;
-train{3} = T(:,1:numFeatures)';
-
-% save space
-%clear U T X S i colAvg
+train = pca_(train, numFeatures);
 
 fprintf('Features Generated in %4.2f minutes\n', (cputime - st)/60);
 
@@ -66,6 +46,7 @@ fprintf('Features Generated in %4.2f minutes\n', (cputime - st)/60);
 st = cputime;
 
 % tree is about 1MB
+% TODO: add arg for tree depth (avoid overfitting)
 tree = trainDecisionTree({train{2:3}});
 
 fprintf('Trained in %4.2f minutes\n',(cputime - st)/60);
@@ -73,7 +54,10 @@ fprintf('Trained in %4.2f minutes\n',(cputime - st)/60);
 %% test (~18 secs)
 st = cputime;
 
-test = testDecisionTree(test, sz, N_te, tree);
+numFeatures = 20;
+test = pca_(test, numFeatures);
+
+test = testDecisionTree(test, tree);
 
 fprintf('Tested in %4.2f minutes\n', (cputime - st)/60);
 

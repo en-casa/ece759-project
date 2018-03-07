@@ -15,18 +15,18 @@ function ent = getEntropy(set)
 	% initialize entropy
 	ent = 0;
 
-	if isempty(set{2})
+	if isempty(set{1})
 		return
 	end
 	
 	% find unique ~and~ count instances in O(n) (saves n computations)
-	classes = [set{2}(1) 1];
-	for i = 2:length(set{2})
+	classes = [set{1}(1) 1];
+	for i = 2:length(set{1})
 		
-		ind = find(classes(:,1) == set{2}(i), 1);
+		ind = find(classes(:,1) == set{1}(i), 1);
 		if isempty(ind)
 			% new class encountered
-			classes = [classes; set{2}(i) 1];
+			classes = [classes; set{1}(i) 1];
 		else
 			% increment counter
 			classes(ind, 2) = classes(ind, 2) + 1;
@@ -38,7 +38,7 @@ function ent = getEntropy(set)
 		
 		% proportion of the # of elements in class x 
 		% to the number of elements in set
-		probX = classes(i,2)/length(set{2});
+		probX = classes(i,2)/length(set{1});
 		
 		% entropy
 		ent = ent - probX*log2(probX);
