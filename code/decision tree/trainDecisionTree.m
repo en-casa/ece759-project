@@ -29,7 +29,7 @@ function tree = trainDecisionTree(set)
 	end
 	
 	% 2. no more features to split on
-	% this condition seems rare.
+	% this condition seems rare
 	if (isempty(set{3}))
 		% return the single node tree root with label
 		% = mode label of set
@@ -154,7 +154,7 @@ function tree = trainDecisionTree(set)
 	end
 	
 	% recur on the sublists obtained by splitting on attribute_best, 
-	% and add those nodes as children of node.
+	% and add those nodes as children of node
 	% need to re-sort according to attribute_best
 	[~,I] = sort(set{3}(attributeBest,:));
 	set{3} = set{3}(:,I);
@@ -164,7 +164,7 @@ function tree = trainDecisionTree(set)
 	subtree1 = trainDecisionTree(subsets{1});
 	subtree2 = trainDecisionTree(subsets{2});
 	
-	% create a decision node that splits on attribute_best.
+	% create a decision node that splits on attribute_best
 	tree = {'node', attributeBest, thresholdBest, subtree1, subtree2};
 	
 	return

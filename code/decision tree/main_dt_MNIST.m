@@ -37,26 +37,29 @@ N_te = 35e3; % test samples
 % via prinicpal component analysis (pca) (svd)
 st = cputime;
 
-sz = 28;
+X = train{1}';
 
-% takes a few secs
-for i = 1:length(train{2})
-	%[train{3}{1,i}, train{3}{2,i}, train{3}{3,i}] = svd(reshape(train{1}(:,i),[sz, sz]));
-	%train{3}{2,i} = diag(train{3}{2,i});
-	[~, S, ~] = svd(reshape(train{1}(:,i),[sz, sz]));
-	%train{3}(:,i) = diag(S);
-	% just take the first x singular values
-	train{3}(:,i) = diag(S(1:20,1:20));
+% subtract column-wise empirical mean from each column 
+% to render each column zero mean
+colAvg = zeros(size(X,2),1);
+
+for i = 1:size(X,2)
+	colAvg(i) = mean(X(:,i));
+	X(:,i) = X(:,i) - colAvg(i);
+	colAvg(i) = mean(X(:,i));
 end
 
-% average singular value for each digit
-for i = 1:9
-	inds = find(train{2} == i);
-	digitAvg(:,i) = mean(train{3}(:,inds),2);
-end
+% compute SVD of entire matrix
+[U, S, ~] = svd(X);
 
-clear i S;
-fprintf('Features Generated in %4.2f seconds\n',cputime - st);
+T = U*S;
+numFeatures = 20;
+train{3} = T(:,1:numFeatures)';
+
+% save space
+clear U T X S i colAvg
+
+fprintf('Features Generated in %4.2f minutes\n', (cputime - st)/60);
 
 %% train ()
 st = cputime;
@@ -71,7 +74,7 @@ st = cputime;
 
 test = testDecisionTree(test, sz, N_te, tree);
 
-fprintf('Tested in %4.2f seconds\n',cputime - st);
+fprintf('Tested in %4.2f minutes\n', (cputime - st)/60);
 
 % Classification Error
 errors = nnz(test{2}(:,1) ~= test{2}(:,2));
