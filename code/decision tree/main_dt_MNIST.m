@@ -37,7 +37,7 @@ N_te = 35e3; % test samples
 % via prinicpal component analysis (pca) (svd)
 st = cputime;
 
-numFeatures = 200;
+numFeatures = 100;
 [train, U, V] = pca_(train, numFeatures);
 
 fprintf('Features Generated in %4.2f minutes\n', (cputime - st)/60);
@@ -45,7 +45,7 @@ fprintf('Features Generated in %4.2f minutes\n', (cputime - st)/60);
 %% train (~50 minutes)
 st = cputime;
 
-minLeaf = 4; % to prevent overfitting
+minLeaf = 1; % to prevent overfitting
 tree = trainDecisionTree({train{2:3}}, minLeaf);
 
 fprintf('Trained in %4.2f minutes\n',(cputime - st)/60);
@@ -56,6 +56,7 @@ st = cputime;
 %test = pca_(test, numFeatures);
 
 test{3} = (U'*test{1}'*V)';
+test{3} = test{3}(1:numFeatures,:);
 
 test = testDecisionTree(test, tree);
 
@@ -75,11 +76,11 @@ fprintf('numFeatures: %d, minLeaf: %d, error rate: %2.2f\n', ...
 
 %% Test Results
 %{
-					  ,  *  *   *   &   &   ,
-numFeatures   : 30 30 60 200 200 200 200
-minLeaf       :  1  1  2   2   3   4   4
-Error Rate    : 22 26 26  26  23  24  
-Mins To Train : 48  2  2   3  12  12  
+ 					  ,  *  *   *   &   &    ,    ,   ,
+numFeatures   : 30 30 60 200 200 200   30  100 100
+minLeaf       :  1  1  2   2   3   4    4    4   1
+Error Rate    : 22 26 26  26  23  24 22.6 23.6 
+Mins To Train : 48  2  2   3  12  12   47   60 
 
 , - all attributes were considered for the best information gain for a
 particular set.
