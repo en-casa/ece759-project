@@ -1,4 +1,4 @@
-function [accuracy] = classifyNN(num_neighbors,test_data, train_data, test_label, train_label)
+function [acc_test acc_train] = classifyNN(total_classes,num_neighbors, mean_vector, cov_each_class, test_data, test_label, train_data,  train_label)
 %
 % Description:  
 % Classify test data using Nearest Neighbor method withEuclidean distance
@@ -17,23 +17,54 @@ function [accuracy] = classifyNN(num_neighbors,test_data, train_data, test_label
 % accuracy: a scalar number of the classification accuracy
 
 train_size = size(train_data, 2);
+train_N = size(train_data,2);
 test_N = size(test_data, 2);
 counter = zeros(test_N, 1);
-
+% performance on test data
 parfor test_n = 1:test_N
-
-    test_mat = repmat(test_data(:, test_n), [1,train_size]);
+    test_vector = test_data(:, test_n);
+    test_mat = repmat(test_vector, [1,train_size]);
     distance = sum(abs(test_mat - train_data).^2);
     [~,distances_index] = sort(distance);
     neighbors=distances_index(1:num_neighbors);
-    a = mode(train_label(neighbors));
-    if a == test_label(test_n)
+    %a = mode(train_label(neighbors));
+    tab = tabulate(train_label(neighbors)); % a(1,1) a(2,1) a(3,1) class number
+                                          % a(1,2), a(2,2) and a(3,2)
+                                          % number of occurrences
+    prob = zeros(5,1);
+    for i = 1:size(tab,1)
+        prob(i,1) = sum(mvnpdf(test_vector, mean_vector(:, tab(i,1)+1), cov_each_class{1, tab(i,1)+1}))*tab(i,2)/num_neighbors;  %tab(i,2)
+    end
+    [value ind] = max(prob);
+    if tab(ind, 1) == test_label(test_n)
         counter(test_n) = counter(test_n) + 1;
     end
-%     [M,I] = min(distance);
-%     if train_label(I) == test_label(test_n)
-%         counter(test_n) = counter(test_n) + 1;
-%     end
 end
 
-accuracy = double(sum(counter)) / test_N;
+acc_test = double(sum(counter)) / test_N;
+% performance on training data
+counter = zeros(train_N, 1);
+parfor test_n = 1:train_N
+    test_vector = train_data(:, test_n);
+    test_mat = repmat(train_data(:, test_n), [1,train_size]);
+    distance = sum(abs(test_mat - train_data).^2);
+    [~,distances_index] = sort(distance);
+    neighbors=distances_index(2:num_neighbors+1); % excluding itself
+    tab = tabulate(train_label(neighbors)); % a(1,1) a(2,1) a(3,1) class number
+                                          % a(1,2), a(2,2) and a(3,2)
+                                          % number of occurrences
+    prob = zeros(5,1);
+    for i = 1:size(tab,1)
+        prob(i,1) = sum(mvnpdf(test_vector, mean_vector(:, tab(i,1)+1), cov_each_class{1, tab(i,1)+1}))*1/num_neighbors; % tab(i,2)
+    end
+    [value ind] = max(prob);
+    if tab(ind, 1) == train_label(test_n)
+        counter(test_n) = counter(test_n) + 1;
+    end
+%     a = mode(train_label(neighbors));
+%     if a == train_label(test_n)
+%         counter(test_n) = counter(test_n) + 1;
+%    end
+end
+
+acc_train = double(sum(counter)) / train_N;
