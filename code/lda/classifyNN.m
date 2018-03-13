@@ -1,7 +1,7 @@
 function [accuracy] = classifyNN(num_neighbors,test_data, train_data, test_label, train_label)
 %
 % Description:  
-% Classify test data using Nearest Neighbor method withEuclidean distance
+% Classify test data using Nearest Neighbor method with Euclidean distance
 % criteria. 
 % 
 % Usage:

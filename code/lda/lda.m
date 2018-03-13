@@ -49,7 +49,7 @@ end
 
 % We apply singular value decomposition in order to find eigenvalues and
 % eigenvectors
-[U D V] = svd(pinv(Si)*Sb);
+[U, D, V] = svd(pinv(Si)*Sb);
 a = [];
 for i = 1:(k)
     a = [a D(i,i)]
