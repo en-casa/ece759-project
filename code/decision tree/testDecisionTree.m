@@ -8,6 +8,12 @@ ECE 759 Project
 
 function to test a decision tree
 
+parameters:
+	- test
+		struct with class labels {2} and data vectors {3}
+	- tree
+		struct of structs that represent the decision tree
+
 %}
 
 function test = testDecisionTree(test, tree)

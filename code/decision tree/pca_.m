@@ -6,7 +6,15 @@ n casale
 ECE 759 Project
 18/03/16
 
-function to get subsets of a set
+function to perform principal components analysis on a set
+
+parameters:
+
+	- set
+		the set to perform pca on
+	- numFeatures
+		number of features/scores to use, responsible for
+		dimensionality reduction.
 
 %}
 
