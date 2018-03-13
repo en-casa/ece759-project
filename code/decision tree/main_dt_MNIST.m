@@ -9,6 +9,8 @@ ECE 759 Project
 this script orchestrates the training and testing of
 the decision tree classifier
 
+features are generated using principal compenent analysis
+
 %}
 
 clear; close all;
@@ -20,9 +22,9 @@ fprintf('begin MNIST decision tree script\n');
 seed = 152039828;
 rng(seed); % for reproducibility
 
-% partition data
-
 %{
+	partition data
+
 	1/2 of the dataset should be for training
 	the other for testing
 	
@@ -37,7 +39,7 @@ N_te = 35e3; % test samples
 % via prinicpal component analysis (pca) (svd)
 st = cputime;
 
-numFeatures = 100;
+numFeatures = 20;
 [train, U, V] = pca_(train, numFeatures);
 
 fprintf('Features Generated in %4.2f minutes\n', (cputime - st)/60);
@@ -76,11 +78,11 @@ fprintf('numFeatures: %d, minLeaf: %d, error rate: %2.2f\n', ...
 
 %% Test Results
 %{
- 					  ,  *  *   *   &   &    ,    ,   ,
-numFeatures   : 30 30 60 200 200 200   30  100 100
-minLeaf       :  1  1  2   2   3   4    4    4   1
-Error Rate    : 22 26 26  26  23  24 22.6 23.6 
-Mins To Train : 48  2  2   3  12  12   47   60 
+ 					  ,  *  *   *   &   &    ,    ,    ,    ,
+numFeatures   : 30 30 60 200 200 200   30  100  100   20
+minLeaf       :  1  1  2   2   3   4    4    4    1    1
+Error Rate    : 22 26 26  26  23  24 22.6 23.6 23.5 22.9
+Mins To Train : 48  2  2   3  12  12   47   60  102   11
 
 , - all attributes were considered for the best information gain for a
 particular set.
