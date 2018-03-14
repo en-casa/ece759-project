@@ -17,6 +17,9 @@ ece 759 project part 1
 % for 2 column table of contents
 \usepackage[toc]{multitoc}
 
+% add bib to toc
+\usepackage[nottoc,numbib]{tocbibind} 
+
 \newcommand{\theassignment}{Project Part 1}
 \newcommand{\thecourse}{Pattern Recognition\\ECE 759}
 
@@ -44,6 +47,10 @@ ece 759 project part 1
 \section{Algorithm Implementations}
 	\subfile{sections/algo_DT}
 	\subfile{sections/lda}
+
+%\nocite{*}
+\bibliography{../bibliography}
+\bibliographystyle{unsrt}
 
 \section{Code Listings}
 

@@ -21,32 +21,40 @@ fprintf('begin Yale B decision tree script\n');
 seed = 152039828;
 rng(seed); % for reproducibility
 
-%{
-	partition data
+% hyper-parameters
+% for feature selection
+usePCA = false;
+if usePCA
+	N_tr = 2414/2; % training samples
+	N_te = N_tr; % test samples
+	numFeatures = 30;
+else
+	N_tr = 2000; % training samples
+	N_te = 2414 - N_tr; % test samples
+	numFeatures = 38;
+end
 
-	1/2 of the dataset should be for training
-	the other for testing
-	
-	YaleB contains 2414 examples
-%}
-N_tr = 2414/2; % training samples
-N_te = N_tr; % test samples
+minLeaf = 1; % to prevent overfitting
 
+% partition data
+% YaleB contains 2414 examples
 [train, test] = loadYaleB(N_tr);
 
 %% dimensionality reduction / feature generation
 % via prinicpal component analysis (pca) (svd)
 st = cputime;
 
-numFeatures = 500;
-[train, U, V] = pca_(train, numFeatures);
+if usePCA
+	[train, U, V] = pca_(train, numFeatures);
+else
+	[train, test] = lda_features(train, test, 1:numFeatures);
+end
 
 fprintf('Features Generated in %4.2f minutes\n', (cputime - st)/60);
 
 %% train
 st = cputime;
 
-minLeaf = 1; % to prevent overfitting
 tree = trainDecisionTree({train{2:3}}, minLeaf);
 
 fprintf('Trained in %4.2f minutes\n',(cputime - st)/60);
@@ -54,8 +62,10 @@ fprintf('Trained in %4.2f minutes\n',(cputime - st)/60);
 %% test
 st = cputime;
 
-test{3} = (U'*test{1}'*V)';
-test{3} = test{3}(1:numFeatures,:);
+if usePCA
+	test{3} = (U'*test{1}'*V)';
+	test{3} = test{3}(1:numFeatures,:);
+end
 
 test = testDecisionTree(test, tree);
 
