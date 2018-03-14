@@ -46,7 +46,7 @@ The algorithm is reproduced in pseudocode below.
   }
   
   $thisSetEntropy \longleftarrow getEntropy(set)$\;
-  \If{$!thisSetEntropy$}{
+  \If{{\bf not} thisSetEntropy}{
     all samples are in the same class.\;
     {\bf return} \textit{leaf} with first element of $set(1)$\;
   }
@@ -69,7 +69,7 @@ The algorithm is reproduced in pseudocode below.
     }
   }
   \;
-  \If{$!\mathit{infoGainBest}$ {\bf or} $!\mathit{attributeBest}$}{
+  \If{{\bf not} infoGainBest {\bf or} {\bf not} attributeBest}{
     no attribute provides an information gain.\;
     {\bf return} \textit{leaf} with mode of $set(1)$ (class labels)\;
   }
@@ -82,6 +82,49 @@ The algorithm is reproduced in pseudocode below.
   {\bf return} \textit{node} with $attributeBest$, $thresholdBest$, $subtree1$, and $subtree2$\;
 }
 \caption{trainDecisionTree} \label{alg:dt}
+\end{algorithm}
+
+Once we have trained the decision tree, we can begin to test it by passing the features generated from the test set through the tree. The testing algorithm is reproduced in psuedocode below.
+
+\begin{algorithm}[H]
+\DontPrintSemicolon
+\KwData{
+  \textit{set} of test samples with class labels ($set(1)$) and attributes (features) ($set(2)$).\\
+  \textit{tree}, the struct of structs that represents the trained decision tree.
+}
+\KwResult{\textit{set}, the input structure modified to include predicted class membership.}
+\Begin{
+  \For{{\bf each} $sample \in set$}{
+    \textit{treeWalked} $\longleftarrow$ \textit{tree}\;
+    \textit{classified} $\longleftarrow$ false\;
+    \textit{attributes} $\longleftarrow$ features corresponding to this sample\;
+    \
+    \While{{\bf not} classified}{
+     \If{treeWalked {\bf is a} node}{
+       \textit{thisAttribute} $\longleftarrow$ attribute given by \textit{treeWalked}\;
+       \textit{thisAttributeValue} $\longleftarrow$ value of the sample's feature at \textit{thisAttribute}\;
+       \textit{thisThreshold} $\longleftarrow$ threshold given by \textit{treeWalked}\;
+       \
+       {\bf remove} \textit{thisAttribute} from the sample's feature vector.\;
+       {\bf compare} \textit{thisAttributeValue} to \textit{thisThreshold}:\;
+       \If{thisAttributeValue $<$ thisThreshold}{
+         choose left branch.\;
+         \textit{treeWalked} $\longleftarrow$ left branch given by current \textit{treeWalked}.\;
+       }
+       \Else{
+         choose right branch.\;
+         \textit{treeWalked} $\longleftarrow$ right branch given by current \textit{treeWalked}.\;
+       }
+     }
+     \Else{
+       \textit{treeWalked} is a leaf.\;
+       append predicted label to $set(2)$ at this sample.\;
+       \textit{classified} $\longleftarrow$ true\;
+     }
+    }
+  }
+}
+\caption{testDecisionTree} \label{alg:dt_test}
 \end{algorithm}
 
 \subsubsection{Information Gain and Entropy}
