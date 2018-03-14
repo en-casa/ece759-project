@@ -19,8 +19,8 @@ seed = 152039828;
 rng(seed); % for reproducibility
 
 % define parameters
-N_tr = 60e3; % training samples
-N_te = 10e3; % test samples
+N_tr = 35e3; % training samples
+N_te = 35e3; % test samples
 k = 10; % number of classes
 % partition data
 
