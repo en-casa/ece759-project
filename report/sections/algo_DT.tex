@@ -10,7 +10,7 @@ This decision tree structure needs to be generated before it can be used with te
 
 Where \code{set} is the training set, which is a MATLAB structure that contains the raw data (unused), class labels, and generated features. \code{tree} is the returned structure that can be used during testing. It is essentially a nested structure that contains two types of elements: nodes and leaves. At each node of the tree, an attribute and threshold are specified. If a test sample's feature at that particular attribute is less than the threshold, the sample is passed down the left branch of the node. Similarly, if the sample's feature is greater than the threshold, it goes through the right branch. This is repeated until we reach a leaf node, which specifies a class membership. 
 
-The decision tree algorithm has a few major steps, and proceeds by evaluating a metric called \emph{information gain} at various configurations. For now, suffice it to say that information gain is a scalar that represents the improvement in prediction as we narrow down the set (by growing the tree) to find appropriate leaves.
+The decision tree algorithm has a few major steps, and proceeds by evaluating a metric called \emph{information gain} at various configurations. For now, suffice it to say that information gain is a scalar that represents the improvement in prediction as we narrow down the set (by growing the tree) to find appropriate leaves. Our implementation most closely follows that of the ID3 and C4.5 algorithms developed by Ross Quinlan \cite{wiki:id3} \cite{wiki:c45}.
 %
 \begin{enumerate}
 \item Check stopping conditions, which generate leaves.
@@ -74,7 +74,7 @@ The algorithm is reproduced in pseudocode below.
     {\bf return} \textit{leaf} with mode of $set(1)$ (class labels)\;
   }
   \;
-  re-sort $set$ along $attributeBest$.
+  re-sort $set$ along $attributeBest$.\;
   $subsets \longleftarrow getSubsets(set, attributeBest, indexBest)$\;
   $subtree1 \longleftarrow trainDecisionTree(subsets(1), minLeaf)$\;
   $subtree2 \longleftarrow trainDecisionTree(subsets(2), minLeaf)$\;
