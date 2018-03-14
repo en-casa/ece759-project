@@ -1,7 +1,7 @@
 function [acc_test acc_train] = classifyNN(total_classes,num_neighbors, mean_vector, cov_each_class, test_data, test_label, train_data,  train_label)
 %
 % Description:  
-% Classify test data using Nearest Neighbor method withEuclidean distance
+% Classify test data using Nearest Neighbor method with Euclidean distance
 % criteria. 
 % 
 % Usage:

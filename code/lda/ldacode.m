@@ -60,6 +60,7 @@ a = [];
 for i = 1:(k)
     a = [a D(i,i)];
 end
+
 % from here we can see that we only have 9 highest values as we expected
 
 % We transform the training and testing data to a subspace

@@ -8,13 +8,38 @@ ECE 759 Project
 
 function to train a decision tree
 
+parameters:
+	- set
+		struct with class labels {1} and data vectors {2}
+	- minLeaf 
+		parameter to introduce a stopping condition. it reduces the
+		depth of the tree and is meant to prevent overfitting and reduce
+		computational overhead
+
+outputs:
+	- tree
+		struct of structs that represents a decision tree.
+		each element takes one of two forms:
+			- node
+				{'node', attribute, thresholdBest, subtree1, subtree2};
+				where attribute is the feature that the node splits on,
+				threshold is the continuous value at which the decision is
+				made,	subtree1 is the branch that is taken if the feature
+				is LESS than threshold and subtree2 is the branch that is taken
+				if the feature is GREATER than threshold.
+			- leaf
+				{'leaf', class};
+				where class is the chosen class for this leaf. if a data vector
+				finds itself at this leaf, it is assigned to class in the
+				decision tree.				
+
 %}
 
 function tree = trainDecisionTree(set, minLeaf)
 
 	% Check for base cases
 	% 1. no more features to split on
-	% this condition seems rare
+	% this condition is rare
 	if (isempty(set{2}))
 		% return the single node tree root with label
 		% = mode label of set
@@ -47,19 +72,12 @@ function tree = trainDecisionTree(set, minLeaf)
 	infoGainBest = 0;
 	indBest = 0;
 	
-	% for each attribute
-	%if size(set{2},1) > 5
-	%	atts = 5;
-	%else
-	%	atts = size(set{2},1);
-	%end
 	for att = 1:size(set{2},1)
 		
 		% sort by attribute value
 		[~,I] = sort(set{2}(att,:));
 		set{2} = set{2}(:,I);
 		set{1} = set{1}(I);
-		%set{1} = set{1}(:,I);
 		
 		% optimize IG over thresholds via line search
 		% see page 2: https://www.jair.org/media/279/live-279-1538-jair.pdf
@@ -104,8 +122,8 @@ function tree = trainDecisionTree(set, minLeaf)
 				
 				% to diversify search if we were close
 				if closeToMax
-					rightInd = rightInd + 20;
-					leftInd = leftInd - 20;
+					rightInd = rightInd + span*2;
+					leftInd = leftInd - span*2;
 				end
 				closeToMax = false;
 			elseif (rightInfoGain > midInfoGain)
@@ -160,7 +178,7 @@ function tree = trainDecisionTree(set, minLeaf)
 		return
 	end
 	
-	% recur on the sublists obtained by splitting on attribute_best, 
+	% recur on the sublists obtained by splitting on attributeBest,
 	% and add those nodes as children of node
 	% need to re-sort according to attribute_best
 	[~,I] = sort(set{2}(attributeBest,:));
@@ -170,7 +188,7 @@ function tree = trainDecisionTree(set, minLeaf)
 	subtree1 = trainDecisionTree(subsets{1}, minLeaf);
 	subtree2 = trainDecisionTree(subsets{2}, minLeaf);
 	
-	% create a decision node that splits on attribute_best
+	% create a decision node that splits on attributeBest
 	tree = {'node', attributeBest, thresholdBest, subtree1, subtree2};
 	
 	return
