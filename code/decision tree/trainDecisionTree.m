@@ -122,8 +122,8 @@ function tree = trainDecisionTree(set, minLeaf)
 				
 				% to diversify search if we were close
 				if closeToMax
-					rightInd = rightInd + 20;
-					leftInd = leftInd - 20;
+					rightInd = rightInd + span*2;
+					leftInd = leftInd - span*2;
 				end
 				closeToMax = false;
 			elseif (rightInfoGain > midInfoGain)
@@ -178,7 +178,7 @@ function tree = trainDecisionTree(set, minLeaf)
 		return
 	end
 	
-	% recur on the sublists obtained by splitting on attributeBest, 
+	% recur on the sublists obtained by splitting on attributeBest,
 	% and add those nodes as children of node
 	% need to re-sort according to attribute_best
 	[~,I] = sort(set{2}(attributeBest,:));

@@ -39,7 +39,7 @@ N_te = 35e3; % test samples
 % via prinicpal component analysis (pca) (svd)
 st = cputime;
 
-numFeatures = 20;
+numFeatures = 10;
 [train, U, V] = pca_(train, numFeatures);
 
 fprintf('Features Generated in %4.2f minutes\n', (cputime - st)/60);

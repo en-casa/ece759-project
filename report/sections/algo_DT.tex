@@ -27,55 +27,68 @@ The decision tree algorithm has a few major steps, and proceeds by evaluating a 
 \item Recur over the subsets given by \code{indBest} to find the next attribute that yields the highest information gain. Note that we exclude the attribute we chose in this execution of \code{trainDecisionTree(.)}.
 \end{enumerate}
 
-This can be expressed in psuedocode as
+The algorithm is reproduced in pseudocode below.
 
 \begin{algorithm}[H]
 \DontPrintSemicolon
-\KwData{$set$ of training samples with class labels ($set{2}$) and features ($set{1}$).}
-\KwResult{$tree$, a structure containing nodes and leaves.}
-\Begin{
-  
-
-  $V \longleftarrow U$\;
-  $S \longleftarrow \emptyset$\;
-  \For{$x\in X$}{
-    $NbSuccInS(x) \longleftarrow 0$\;
-    $NbPredInMin(x) \longleftarrow 0$\;
-    $NbPredNotInMin(x) \longleftarrow |ImPred(x)|$\;
-  }
-  \For{$x \in X$}{
-    \If{$NbPredInMin(x) = 0$ {\bf and} $NbPredNotInMin(x) = 0$}{
-      $AppendToMin(x)$}
-  }
-  \While{$S \neq \emptyset$}{\label{InRes1}
-    remove $x$ from the list of $T$ of maximal index\;\label{InResR}
-    \While{$|S \cap ImSucc(x)| \neq |S|$}{
-      \For{$ y \in S-ImSucc(x)$}{
-        \{ remove from $V$ all the arcs $zy$ : \}\;
-        \For{$z \in ImPred(y) \cap Min$}{
-          remove the arc $zy$ from $V$\;
-          $NbSuccInS(z) \longleftarrow NbSuccInS(z) - 1$\;
-          move $z$ in $T$ to the list preceding its present list\;
-          \{i.e. If $z \in T[k]$, move $z$ from $T[k]$ to
-          $T[k-1]$\}\;
-        }
-        $NbPredInMin(y) \longleftarrow 0$\;
-        $NbPredNotInMin(y) \longleftarrow 0$\;
-        $S \longleftarrow S - \{y\}$\;
-        $AppendToMin(y)$\;
-      }
-    }
-    $RemoveFromMin(x)$\;
-  }
+\KwData{\textit{set} of training samples with class labels ($set(1)$) and attributes (features) ($set(2)$).\\
+  \textit{minLeaf}, an integer specifying the minimum number of elements in \textit{set} required to make a splitting node. \textit{i.e.} a leaf is generated if the set has fewer elements than \textit{minLeaf}.
 }
-\caption{Train Decision Tree\label{alg:dt}}
+\KwResult{\textit{tree}, a structure containing nodes and leaves.}
+\Begin{
+  check for base cases:\;
+  \If{$set(2) = \emptyset$}{
+    no more attributes (features) to split on.\;
+    {\bf return} \textit{leaf} with mode of $set(1)$ (class labels)\;
+  }
+  \If{$length(set(1)) < minLeaf$}{
+    {\bf return} \textit{leaf} with mode of $set(1)$ (class labels)\;
+  }
+  
+  $thisSetEntropy \longleftarrow getEntropy(set)$\;
+  \If{$!thisSetEntropy$}{
+    all samples are in the same class.\;
+    {\bf return} \textit{leaf} with first element of $set(1)$\;
+  }
+  \;
+  instantiate tracking variables:\;
+  $attributeBest \longleftarrow 0$\;
+  $thresholdBest \longleftarrow 0$\;
+  \textit{infoGainBest} $\longleftarrow 0$\;
+  $indexBest \longleftarrow 0$\;
+
+  \For{$attribute \in range(\mathit{\# of features left in set)}$}{
+    sort \textit{set} along $attribute$.\;
+    perform line search heuristic to approximate max information gain by splitting $set$ at various indices.\;
+    \;
+    \If{thisInfoGain $>$ infoGainBest}{
+      $attributeBest \longleftarrow attribute$\;
+      \textit{infoGainBest} $\longleftarrow$ \textit{thisInfoGain}\;
+      $indexBest \longleftarrow$ index given by line search\;      
+      $thresholdBest \longleftarrow$ attribute value midway between $indexBest$ and $indexBest + 1$\;
+    }
+  }
+  \;
+  \If{$!\mathit{infoGainBest}$ {\bf or} $!\mathit{attributeBest}$}{
+    no attribute provides an information gain.\;
+    {\bf return} \textit{leaf} with mode of $set(1)$ (class labels)\;
+  }
+  \;
+  re-sort $set$ along $attributeBest$.
+  $subsets \longleftarrow getSubsets(set, attributeBest, indexBest)$\;
+  $subtree1 \longleftarrow trainDecisionTree(subsets(1), minLeaf)$\;
+  $subtree2 \longleftarrow trainDecisionTree(subsets(2), minLeaf)$\;
+  \;
+  {\bf return} \textit{node} with $attributeBest$, $thresholdBest$, $subtree1$, and $subtree2$\;
+}
+\caption{trainDecisionTree} \label{alg:dt}
 \end{algorithm}
 
 \subsubsection{Information Gain and Entropy}
 
 %
 \begin{figure}[H]
-  \centering\includegraphics[width=0.6\columnwidth]{images/IG}
+  \centering\includegraphics[width=0.6\columnwidth]{../images/IG}
   \caption{Information Gain across all possible thresholds.}
   \label{fig:IG}
 \end{figure}

@@ -16,7 +16,7 @@ features are generated using principal compenent analysis
 clear; close all;
 addpath('utility', 'YaleB', 'YaleB/data');
 
-fprintf('begin MNIST decision tree script\n');
+fprintf('begin Yale B decision tree script\n');
 
 seed = 152039828;
 rng(seed); % for reproducibility
@@ -38,7 +38,7 @@ N_te = N_tr; % test samples
 % via prinicpal component analysis (pca) (svd)
 st = cputime;
 
-numFeatures = 60;
+numFeatures = 500;
 [train, U, V] = pca_(train, numFeatures);
 
 fprintf('Features Generated in %4.2f minutes\n', (cputime - st)/60);
@@ -63,14 +63,14 @@ fprintf('Tested in %4.2f minutes\n', (cputime - st)/60);
 
 % Classification Error
 errors = nnz(test{2}(:,1) ~= test{2}(:,2));
-errorRate = (errors/N_te)*100
+errorRate = (errors/N_te)*100;
 
 filename = sprintf('tree%2.0f.mat', errorRate);
-save(filename, 'tree');
+%save(filename, 'tree');
 %filename = sprintf('UV%2.0f.mat', errorRate);
 %save(filename, 'U', 'V', '-v7.3');
 
-fprintf('numFeatures: %d, minLeaf: %d, error rate: %2.2f\n', ...
+fprintf('\nnumFeatures: %d, minLeaf: %d, error rate: %2.2f\n', ...
 	numFeatures, minLeaf, errorRate);
 
 %% Test Results
