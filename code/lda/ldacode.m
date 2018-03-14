@@ -19,8 +19,8 @@ seed = 152039828;
 rng(seed); % for reproducibility
 
 % define parameters
-N_tr = 60e3; % training samples
-N_te = 10e3; % test samples
+N_tr = 35e3; % training samples
+N_te = 35e3; % test samples
 k = 10; % number of classes
 % partition data
 
@@ -67,14 +67,7 @@ end
 transf_matrix = U(:,1:(k-1));
 transf_train = train{1,1}'* transf_matrix;
 transf_test = test{1,1}'*transf_matrix;
-% for i = 0:k-1
-%     ind = (train{1,2} == i);
-%     N_i = sum(ind);
-%     x = train{1,1}(:, ind);
-%     mu_i = mean(x, 2);
-%     Si = Si + (1/N_tr)*(x - (repmat(mu_i,1, N_i)))*(x - (repmat(mu_i,1, N_i)))';
-%     Sb = Sb + (N_i/N_tr)*(mu_i - mu)*(mu_i - mu)'; % (1/k)
-% end
+% We find mean vector and covariance matrix for each class
 mu_each_class = zeros(k-1, k);
 cov_each_class = {};
 sum_cov = zeros(k-1,k-1);
@@ -85,8 +78,11 @@ for i =0:k-1
     cov_each_class{1, i+1} = cov(X);
     sum_cov = sum_cov + cov(X);
 end
+% since we assume equal covariance in all classes, we take the average of
+% covariance matrices
 average_cov = sum_cov/k;
 cov_equal_each_class = {average_cov average_cov average_cov average_cov average_cov average_cov average_cov average_cov average_cov average_cov};
+% this part is just a test on how nearest neigbors work
 % parfor n = 1:13
 % % we apply Nearest neigbors in order to find which class it belongs
 %     accuracy(n) = classifyNN(n,transf_test', transf_train', test{1,2}, train{1,2});
@@ -120,7 +116,7 @@ end
 accuracy1_train = classify_from_centroid(transf_train', train{1,2}, centroid);
 accuracy1 = classify_from_centroid(transf_test', test{1,2},centroid);
 
-%%
+%% this is classification through matlab discriminant classification
 mdl = fitcdiscr(transf_train, train{1,2},'DiscrimType','linear'); % this one works since n>m in tansf_train
 mdl = fitcdiscr(train{1,1}', train{1,2},'DiscrimType','linear'); % error saying Predictor x1 has zero within-class variance.
 pred = predict(mdl, transf_test);
