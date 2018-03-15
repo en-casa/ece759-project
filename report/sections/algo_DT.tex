@@ -90,6 +90,7 @@ The algorithm is reproduced in pseudocode below.
 \caption{trainDecisionTree} \label{alg:dt}
 \end{algorithm}
 
+\pagebreak
 Once we have trained the decision tree, we can begin to test it by passing the features generated from the test set through the tree. The testing algorithm is reproduced in psuedocode below.
 
 \begin{algorithm}[H]
@@ -135,7 +136,7 @@ Once we have trained the decision tree, we can begin to test it by passing the f
 
 \subsubsection{Entropy and Information Gain}
 
-When growing the decision tree, the training algorithm utilizes a metric called \emph{information gain} to optimize the predictive power of the tree. Before we can define information gain, we must first understand \emph{entropy.} Entropy is an information theoretic topic that represents the amount of uncertainty in a given set of data. It is defined as
+When growing the decision tree, the training algorithm utilizes a metric called \emph{information gain} to optimize the predictive power of the tree. Before we can define information gain, we must first understand \emph{entropy.} Entropy is an information theoretic concept that represents the amount of uncertainty in a given set of data. It is defined as
 %
 \begin{equation}
   \mathrm{H}(X) = -\sum_{i=1}^n {\mathrm{P}(x_i) \log_2 \mathrm{P}(x_i)}

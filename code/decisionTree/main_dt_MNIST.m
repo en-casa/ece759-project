@@ -14,7 +14,7 @@ features are generated using principal compenent analysis
 %}
 
 clear; close all;
-addpath('utility', 'MNIST', 'MNIST/data', 'MNIST/loadMNIST');
+addpath('utility', 'MNIST', 'MNIST/data', 'MNIST/loadMNIST', 'lda');
 
 fprintf('begin MNIST decision tree script\n');
 
@@ -31,10 +31,10 @@ else % use LDA
 end
 
 % for decision tree
-minLeaf = 2; % to prevent overfitting
+minLeaf = 1; % to prevent overfitting
 
-seed = 152039828;
-rng(seed); % for reproducibility
+%seed = 152039828;
+%rng(seed); % for reproducibility
 
 % partition data
 % MNIST contains 70k examples
@@ -76,7 +76,7 @@ errors = nnz(test{2}(:,1) ~= test{2}(:,2));
 errorRate = (errors/N_te)*100;
 
 filename = sprintf('mnist_tree%2.0f_%d.mat', errorRate, minLeaf);
-save(filename, 'tree');
+%save(filename, 'tree');
 %filename = sprintf('UV%2.0f.mat', errorRate);
 %save(filename, 'U', 'V', '-v7.3');
 
