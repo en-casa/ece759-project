@@ -15,10 +15,14 @@ ece 759 project part 1
 \usepackage{algorithmic}
 
 % for 2 column table of contents
-\usepackage[toc]{multitoc}
+\usepackage[toc, lof, lot]{multitoc}
 
 % add bib to toc
 \usepackage[nottoc,numbib]{tocbibind} 
+
+% for block comments in matlab listings
+\usepackage{matlab-prettifier}
+\lstset{style=Matlab-editor}
 
 \newcommand{\theassignment}{Project Part 1}
 \newcommand{\thecourse}{Pattern Recognition\\ECE 759}
@@ -32,9 +36,12 @@ ece 759 project part 1
 \makeFancyTitle
 
 \tableofcontents
+\makeatletter
+\let\@starttoc\@multitoc@starttoc
 \listoffigures
-%\listoftables
+\listoftables
 \lstlistoflistings
+\makeatother
 
 \pagebreak
 
@@ -63,7 +70,7 @@ ece 759 project part 1
 Below are the primary scripts that solve the project. Please see the
 \code{code} folder for supporting functions.
 
-%\lstinputlisting[language=Matlab, caption=Code for 2.35]{code/2p35.m}
+\lstinputlisting[caption=Code for 2.35]{../code/decisionTree/main_dt_MNIST.m}
 
 \end{document}
 

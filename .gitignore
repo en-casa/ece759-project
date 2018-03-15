@@ -62,4 +62,4 @@ Temporary Items
 *.zip
 
 # large matrices
-UV22.mat
+mnist_UV22.mat
