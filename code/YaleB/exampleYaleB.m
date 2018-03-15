@@ -24,15 +24,16 @@ addpath('YaleB', './YaleB/data');
 
 [faces, labels] = loadYaleB();
 
-sz = 32; 
+sz_col = 42; 
+sz_row = 48;
 stride = 12; 
 rows = 8; 
 
-Y = zeros(sz*rows, sz*stride); 
+Y = zeros(sz_row*rows, sz_col*stride); 
 for i=0:rows-1 
   	for j=0:stride-1 
-    	Y(i*sz+1:(i+1)*sz,j*sz+1:(j+1)*sz) ...
-			= reshape(faces(i*stride+j+1,:), [sz,sz]); 
+    	Y(i*sz_row+1:(i+1)*sz_row,j*sz_col+1:(j+1)*sz_col) ...
+			= reshape(faces(i*stride+j+1,:), [sz_row,sz_col]); 
     end
 end
 
