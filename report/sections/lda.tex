@@ -7,18 +7,24 @@ LDA relies on the assumption of normal distribution of data for each class. Line
 Since MNIST and Yale datasets are high-dimensional, we can not check the normality of variables. Instead, we can reduce the dimensions via a projection.
 We need to employ multiclass LDA as we have several classes. The class separation in this case will be given by the ratio of $\frac{\pmb w^T \Sigma_b \pmb w}{\pmb w \Sigma \pmb w}$. In the case of two classes, this will reduce just to the ratio of between-class variance to within-class variance.
 
-The steps that we follow in our LDA algorithm are: 
+\subsubsection{Algorithm steps}
+Variable notations: \\
+\textit{\textbf{n}} is number of classes \\ \textit{\textbf{N}} is the total number of training data\\ $\pmb N_i$ is the number of points in each class \\ $\pmb \mu_i$ and $\pmb \mu$ are mean vectors for each class and overall mean for the data
+
+The steps that we follow in our LDA algorithm are:
+ 
 \begin{enumerate}
-	\item We calculate within-class scatter matrix $\Sigma_i = \frac{1}{N_{i}-1} \sum\limits_{\pmb x \in D_i}^n (\pmb x - \pmb \mu_i)\;(\pmb x - \pmb \mu_i)^T$ for each class, then sum them up to get $\Sigma_W = \sum\limits_{i =1}^{c} (N_i - 1) \Sigma_i  $.
-	\item Then we find average within-class scatter matrix by calculating $w_a =\dfrac{\Sigma_W}{\# of classes}$
-	\item We also calculate the between-class scatter matrix by $S_B = \sum\limits_{i =1}^c N_i (\pmb \mu_i - \pmb \mu) (\pmb \mu_i - \pmb \mu)^T$.
+	
+	\item We calculate within-class scatter matrix $\Sigma_i = \frac{1}{N_{i}-1} \sum\limits_{\pmb x \in D_i}^n (\pmb x - \pmb \mu_i)\;(\pmb x - \pmb \mu_i)^T$ for each class, then sum them up to get $\Sigma_W = \sum\limits_{i =1}^{c} (N_i - 1) \Sigma_i $.
+	\item Then we find average within-class scatter matrix by calculating $\Sigma =\dfrac{\Sigma_W}{N}$
+	\item We also calculate the between-class scatter matrix by $\Sigma_B = \sum\limits_{i =1}^c \dfrac{N_i}{N} (\pmb \mu_i - \pmb \mu) (\pmb \mu_i - \pmb \mu)^T$.
 	\item We need to find eigenvectors and eigenvalues of $\Sigma^{-1} \Sigma_b$.
 	\item We then sort the eigenvectors depending on the magnitude of eigenvalues.
-	\item The number of linear discriminants will be $c-1$ which will be 9. We need to verify that.
+	\item The number of highest eigenvalues will be $c-1$ which will be 9 and 37 for MNIST and Extended Yale datasets.
 	\item Project our data onto the subspace(constructed by the eigenvectors of the highest eigenvalues).
-	\item Since we have reduced dimension of our data, we can easily apply a discriminant function for a test vector to see which class it belongs
-	\item A discriminant function for each class is $f(i) = \mu_i {w_a}^{-1} {x_k}^T - \dfrac{1}{2} \mu_i {w_a}^{-1} {\mu_i}^T + ln(P_i)$ where $P_i$ is respective probabilities of each class.
+	\item Since we have reduced dimensions of our data, we can easily apply a discriminant function for a test vector to see which class it belongs
+	\item A discriminant function for each class is $f_i(x_k) = \mu_i {w_a}^{-1} {x_k}^T - \dfrac{1}{2} \mu_i {w_a}^{-1} {\mu_i}^T + ln(P_i)$ is evaluated where $P_i$ is the probability of each class.
 	\item Then we select a class with highest discriminant function.
 \end{enumerate}
 \subsubsection{Helpful Functions}
-To accomplish the above pseudo code, we used own created functions.  
+To accomplish the above pseudo code, we used own created functions.
