@@ -1,30 +1,60 @@
-\subsection{Linear Discriminant Analysis}
+\subsection{Linear Discriminant Analysis (LDA)}
 
-Our classification criterion is to misclassify as small as possible. The rule we employ in classifying the data points is through the use of Bayes Rule. We put the data point to the group with the highest conditional probability(i.e. $P(w_i|x)$). In practice, it is not feasible to get conditional probability for a given point unless we have a huge data. So we should assume the distribution and calculate the probabilities. 
+Our classification success criterion is the extent to which the error rate is minimized. For LDA, we employ the Bayes Rule to classify our test points after training the classifier. We assign the test point to the class with the highest conditional probability (\textit{i.e.} $P(w_i|x)$, where $w_i$ is the class and $x$ the test vector). In practice, it is not feasible to get conditional probability for a given point unless we have a large amount of data. So we estimate the distribution and calculate the probabilities from there. 
 
-LDA relies on the assumption of normal distribution of data for each class. Linear discriminant analysis frequently achieves good performances in the tasks of face and object recognition, even though the assumptions of common covariance matrix among groups and normality are often violated (Duda, et al., 2001) (Tao Li, et al., 2006)'.
+LDA relies on the assumption of a normal distribution for each class. Linear discriminant analysis generally achieves good performance in the tasks of face and object recognition, even though the assumptions of common covariance matrix among groups and normality are often violated (Duda, et al., 2001) (Tao Li, et al., 2006)'.
 
-Since MNIST and Yale datasets are high-dimensional, we can not check the normality of variables. Instead, we can reduce the dimensions via a projection.
-We need to employ multiclass LDA as we have several classes. The class separation in this case will be given by the ratio of $\frac{\pmb w^T \Sigma_b \pmb w}{\pmb w \Sigma \pmb w}$. In the case of two classes, this will reduce just to the ratio of between-class variance to within-class variance.
+Since the MNIST and Yale datasets are high-dimensional, we cannot check the normality of individual pixels. Instead, we reduce the dimensions via orthogonal projection.
+To do this, we employ multiclass LDA, as we have several classes (10 for MNIST and 38 for Yale B.) The class separation in this case is given by the ratio 
+%
+\begin{equation}
+  \frac{\pmb w^T \Sigma_b \pmb w}{\pmb w \Sigma \pmb w}  
+\end{equation}
+
+In the case of two classes, this reduces to the ratio of between-class variance and within-class variance.
 
 \subsubsection{Algorithm steps}
-Variable notations: \\
-\textit{\textbf{n}} is number of classes \\ \textit{\textbf{N}} is the total number of training data\\ $\pmb N_i$ is the number of points in each class \\ $\pmb \mu_i$ and $\pmb \mu$ are mean vectors for each class and overall mean for the data
+Below, we describe the steps necessary to construct the LDA classifier. We begin by instantiating some variables with notation:\\
+\textit{\textbf{n}} is the number of classes. \\ \textit{\textbf{N}} is the total number of training data samples. \\ $\pmb N_i$ is the number of points in each class. \\ $\pmb \mu_i$ and $\pmb \mu$ are mean vectors for each class and global mean for the data.
 
-The steps that we follow in our LDA algorithm are:
+The steps that we follow in our LDA algorithm are as follows.
  
 \begin{enumerate}
 	
-	\item We calculate within-class scatter matrix $\Sigma_i = \frac{1}{N_{i}-1} \sum\limits_{\pmb x \in D_i}^n (\pmb x - \pmb \mu_i)\;(\pmb x - \pmb \mu_i)^T$ for each class, then sum them up to get $\Sigma_W = \sum\limits_{i =1}^{c} (N_i - 1) \Sigma_i $.
-	\item Then we find average within-class scatter matrix by calculating $\Sigma =\dfrac{\Sigma_W}{N}$
-	\item We also calculate the between-class scatter matrix by $\Sigma_B = \sum\limits_{i =1}^c \dfrac{N_i}{N} (\pmb \mu_i - \pmb \mu) (\pmb \mu_i - \pmb \mu)^T$.
+	\item We calculate within-class scatter matrix for each class
+          %
+          \begin{equation}
+            \Sigma_i = \frac{1}{N_{i}-1} \sum\limits_{\pmb x \in D_i}^n (\pmb x - \pmb \mu_i)\;(\pmb x - \pmb \mu_i)^T
+          \end{equation} 
+          then sum them to obtain
+          %
+          \begin{equation}
+             \Sigma_W = \sum\limits_{i =1}^{c} (N_i - 1) \Sigma_i 
+          \end{equation}
+	\item We then find the average within-class scatter matrix by calculating 
+          %
+          \begin{equation}
+            \Sigma =\dfrac{\Sigma_W}{N}
+          \end{equation}
+	\item We also calculate the between-class scatter matrix by 
+          %
+          \begin{equation}
+            \Sigma_B = \sum\limits_{i =1}^c \dfrac{N_i}{N} (\pmb \mu_i - \pmb \mu) (\pmb \mu_i - \pmb \mu)^T
+          \end{equation}
 	\item We need to find eigenvectors and eigenvalues of $\Sigma^{-1} \Sigma_b$.
 	\item We then sort the eigenvectors depending on the magnitude of eigenvalues.
-	\item The number of highest eigenvalues will be $c-1$ which will be 9 and 37 for MNIST and Extended Yale datasets.
+	\item The number of highest eigenvalues will be $c-1$ which will be 9 and 37 respectively for MNIST and Extended Yale datasets.
 	\item Project our data onto the subspace(constructed by the eigenvectors of the highest eigenvalues).
 	\item Since we have reduced dimensions of our data, we can easily apply a discriminant function for a test vector to see which class it belongs
-	\item A discriminant function for each class is $f_i(x_k) = \mu_i {w_a}^{-1} {x_k}^T - \dfrac{1}{2} \mu_i {w_a}^{-1} {\mu_i}^T + ln(P_i)$ is evaluated where $P_i$ is the probability of each class.
-	\item Then we select a class with highest discriminant function.
+	\item The discriminant function for each class is 
+          %
+          \begin{equation}
+            f_i(x_k) = \mu_i {w_a}^{-1} {x_k}^T - \dfrac{1}{2} \mu_i {w_a}^{-1} {\mu_i}^T + ln(P_i)
+          \end{equation} 
+          where $P_i$ is the probability of each class.
+	\item Then we select the class with highest discriminant function evaluation.
 \end{enumerate}
+
 \subsubsection{Helpful Functions}
+
 To accomplish the above pseudo code, we used own created functions.

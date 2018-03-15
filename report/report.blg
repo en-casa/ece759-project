@@ -3,44 +3,46 @@ Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
 The top-level auxiliary file: report.aux
 The style file: unsrt.bst
 Database file #1: ../bibliography.bib
-You've used 4 entries,
+Warning--empty journal in lecun-mnisthandwrittendigit-2010
+You've used 6 entries,
             1791 wiz_defined-function locations,
-            460 strings with 3894 characters,
-and the built_in function-call counts, 528 in all, are:
-= -- 40
-> -- 16
+            469 strings with 4147 characters,
+and the built_in function-call counts, 801 in all, are:
+= -- 61
+> -- 28
 < -- 0
-+ -- 8
-- -- 4
-* -- 6
-:= -- 85
-add.period$ -- 12
-call.type$ -- 4
-change.case$ -- 4
++ -- 13
+- -- 7
+* -- 12
+:= -- 130
+add.period$ -- 18
+call.type$ -- 6
+change.case$ -- 6
 chr.to.int$ -- 0
-cite$ -- 4
-duplicate$ -- 20
-empty$ -- 73
-format.name$ -- 4
-if$ -- 121
+cite$ -- 7
+duplicate$ -- 33
+empty$ -- 105
+format.name$ -- 7
+if$ -- 182
 int.to.chr$ -- 0
-int.to.str$ -- 4
-missing$ -- 0
-newline$ -- 23
-num.names$ -- 4
-pop$ -- 28
+int.to.str$ -- 6
+missing$ -- 1
+newline$ -- 33
+num.names$ -- 6
+pop$ -- 40
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 12
+skip$ -- 19
 stack$ -- 0
 substring$ -- 0
-swap$ -- 4
+swap$ -- 5
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
-warning$ -- 0
-while$ -- 4
-width$ -- 5
-write$ -- 42
+warning$ -- 1
+while$ -- 6
+width$ -- 7
+write$ -- 61
+(There was 1 warning)
