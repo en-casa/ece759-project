@@ -10,4 +10,10 @@ Wikipedia contributors.
 \newblock C4.5 algorithm --- wikipedia{,} the free encyclopedia, 2018.
 \newblock [Online; accessed 14-March-2018].
 
+\bibitem{matlab:fitctree}
+Mathworks.
+\newblock Matlab documentation - fitctree.
+\newblock https://www.mathworks.com/help/stats/fitctree.html, 2018.
+\newblock [Online; accessed 2010-09-30].
+
 \end{thebibliography}
