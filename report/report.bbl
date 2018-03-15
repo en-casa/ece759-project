@@ -1,5 +1,11 @@
 \begin{thebibliography}{1}
 
+\bibitem{images:ldapca}
+Sebastian Raschka.
+\newblock What is the difference between lda and pca for dimensionality
+  reduction?, 2018.
+\newblock [Online; accessed 2018-03-14].
+
 \bibitem{wiki:id3}
 Wikipedia contributors.
 \newblock Id3 algorithm --- wikipedia{,} the free encyclopedia, 2017.
@@ -13,6 +19,6 @@ Wikipedia contributors.
 \bibitem{matlab:fitctree}
 Mathworks.
 \newblock Matlab documentation - fitctree, 2018.
-\newblock [Online; accessed 2010-09-30].
+\newblock [Online; accessed 2018-03-14].
 
 \end{thebibliography}
