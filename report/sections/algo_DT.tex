@@ -3,7 +3,7 @@
 A binary decision tree is a hierarchical structure that takes input data at its root and propagates it to one of many leaves. Each \emph{leaf} of the tree represents a class designation. To reach a leaf, the features of the data are utilized at \emph{nodes} to make a binary decision: to proceed down the left or right \emph{branch} of the tree? To answer this question, the node also carries a \emph{threshold} that the feature value of the test data is compared against. If the test feature is less than the threshold, we proceed down the left branch. Otherwise, the right. An illustration of a simple decision tree is pictured below.
 %
 \begin{figure}[H]
-  \centering\includegraphics[width=0.6\columnwidth]{../images/decision_tree}
+  \centering\includegraphics[width=0.5\columnwidth]{../images/decision_tree}
   \caption{An example decision tree.}
 \end{figure}
 
@@ -57,11 +57,7 @@ The algorithm is reproduced in pseudocode below.
   }
   \;
   instantiate tracking variables:\;
-  $attributeBest \longleftarrow 0$\;
-  $thresholdBest \longleftarrow 0$\;
-  \textit{infoGainBest} $\longleftarrow 0$\;
-  $indexBest \longleftarrow 0$\;
-
+  $attributeBest$, $thresholdBest$, \textit{infoGainBest}, $indexBest \longleftarrow 0$\;
   \For{attribute $\in$ range(\# of features left in set)}{
     sort \textit{set} along $attribute$.\;
     perform line search heuristic to approximate max information gain by splitting $set$ at various indices.\;
@@ -90,6 +86,7 @@ The algorithm is reproduced in pseudocode below.
 \caption{trainDecisionTree} \label{alg:dt}
 \end{algorithm}
 
+%\pagebreak
 Once we have trained the decision tree, we can begin to test it by passing the features generated from the test set through the tree. The testing algorithm is reproduced in psuedocode below.
 
 \begin{algorithm}[H]
@@ -135,7 +132,7 @@ Once we have trained the decision tree, we can begin to test it by passing the f
 
 \subsubsection{Entropy and Information Gain}
 
-When growing the decision tree, the training algorithm utilizes a metric called \emph{information gain} to optimize the predictive power of the tree. Before we can define information gain, we must first understand \emph{entropy.} Entropy is an information theoretic topic that represents the amount of uncertainty in a given set of data. It is defined as
+When growing the decision tree, the training algorithm utilizes a metric called \emph{information gain} to optimize the predictive power of the tree. Before we can define information gain, we must first understand \emph{entropy.} Entropy is an information theoretic concept that represents the amount of uncertainty in a given set of data. It is defined as
 %
 \begin{equation}
   \mathrm{H}(X) = -\sum_{i=1}^n {\mathrm{P}(x_i) \log_2 \mathrm{P}(x_i)}
@@ -143,7 +140,7 @@ When growing the decision tree, the training algorithm utilizes a metric called 
 
 Where $\mathrm{P}(x_i)$ is the proportion of the number of elements with class $x_i$ to the number of elements in the set $X$. there are $n$ classes in the set. Note that if all samples belong to class $i$, $\mathrm{P}(x_i) = 1$ and $\log_2 \mathrm{P}(x_i) = 0$, so the entropy is zero. 
 
-In calculating the information gain of splitting the set into two subsets, we utilize the entropy of the parent set and subtract from it a weighted entropy of each subset. This is better expressed by the following equation:
+In calculating the information gain of splitting the set into two subsets, we utilize the entropy of the parent set and subtract from it a weighted entropy of each subset \cite{wiki:IG} . This is better expressed by the following equation:
 %
 \begin{equation}
   \mathrm{IG}(X) = \mathrm{H}(X) - \sum_{i=1}^{2} \frac{|S_i|}{|X|} \mathrm{H}(S_i)

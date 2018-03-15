@@ -18,8 +18,8 @@ addpath('utility', 'YaleB', 'YaleB/data');
 
 fprintf('begin Yale B decision tree script\n');
 
-seed = 152039828;
-rng(seed); % for reproducibility
+%seed = 152039828;
+%rng(seed); % for reproducibility
 
 % hyper-parameters
 % for feature selection
@@ -29,7 +29,7 @@ if usePCA
 	N_te = N_tr; % test samples
 	numFeatures = 30;
 else
-	N_tr = 2000; % training samples
+	N_tr = 2300; % training samples
 	N_te = 2414 - N_tr; % test samples
 	numFeatures = 38;
 end
@@ -75,7 +75,7 @@ fprintf('Tested in %4.2f minutes\n', (cputime - st)/60);
 errors = nnz(test{2}(:,1) ~= test{2}(:,2));
 errorRate = (errors/N_te)*100;
 
-filename = sprintf('tree%2.0f.mat', errorRate);
+filename = sprintf('yaleB_tree%2.0f_%d.mat', errorRate, minLeaf);
 %save(filename, 'tree');
 %filename = sprintf('UV%2.0f.mat', errorRate);
 %save(filename, 'U', 'V', '-v7.3');
