@@ -62,9 +62,10 @@ The algorithm is reproduced in pseudocode below.
   \textit{infoGainBest} $\longleftarrow 0$\;
   $indexBest \longleftarrow 0$\;
 
-  \For{$attribute \in range(\mathit{\# of features left in set)}$}{
+  \For{attribute $\in$ range(\# of features left in set)}{
     sort \textit{set} along $attribute$.\;
     perform line search heuristic to approximate max information gain by splitting $set$ at various indices.\;
+    \textit{thisInfoGain} $\longleftarrow$ \textit{lineSearch(set)}
     \;
     \If{thisInfoGain $>$ infoGainBest}{
       $attributeBest \longleftarrow attribute$\;
@@ -157,4 +158,3 @@ The line search starts in the middle of the set and splits it, computing an info
   \caption{Information Gain across all possible thresholds.}
   \label{fig:IG}
 \end{figure}
-
