@@ -103,7 +103,7 @@ cov_equal_each_class = {average_cov average_cov average_cov average_cov average_
 % to see how our model works
 [acc_test_comp acc_train_comp] = classify_comparison(k,5,mu_each_class, cov_equal_each_class, transf_test', test{1,2}, transf_train', train{1,2}); % 0.88 and 0.89 resp using just knn
 
-%%
+%% this part is for testing with kNN
 [acc_test_5 acc_train_5] = classifyNN(k,5,mu_each_class, cov_equal_each_class, transf_test', test{1,2}, transf_train', train{1,2}); % 0.88 and 0.89 resp using just knn
 [acc_test_5_p acc_train_5_p] = classifyNN_pure(5,transf_test', transf_train', test{1,2}, train{1,2});
 
@@ -123,7 +123,8 @@ ylabel('Accuracy of test model');
 print('../../images/YaleBNNafterLDA', '-dpng');
 % instead we can use Euclidean distance metr
 ic to evaluate the classes by
-% calculating the distances from each class centroid
+%% calculating the distances from each class centroid
+% for our surprise, it performs really well
 centroid = zeros(k, k-1);
 for i = 0:k-1
     ind = (train{1,2} == i);
