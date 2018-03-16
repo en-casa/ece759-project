@@ -37,13 +37,13 @@ numTrees = 100; % ensemble for majority voting
 
 % features are the raw pixels, so we reorder the cell
 train = {train{2}, train{1}};
-test = {test{2}, test{1}};
+testOriginal = {test{2}, test{1}};
 
 %% extract subwindows to augment the set
 numWindows = 4;
 % this will introduce 4x more samples with 504 pixels.
 train = extractSubwindows(train, numWindows);
-test = extractSubwindows(test, numWindows);
+test = extractSubwindows(testOriginal, numWindows);
 
 %% train
 st = cputime;
@@ -64,10 +64,19 @@ st = cputime;
 	
 test = testExtraTrees(test, trees);
 
+% take majority vote of the subwindows
+for i = 0:size(testOriginal{2},2)-1
+	
+	ind = 1 + numWindows*i;
+	testOriginal{1}(i+1,2) = mode(test{1}(ind:(ind + numWindows - 1),2));
+	
+end
+
+
 fprintf('Tested in %4.2f minutes\n', (cputime - st)/60);
 
 % Classification Error
-errors = nnz(test{1}(:,1) ~= test{1}(:,2));
+errors = nnz(testOriginal{1}(:,1) ~= testOriginal{1}(:,2));
 errorRate = (errors/N_te)*100;
 
 filename = sprintf('mnist_extratree%2.0f_%d.mat', errorRate, minLeaf);
