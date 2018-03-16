@@ -61,20 +61,20 @@ h the above pseudo code, we used own created functions. After we do steps 1-7, t
 
 \subsubsection{Derivation of discriminant function}
 We classify the data point as being in class $\pmb i$ if
-\(P(\pmb x|i) P(i) > P(\pmb x|j) P(j)\), for $\forall j\neq i$. 
-Assuming all covariances are equal $\Sigma = \Sigma_i = \Sigma_j$ and they follow a Multivariate Normal distribution formula $P(\pmb x| i) = \dfrac{1}{(2 \pi)^{n/2} |\Sigma_i|^{1/2}} exp(-\frac{1}{2} (\pmb x - \pmb \mu_i)^T \Sigma_i^{-1} (\pmb x - \pmb \mu_i))$ the above condition becomes
-\(
+\(P(\pmb x|i) P(i) > P(\pmb x|j) P(j)\), for $\forall j\neq i$. \\
+Assuming all covariances are equal $\Sigma = \Sigma_i = \Sigma_j$ and they follow a Multivariate Normal distribution formula $P(\pmb x| i) = \dfrac{1}{(2 \pi)^{n/2} |\Sigma_i|^{1/2}} exp(-\frac{1}{2} (\pmb x - \pmb \mu_i)^T \Sigma_i^{-1} (\pmb x - \pmb \mu_i))$, the above condition becomes
+\[
 \dfrac{P(i)}{(2 \pi)^{n/2} |\Sigma_i|^{1/2}} exp(-\frac{1}{2} (\pmb x - \pmb \mu_i)^T \Sigma^{-1} (\pmb x - \pmb \mu_i) ) > \dfrac{P(j)}{(2 \pi)^{n/2} |\Sigma|^{1/2}} exp(-\frac{1}{2} (\pmb x - \pmb \mu_j)^T \Sigma^{-1} (\pmb x - \pmb \mu_j) )
-\) 
+\]
 	Taking the logarithm of both sides we get 
-	\(
+	\[
 	ln(|\Sigma|) - 2 ln(P(i)) + (\pmb x - \pmb \mu_i)^T \Sigma^{-1} (\pmb x - \pmb \mu_i) < ln(|\Sigma|) - 2 ln(P(j)) + (\pmb x - \pmb \mu_j)^T \Sigma^{-1} (\pmb x - \pmb \mu_j)
-	\)
+	\]
 	After some algebraic manipulation, we have 
-		\(
+		\[
 		ln(P(i)) + \pmb \mu_i \Sigma^{-1} \pmb x^T - \frac{1}{2} \pmb \mu_i \Sigma^{-1} \pmb \mu_i^T > ln(P(j)) + \pmb \mu_j \Sigma^{-1} \pmb x^T - \frac{1}{2} \pmb \mu_j \Sigma^{-1} \pmb \mu_j^T    
-		\)
+		\]
 		Let $f_i =  \pmb \mu_i \Sigma^{-1} \pmb x^T - \frac{1}{2} \pmb \mu_i \Sigma^{-1} \pmb \mu_i^T + ln(P(i))$, then we can write 
-		\(
+		\[
 		f_i > f_j, \forall j\neq i
-		\)
+		\]
