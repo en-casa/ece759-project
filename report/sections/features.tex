@@ -2,7 +2,7 @@
 
 \subsubsection{Feature Generation for Decision Trees}
 
-In working with the decision trees, we utilized dimensionality reduction techniques including Linear discriminant analysis (LDA) and principle components analysis (PCA) for training and testing 'classical' decision trees, which pass over all features to consider which decision nodes to generate. 
+In working with the decision trees, we utilized dimensionality reduction techniques including linear discriminant analysis (LDA) and principle components analysis (PCA) for training and testing classical decision trees, which pass over all features to consider which decision nodes to generate. 
 
 LDA reduces data with $K$ classes in large dimensions (on the order of the number of pixels) to 
 $K$ dimensions which captures the most energy of the data. Implementing LDA as dimensionality reduction, MNIST and Extended YaleB datasets are reduced to 10 and 38 variables respectively (for each data point.) We then worked with this transformed data as the input to our decision tree classifier for training and testing.
@@ -20,11 +20,11 @@ The difference between the two techniques is that LDA is supervised whereas PCA 
 		\caption{PCA implemented on 2-dimensional data \cite{images:ldapca}. }
 	\end{figure}
 
-        In our implementation, we rely on the \emph{singular value decomposition} (SVD) to generate our features, conventionally described as \emph{scores}. To perform the singular value decomposition and obtain our features, we must first pre-process the data. We arrange it so that the rows of our data $X$ are the individual images in the dataset, with each column corresponding to a pixel value. Then, we subtract the column-wise empirical mean from each column to render each column zero-mean. Then, we utilize MATLAB's built-in \code{svd(.)} to obtain the matrices $[U, S, V]$. Our features are represented by $U*S$. Taking the transpose of this matrix, and extracting the first $n$ columns, where $n$ is the number of features we seek to utilize, we have a matrix of features corresponding to each image in our dataset. This method was useful, although not as effective in training decision trees as LDA, which we now discuss.
+        In our PCA implementation, we rely on the \emph{singular value decomposition} (SVD) to generate our features, conventionally described as \emph{scores}. To perform the singular value decomposition and obtain our features, we must first pre-process the data. We arrange it so that the rows of our data $X$ are the individual images in the dataset, with each column corresponding to a pixel value. Then, we subtract the column-wise empirical mean from each column to render each column zero-mean. Then, we utilize MATLAB's built-in \code{svd(.)} to obtain the matrices $[U, S, V]$. Our features are represented by $U*S$. Taking the transpose of this matrix, and extracting the first $n$ columns, where $n$ is the number of features we seek to utilize, we have a matrix of features corresponding to each image in our dataset. This method was useful, although not as effective in training decision trees as LDA, which we now discuss.
 
 LDA maximizes the class separability and can be represented visually as in the figure below. 
 	\begin{figure}[H]
 	\centering\includegraphics[width=0.4\textwidth]{../images/lda}
 	\caption{LDA visualization \cite{images:ldapca}.}
 	\end{figure}
-The underlying concept of LDA is taking the eigenvectors of $ \dfrac{\Sigma_b}{\Sigma_w}$ where $\Sigma_w$ is within-class scatter matrix and $\Sigma_b$ is between-class scatter matrix. This division of matrices separates the classes away from one another. This is distinct from PCA, as it is unsupervised, it only captures the data in a minimum number of variables.
+The underlying concept of LDA is taking the eigenvectors of $ \dfrac{\Sigma_b}{\Sigma_w}$ where $\Sigma_w$ is within-class scatter matrix and $\Sigma_b$ is between-class scatter matrix. This division of matrices separates the classes away from one another. This is distinct from PCA, which is unsupervised, thereby only capturing the data in a minimum number of variables irrespective of class.
