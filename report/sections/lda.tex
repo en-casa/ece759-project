@@ -56,16 +56,16 @@ The steps that we follow in our LDA algorithm are as follows.
 \end{enumerate}
 
 \subsubsection{Helpful Functions}
- the above pseudo code, we used own created functions. After we do steps 1-7, there is a function \code{classify\_comparison} which applies discriminant function in order to classify the test data. I also tried to calculate if I get good results using the distances from the centers of each classes using \code{classify\_from\_centroid}, although it did not work very well on MNIST dataset it does perform well with Extended Yale datasets.
+ the above pseudo code, we used own created functions. After we do steps 1-7, there is a function \code{classify\_comparison} which applies discriminant function in order to classify the test data. I also tried to calculate if I get good results using the distances from the centers of each classes using \code{classify\_from\_centroid}, although it did not work very well on MNIST dataset it does perform well with Extended Yale B dataset.
 
 \subsubsection{Derivation of discriminant function}
 We classify the data point as being in class $\pmb i$ if
 
 $P(\pmb x|i) P(i) > P(\pmb x|j) P(j),\ \forall j\neq i$. 
 
-Assuming all covariances are equal $\Sigma = \Sigma_i = \Sigma_j$ and they follow a Multivariate Normal distribution formula $P(\pmb x| i) = \dfrac{1}{(2 \pi)^{n/2}} |\Sigma_i|^{1/2} exp(-\frac{1}{2} (\pmb x - \pmb \mu_i)^T \Sigma_i^{-1} (\pmb x - \pmb \mu_i) ) $ the above condition becomes
+Assuming all covariances are equal $\Sigma = \Sigma_i = \Sigma_j$ and they follow a Multivariate Normal distribution formula $P(\pmb x| i) = \dfrac{1}{(2 \pi)^{n/2} |\Sigma_i|^{1/2}}  exp(-\frac{1}{2} (\pmb x - \pmb \mu_i)^T \Sigma_i^{-1} (\pmb x - \pmb \mu_i) ) $, the above condition becomes
 
-$\dfrac{P(i)}{(2 \pi)^{n/2}} |\Sigma_i|^{1/2} exp(-\frac{1}{2} (\pmb x - \pmb \mu_i)^T \Sigma^{-1} (\pmb x - \pmb \mu_i) ) > \dfrac{P(j)}{(2 \pi)^{n/2}} |\Sigma|^{1/2} exp(-\frac{1}{2} (\pmb x - \pmb \mu_j)^T \Sigma^{-1} (\pmb x - \pmb \mu_j) ) $
+$\dfrac{P(i)}{(2 \pi)^{n/2} |\Sigma_i|^{1/2}}  exp(-\frac{1}{2} (\pmb x - \pmb \mu_i)^T \Sigma^{-1} (\pmb x - \pmb \mu_i) ) > \dfrac{P(j)}{(2 \pi)^{n/2} |\Sigma|^{1/2}}  exp(-\frac{1}{2} (\pmb x - \pmb \mu_j)^T \Sigma^{-1} (\pmb x - \pmb \mu_j) ) $
 
 		Taking the logarithm of both sides we get 
 
