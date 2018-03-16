@@ -1,0 +1,80 @@
+=======
+\iffalse
+
+n casale
+Kudiyar (Cody) Orazymbetov
+ece 759 project part 1
+18/03/16
+
+\fi
+
+\documentclass[]{ncmathy}
+
+% for algorithms
+%\usepackage[section]{algorithm}
+\usepackage[ruled,vlined, linesnumbered, algosection]{algorithm2e}
+\usepackage{algorithmic}
+
+% for 2 column table of contents
+\usepackage[toc, lof, lot]{multitoc}
+
+% add bib to toc
+\usepackage[nottoc,numbib]{tocbibind} 
+
+% for block comments in matlab listings
+\usepackage{matlab-prettifier}
+\lstset{style=Matlab-editor}
+
+\newcommand{\theassignment}{Project Part 1}
+\newcommand{\thecourse}{Pattern Recognition\\ECE 759}
+
+\begin{document}
+
+\title{\theassignment\\\thecourse}
+\author{Kudiyar Orazymbetov (\texttt{korazym@ncsu.edu})\\Nico Casale (\texttt{ncasale@ncsu.edu})}
+\rhead{korazym, ncasale}
+
+\makeFancyTitle
+
+\tableofcontents
+\pagebreak
+\makeatletter
+\let\@starttoc\@multitoc@starttoc
+\listoffigures
+\listoftables
+\lstlistoflistings
+\makeatother
+
+\pagebreak
+
+\section{Introduction} 
+	\subfile{sections/introduction}
+
+\section{Feature Selection}
+	\subfile{sections/features}
+
+\section{Algorithm Implementations}
+	\subfile{sections/algo_DT}
+        \subfile{sections/algo_ET}
+	\subfile{sections/lda}
+
+\section{Test Results}
+	\subfile{sections/results}
+
+\section{Conclusion}
+	\subfile{sections/conclusion}
+
+%\nocite{*}
+\bibliography{../bibliography}
+\bibliographystyle{unsrt}
+
+\section{Code Listings}
+
+Below are the primary scripts that execute the project. Please see the
+\code{code} folder for supporting functions.
+
+\lstinputlisting[caption=Main Code for Decision Tree on MNIST]{../code/decisionTree/main_dt_MNIST.m}
+\lstinputlisting[caption=Main Code for Extra-Trees on Yale B]{../code/extraTree/main_et_YaleB.m}
+\lstinputlisting[caption=Main Code for LDA on MNIST]{../code/lda/ldacode.m}
+
+\end{document}
