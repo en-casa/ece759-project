@@ -27,6 +27,18 @@ Wikipedia contributors.
   encyclopedia, 2017.
 \newblock [Online; accessed 15-March-2018].
 
+\bibitem{Li2006}
+Tao Li, Shenghuo Zhu, and Mitsunori Ogihara.
+\newblock Using discriminant analysis for multi-class classification: an
+  experimental investigation.
+\newblock {\em Knowledge and Information Systems}, 10(4):453--472, Nov 2006.
+
+\bibitem{wiki:LDA}
+Wikipedia contributors.
+\newblock Linear discriminant analysis --- wikipedia{,} the free encyclopedia,
+  2017.
+\newblock [Online; accessed 15-March-2018].
+
 \bibitem{matlab:fitctree}
 Mathworks.
 \newblock Matlab documentation - fitctree, 2018.

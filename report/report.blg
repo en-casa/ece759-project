@@ -4,45 +4,45 @@ The top-level auxiliary file: report.aux
 The style file: unsrt.bst
 Database file #1: ../bibliography.bib
 Warning--empty journal in lecun-mnisthandwrittendigit-2010
-You've used 6 entries,
+You've used 8 entries,
             1791 wiz_defined-function locations,
-            469 strings with 4147 characters,
-and the built_in function-call counts, 801 in all, are:
-= -- 61
-> -- 28
+            482 strings with 4430 characters,
+and the built_in function-call counts, 1183 in all, are:
+= -- 95
+> -- 43
 < -- 0
-+ -- 13
-- -- 7
-* -- 12
-:= -- 130
-add.period$ -- 18
-call.type$ -- 6
-change.case$ -- 6
++ -- 19
+- -- 11
+* -- 37
+:= -- 189
+add.period$ -- 24
+call.type$ -- 8
+change.case$ -- 8
 chr.to.int$ -- 0
-cite$ -- 7
-duplicate$ -- 33
-empty$ -- 105
-format.name$ -- 7
-if$ -- 182
+cite$ -- 9
+duplicate$ -- 47
+empty$ -- 147
+format.name$ -- 11
+if$ -- 266
 int.to.chr$ -- 0
-int.to.str$ -- 6
-missing$ -- 1
-newline$ -- 33
-num.names$ -- 6
-pop$ -- 40
+int.to.str$ -- 8
+missing$ -- 2
+newline$ -- 43
+num.names$ -- 8
+pop$ -- 48
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 19
+skip$ -- 25
 stack$ -- 0
-substring$ -- 0
-swap$ -- 5
+substring$ -- 25
+swap$ -- 7
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
 warning$ -- 1
-while$ -- 6
-width$ -- 7
-write$ -- 61
+while$ -- 10
+width$ -- 9
+write$ -- 82
 (There was 1 warning)
