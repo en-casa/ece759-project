@@ -26,7 +26,7 @@ N_te = 2414 - N_tr; % test samples
 
 % for extra tree
 minLeaf = 1; % to prevent overfitting
-numTrees = 100; % ensemble for majority voting
+numTrees = 200; % ensemble for majority voting
 
 %seed = 152039828;
 %rng(seed); % for reproducibility
@@ -40,7 +40,7 @@ train = {train{2}, train{1}};
 testOriginal = {test{2}, test{1}};
 
 %% extract subwindows to augment the set
-numWindows = 4;
+numWindows = 6;
 % this will introduce 4x more samples with 504 pixels.
 train = extractSubwindows(train, numWindows);
 test = extractSubwindows(testOriginal, numWindows);
@@ -53,7 +53,13 @@ trees = cell(numTrees, 1);
 for tree = 1:numTrees
 	
 	fprintf('tree: %d\n', tree);
-	trees{tree} = trainExtraTree(train, minLeaf);
+	
+	% pass only a random subset of the subwindows to each tree
+	inds = randperm(length(train{1}));
+	thisTrain = {train{1}(inds(1:length(inds)/2)), ...
+		train{2}(:,inds(1:length(inds)/2))};
+	
+	trees{tree} = trainExtraTree(thisTrain, minLeaf);
 	
 end
 
