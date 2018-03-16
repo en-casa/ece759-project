@@ -13,12 +13,12 @@ This decision tree structure needs to be generated before it can be used with te
   \mathtt{tree = trainDecisionTree(set)}
 \end{equation*}
 
-Where \code{set} is the training set, which is a MATLAB structure that contains the raw data (unused), class labels, and generated features. \code{tree} is the returned structure that can be used during testing. It is essentially a nested structure that contains two types of elements: nodes and leaves. At each node of the tree, a feature and threshold are specified. If a test sample's value at that particular feature is less than the threshold, the sample is passed down the left branch of the node. Similarly, if the sample's feature is greater than the threshold, it goes through the right branch. This is repeated until we reach a leaf node, which specifies a class membership. 
+Where \code{set} is the training set, which is a MATLAB structure that contains the class labels and generated features. \code{tree} is the returned structure that can be used during testing. It is essentially a nested structure that contains two types of elements: nodes and leaves. At each node of the tree, a feature and threshold are specified. If a test sample's value at that particular feature is less than the threshold, the sample is passed down the left branch of the node. Similarly, if the sample's feature is greater than the threshold, it goes through the right branch. This is repeated until we reach a leaf node, which specifies a class membership. 
 
 The decision tree training algorithm has a few major steps, and proceeds by evaluating a metric called \emph{information gain} at various configurations. For now, suffice it to say that information gain is a scalar that represents the improvement in prediction as we narrow down the set (by growing the tree) to find appropriate leaves. Our implementation most closely follows that of the ID3 and C4.5 algorithms developed by Ross Quinlan in the late 80s and early 90s \cite{wiki:id3} \cite{wiki:c45}.
 
 \pagebreak
-In general, the decision tree training algorithm is described qulitatively as follows:
+In general, the decision tree training algorithm is described qualitatively as follows:
 %
 \begin{enumerate}
 \item Check stopping conditions, which generate leaves.
@@ -29,13 +29,13 @@ In general, the decision tree training algorithm is described qulitatively as fo
   \item If all samples in the set belong to the same class, return a leaf with the class.
   \item If no feature yields an improvement to the information gain (discussed below), then return a leaf with the class mode of the set. Note that this condition is only evaluated after step 2. 
   \end{itemize}
-\item Iterate over each feature. Sort the set along the current feature. We utilize a threshold that splits the set between adjacent feature values. Because the information gain across thresholds is convex on the whole (see Fig. \ref{fig:IG}), we use a line search that approximates the highest information gain for each threshold. 
+\item Iterate over each feature. Sort the set along the current feature. We utilize a threshold that splits the set between adjacent feature values such that the two subsets are composed of training samples whose features are less than and greater than the threshold respectively. Because the information gain across thresholds is convex on the whole (see Fig. \ref{fig:IG}), we use a line search that approximates the highest information gain for each threshold. This serves to reduce the computational complexity of our training algorithm.
 
   Let \code{attributeBest} and \code{indBest} be the feature and index that yield the highest information gain. Since the set is sorted, we can simply split the set at the index given by \code{indBest} for the recursion.
-\item Recur over the subsets given by \code{indBest} to find the next attribute that yields the highest information gain. Note that we exclude the attribute/feature we chose in this execution of \code{trainDecisionTree(.)}. 
+\item Recur over the two subsets given by \code{indBest} to find the next attribute that yields the highest information gain. Note that we exclude \code{attributeBest} in the recursion of \code{trainDecisionTree(.)} so that the same feature isn't chosen in the subset. In this way, the decision tree is grown so that it makes the most improvements to information gain at the nodes which are closest to the root.  
 \end{enumerate}
 
-The algorithm is reproduced in pseudocode below.
+The algorithm is also reproduced in pseudocode below.
 
 \begin{algorithm}[H]
 \DontPrintSemicolon
@@ -90,7 +90,7 @@ The algorithm is reproduced in pseudocode below.
 \end{algorithm}
 
 \pagebreak
-Once we have trained the decision tree, we can begin to test it by passing the features generated from the test set through the tree. The testing algorithm is reproduced in psuedocode below.
+Once we have trained the decision tree, we can begin to test it by passing the features generated from the test set through the tree. As the features are utilized in propagating through the tree, we eventually reach a leaf node and assign its associated class to the test vector. Testing results can be found in Section (\ref{sec:results}). The testing algorithm is reproduced in psuedocode below.
 
 \begin{algorithm}[H]
 \DontPrintSemicolon
@@ -143,17 +143,17 @@ When growing the decision tree, the training algorithm utilizes a metric called 
   \mathrm{H}(X) = -\sum_{i=1}^n {\mathrm{P}(x_i) \log_2 \mathrm{P}(x_i)}
 \end{equation} 
 
-Where $\mathrm{P}(x_i)$ is the proportion of the number of elements with class $x_i$ to the number of elements in the set $X$. there are $n$ classes in the set. Note that if all samples belong to class $i$, $\mathrm{P}(x_i) = 1$ and $\log_2 \mathrm{P}(x_i) = 0$, so the entropy is zero. 
+Where $\mathrm{P}(x_i)$ is the proportion of the number of elements with class $x_i$ to the number of elements in the set $X$, and there are $n$ classes in the set. Note that if all samples belong to class $i$, $\mathrm{P}(x_i) = 1$ and $\log_2 \mathrm{P}(x_i) = 0$, so the entropy is zero. 
 
-In calculating the information gain of splitting the set into two subsets, we utilize the entropy of the parent set and subtract from it a weighted entropy of each subset \cite{wiki:IG} . This is better expressed by the following equation:
+In calculating the information gain of splitting the set into two subsets, we utilize the entropy of the parent set and subtract from it a weighted entropy of each subset \cite{wiki:IG}. This is better expressed by the following equation:
 %
 \begin{equation}
   \mathrm{IG}(X) = \mathrm{H}(X) - \sum_{i=1}^{2} \frac{|S_i|}{|X|} \mathrm{H}(S_i)
 \end{equation}
 
-Where $|\cdot|$ is the cardinality, or number of elements in the set, and $S_i$ are the two subsets composed of the elements of $X$ partitioned across a given threshold for a given feature. The figure below is a plot of the information gain across splitting indices. So, after partitioning the set across a single attribute, (all elements of $S_1$ are less than the threshold, and all elements in $S_2$ are greater), we have a scalar value of information gain to decide which splitting threshold and feature would most improve the predictive ability of the decision tree. The plot below represents just one feature, but this calculation is required across all currently available features in the set. This quickly becomes computationally taxing for a large data-set, so we utilize a line search heuristic to improve the computational time without sacrificing a significant amount of accuracy. 
+Where $|\cdot|$ is the cardinality, or number of elements in the set, and $S_i$ are the two subsets composed of the elements of $X$ partitioned across a given threshold for a given feature. The figure below is a plot of the information gain across splitting indices. So, after partitioning the set across a single attribute, (all elements of $S_1$ are less than the threshold, and all elements in $S_2$ are greater), we have a scalar value of information gain to decide which splitting threshold and feature would most improve the predictive ability of the decision tree. The plot below represents just one feature, but this calculation is required across all currently available features in the set. This quickly becomes computationally taxing for a large dataset, so we utilize a line search heuristic to improve the computational time without sacrificing a significant amount of accuracy. 
 
-The line search starts in the middle of the set and splits it, computing an information gain (IG). Then, we compare this middle IG to the IGs obtained by splitting the set at the 25\% and 75\% indices. If either of these reveals a larger IG, we set it to the new 'middle' index and consider the IGs which emerge from splitting the set half-way between the old 'middle' and half-way between the old 'left' or 'right' (depending on which one yielded a larger IG.) This allows us to approximate the maximum value of the information gain for a given feature without a brute-force technique of considering each threshold. We ensured that the line search incorporates a variety of locations to coax it to approaching the global maximum, rather than getting caught in the minor variations between adjacent indices.  
+The line search starts in the middle of the set and splits it, computing an information gain (IG). Then, we compare this middle IG to the IGs obtained by splitting the set at the 25\% and 75\% indices. If either of these reveals a larger IG, we set it to the new 'middle' index and consider the IGs which emerge from splitting the set half-way between the old 'middle' and half-way between the old 'left' or 'right' (depending on which one yielded a larger IG.) This allows us to approximate the maximum value of the information gain for a given feature without a brute-force technique of considering each threshold. We ensured that the line search incorporates a variety of locations to coax it to approaching the global maximum, rather than getting caught in the minor variations between adjacent indices. Please consult \code{code/decisionTree/trainDecisionTree.m} for further details.
 %
 \begin{figure}[H]
   \centering\includegraphics[width=0.6\columnwidth]{../images/IG}
