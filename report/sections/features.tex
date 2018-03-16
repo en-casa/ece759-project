@@ -5,7 +5,7 @@ In working with the decision trees, we utilized dimensionality reduction techniq
 LDA reduces data with $K$ classes in large dimensions (on the order of the number of pixels) to 
 $K$ dimensions which captures the most energy of the data. Implementing LDA as dimensionality reduction, MNIST and Extended YaleB datasets are reduced to 10 and 38 variables respectively (for each data point.) We then worked with this transformed data as the input to our decision tree classifier for training and testing.
 
-In another implementation, we will consider the effects of utilizing the raw pixel data as features in \emph{random forests} which are ensembles of decision trees trained on randomly chosen features and thresholds.
+In a separate experiment, we considered the effects of utilizing the raw pixel data as features in \emph{extra-trees} which are ensembles of decision trees trained on randomly chosen features and thresholds. When testing, the mode of the predicted classes is chosen as the global prediction of the ensemble of trees. This method is shown to be more accurate than our classical decision trees trained on PCA- and LDA-generated features in Section (\ref{sec:results}).
 
 \subsection{LDA vs PCA}
 

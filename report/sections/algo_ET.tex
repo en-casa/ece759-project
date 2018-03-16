@@ -1,0 +1,22 @@
+\subsection{Extra-Trees}
+
+The relative inadequacy of decision trees in classifying the samples of MNIST and Yale B led us to explore other tree-like classifiers. The first alternative that we considered is called \emph{extra-trees}, which are ensembles of binary decision trees that are grown in a stochastic manner. In testing, these ensembles \emph{vote} on the class by propagating the test sample down each tree until a leaf is found. The mode of all the votes is assigned to the global class prediction. See Section (\ref{sec:results}) for the result of this experiment. 
+
+Training extra-trees requires less computational and theoretical effort than classical decision trees. The reduced steps are certainly tangential to a basic decision tree, but incorporate less rigour. By utilizing the ensemble of trees, we can overcome the inaccuracies of a single random decision tree and make a strong prediction. 
+
+The steps to train an extra-tree are as follows:
+%
+\begin{enumerate}
+\item Check stopping conditions, which generate leaves.
+%
+  \begin{itemize}
+  \item If there are no more features to split on, return a leaf with the class mode of the set. 
+  \item The set is smaller than \code{minLeaf}, which is a tuning parameter that is meant to reduce overfitting of the training data. If this condition is met, return a leaf with the class mode of the set.
+  \item If all samples in the set belong to the same class, return a leaf with the class.
+  \end{itemize}
+\item Choose a random feature. In extra-trees, we don't need to generate features, we can simply use the raw pixels as features. 
+\item Find the mean and variance of this feature across all samples in the set. Generate a random value from a normal distribution with this mean and variance. 
+\item Recur these steps on the subsets obtained by splitting the parent set on the randomly chosen feature and threshold, where the first subset contains samples whose feature is less than the threshold, and the second subset contains those which are greater than the threshold.
+\end{enumerate}
+
+For MNIST, we generated 100 extra-trees, trained on half of the dataset. In testing, the majority-vote of the trees was used to assign a predicted class to the test vectors. Likewise, for Yale B, we utilized half the dataset and 100 extra-trees.
