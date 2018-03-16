@@ -5,7 +5,7 @@ Our classification success criterion is the extent to which the error rate is mi
 LDA relies on the assumption of a normal distribution for each class. Linear discriminant analysis generally achieves good performance in the tasks of face and object recognition, even though the assumptions of common covariance matrix among groups and normality are often violated \cite{Li2006}.
 
 Since the MNIST and Yale datasets are high-dimensional, we cannot check the normality of individual pixels. Instead, we reduce the dimensions via orthogonal projection.
-To do this, we employ multiclass LDA, as we have several classes (10 for MNIST and 38 for Yale B.) The class separation in a direction $\pmb w$ in this case is given by the ratio \cite{wiki:LDA}}
+To do this, we employ multiclass LDA, as we have several classes (10 for MNIST and 38 for Yale B.) The class separation in a direction $\pmb w$ in this case is given by the ratio \cite{wiki:LDA}.
 %
 \begin{equation}
   S = \frac{\pmb w^T \Sigma_b \pmb w}{\pmb w \Sigma \pmb w}  
@@ -57,4 +57,4 @@ The steps that we follow in our LDA algorithm are as follows.
 
 \subsubsection{Helpful Functions}
 
-To accomplish the above pseudo code, we used own created functions. After we do steps 1-7, there is a function \code{classify_comparison} which applies discriminant function in order to classify the test data. I also tried to calculate if I get good results using the distances from the centers of each classes, although it did not work very well on MNIST dataset it does perform well with Extended Yale datasets.
+To accomplish the above pseudo code, we used own created functions. After we do steps 1-7, there is a function \code{classify\_comparison} which applies discriminant function in order to classify the test data. I also tried to calculate if I get good results using the distances from the centers of each classes, although it did not work very well on MNIST dataset it does perform well with Extended Yale datasets.

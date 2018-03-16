@@ -23,7 +23,7 @@ N_tr = 2000; % training samples
 N_te = 2414 - N_tr; % test samples
 
 % for extra tree
-minLeaf = 1; % to prevent overfitting
+minLeaf = 5; % to prevent overfitting
 numTrees = 100; % ensemble for majority voting
 
 %seed = 152039828;
