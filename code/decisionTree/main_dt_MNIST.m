@@ -82,23 +82,3 @@ filename = sprintf('mnist_tree%2.0f_%d.mat', errorRate, minLeaf);
 
 fprintf('numFeatures: %d, minLeaf: %d, error rate: %2.2f\n', ...
 	numFeatures, minLeaf, errorRate);
-
-%% Test Results
-%{
-                 ,  *  *   *   &   &    ,    ,    ,    ,        ,
-numFeatures   : 30 30 60 200 200 200   30  100  100   20 10 (lda)
-minLeaf       :  1  1  2   2   3   4    4    4    1    1        1
-Error Rate    : 22 26 26  26  23  24 22.6 23.6 23.5 22.9    18.42
-Mins To Train : 48  2  2   3  12  12   47   60  102   11        3
-
-, - all attributes were considered for the best information gain for a
-particular set.
-
-* - for these experiments, the decision tree was grown by considering
-only the first attribute in the set. all things held equal, this was simply
-an attempt to reduce the computational complexity.
-
-& - if the number of attributes was > 5, consider only the first 5, else,
-consider all attributes (1-5)
-
-%}

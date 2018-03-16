@@ -1,3 +1,4 @@
+\pagebreak
 \subsection{Extra-Trees}
 
 The relative inadequacy of decision trees in classifying the samples of MNIST and Yale B led us to explore other tree-like classifiers. The first alternative that we considered is called \emph{extra-trees}, which are ensembles of binary decision trees that are grown in a stochastic manner. In testing, these ensembles \emph{vote} on the class by propagating the test sample down each tree until a leaf is found. The mode of all the votes is assigned to the global class prediction. See Section (\ref{sec:results}) for the result of this experiment. 

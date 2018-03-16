@@ -3,7 +3,7 @@
 A binary decision tree is a hierarchical structure that takes input data at its root and propagates it to one of many leaves. Each \emph{leaf} of the tree represents a class designation. To reach a leaf, the features of the data are utilized at \emph{nodes} to make a binary decision: to proceed down the left or right \emph{branch} of the tree? To answer this question, the node also carries a \emph{threshold} that the feature value of the test data is compared against. If the test feature is less than the threshold, we proceed down the left branch. Otherwise, the right. An illustration of a simple decision tree is pictured below.
 %
 \begin{figure}[H]
-  \centering\includegraphics[width=0.5\columnwidth]{../images/decision_tree}
+  \centering\includegraphics[width=0.4\columnwidth]{../images/decision_tree}
   \caption{An example decision tree.}
 \end{figure}
 
@@ -17,7 +17,7 @@ Where \code{set} is the training set, which is a MATLAB structure that contains 
 
 The decision tree training algorithm has a few major steps, and proceeds by evaluating a metric called \emph{information gain} at various configurations. For now, suffice it to say that information gain is a scalar that represents the improvement in prediction as we narrow down the set (by growing the tree) to find appropriate leaves. Our implementation most closely follows that of the ID3 and C4.5 algorithms developed by Ross Quinlan in the late 80s and early 90s \cite{wiki:id3} \cite{wiki:c45}.
 
-\pagebreak
+%\pagebreak  
 In general, the decision tree training algorithm is described qualitatively as follows:
 %
 \begin{enumerate}
@@ -40,7 +40,7 @@ The algorithm is also reproduced in pseudocode below.
 \begin{algorithm}[H]
 \DontPrintSemicolon
 \KwData{\textit{set} of training samples with class labels ($set(1)$) and attributes (features) ($set(2)$).\\
-  \textit{minLeaf}, an integer specifying the minimum number of elements in \textit{set} required to make a splitting node. \textit{i.e.} a leaf is generated if the set has fewer elements than \textit{minLeaf}.
+  \textit{minLeaf}, an integer specifying the minimum number of elements in \textit{set} required to make a splitting node. %\textit{i.e.} a leaf is generated if the set has fewer elements than \textit{minLeaf}.
 }
 \KwResult{\textit{tree}, a structure containing nodes and leaves.}
 \Begin{
@@ -58,7 +58,7 @@ The algorithm is also reproduced in pseudocode below.
     all samples are in the same class.\;
     {\bf return} \textit{leaf} with first element of $set(1)$\;
   }
-  \;
+  %\;
   instantiate tracking variables:\;
   $attributeBest$, $thresholdBest$, \textit{infoGainBest}, $indexBest \longleftarrow 0$\;
   \For{attribute $\in$ range(\# of features left in set)}{
@@ -73,17 +73,17 @@ The algorithm is also reproduced in pseudocode below.
       $thresholdBest \longleftarrow$ attribute value midway between $indexBest$ and $indexBest + 1$\;
     }
   }
-  \;
+  %\;
   \If{{\bf not} infoGainBest {\bf or} {\bf not} attributeBest}{
     no attribute provides an information gain.\;
     {\bf return} \textit{leaf} with mode of $set(1)$ (class labels)\;
   }
-  \;
+  %\;
   re-sort $set$ along $attributeBest$.\;
   $subsets \longleftarrow getSubsets(set, attributeBest, indexBest)$\;
   $subtree1 \longleftarrow trainDecisionTree(subsets(1), minLeaf)$\;
   $subtree2 \longleftarrow trainDecisionTree(subsets(2), minLeaf)$\;
-  \;
+  %\;
   {\bf return} \textit{node} with $attributeBest$, $thresholdBest$, $subtree1$, and $subtree2$\;
 }
 \caption{trainDecisionTree} \label{alg:dt}

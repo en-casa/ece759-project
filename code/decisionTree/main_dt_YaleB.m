@@ -82,16 +82,3 @@ filename = sprintf('yaleB_tree%2.0f_%d.mat', errorRate, minLeaf);
 
 fprintf('\nnumFeatures: %d, minLeaf: %d, error rate: %2.2f\n', ...
 	numFeatures, minLeaf, errorRate);
-
-%% Test Results
-%{
- 					 
-numFeatures   : 
-minLeaf       : 
-Error Rate    : 
-Mins To Train : 
-
-, - all attributes were considered for the best information gain for a
-particular set.
-
-%}
