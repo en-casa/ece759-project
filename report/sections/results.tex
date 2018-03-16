@@ -1,5 +1,5 @@
 \label{sec:results}
-The table below illustrates the lowest classification errors we were able to achieve with our Decision Tree and LDA classifiers on the MNIST and Yale Extended B datasets. In LDA, we split the datasets in . Using decision trees on MNIST, we utilized half of the dataset for training and half for testing. However, since the Yale B dataset is so small, we were only able to get lower error rates by using $\sim$95\% of the set for training and $\sim$5\% for testing (on decision trees.) For extra-trees, we split the two datasets in half to achieve our results.
+The table below illustrates the lowest classification errors we were able to achieve with our Decision Tree and LDA classifiers on the MNIST and Yale Extended B datasets. In LDA, we split the datasets in half so we can the other half for test. Using decision trees on MNIST, we utilized half of the dataset for training and half for testing. However, since the Yale B dataset is so small, we were only able to get lower error rates by using $\sim$95\% of the set for training and $\sim$5\% for testing (on decision trees.) For extra-trees, we split the two datasets in half to achieve our results.
 
 \begin{table}[H]
   \centering
@@ -7,7 +7,7 @@ The table below illustrates the lowest classification errors we were able to ach
     \hline
     Algorithm & MNIST & Yale B \\
     \hline\hline
-    LDA &  &  \\ 
+    LDA & 13.5\%  & 6.8\% \\ 
     \hline
     Decision Tree & 17.42\% & 57.89\% \\ 
     \hline

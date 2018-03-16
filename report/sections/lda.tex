@@ -2,13 +2,13 @@
 
 Our classification success criterion is the extent to which the error rate is minimized. For LDA, we employ the Bayes Rule to classify our test points after training the classifier. We assign the test point to the class with the highest conditional probability (\textit{i.e.} $P(w_i|x)$, where $w_i$ is the class and $x$ the test vector). In practice, it is not feasible to get conditional probability for a given point unless we have a large amount of data. So we estimate the distribution and calculate the probabilities from there. 
 
-LDA relies on the assumption of a normal distribution for each class. Linear discriminant analysis generally achieves good performance in the tasks of face and object recognition, even though the assumptions of common covariance matrix among groups and normality are often violated (Duda, et al., 2001) (Tao Li, et al., 2006)'.
+LDA relies on the assumption of a normal distribution for each class. Linear discriminant analysis generally achieves good performance in the tasks of face and object recognition, even though the assumptions of common covariance matrix among groups and normality are often violated \cite{Li2006}.
 
 Since the MNIST and Yale datasets are high-dimensional, we cannot check the normality of individual pixels. Instead, we reduce the dimensions via orthogonal projection.
-To do this, we employ multiclass LDA, as we have several classes (10 for MNIST and 38 for Yale B.) The class separation in this case is given by the ratio 
+To do this, we employ multiclass LDA, as we have several classes (10 for MNIST and 38 for Yale B.) The class separation in a direction $\pmb w$ in this case is given by the ratio \cite{wiki:LDA}}
 %
 \begin{equation}
-  \frac{\pmb w^T \Sigma_b \pmb w}{\pmb w \Sigma \pmb w}  
+  S = \frac{\pmb w^T \Sigma_b \pmb w}{\pmb w \Sigma \pmb w}  
 \end{equation}
 
 In the case of two classes, this reduces to the ratio of between-class variance and within-class variance.
@@ -29,7 +29,7 @@ The steps that we follow in our LDA algorithm are as follows.
           then sum them to obtain
           %
           \begin{equation}
-             \Sigma_W = \sum\limits_{i =1}^{c} (N_i - 1) \Sigma_i 
+             \Sigma_W = \sum\limits_{i =1}^{n} (N_i - 1) \Sigma_i 
           \end{equation}
 	\item We then find the average within-class scatter matrix by calculating 
           %
@@ -39,7 +39,7 @@ The steps that we follow in our LDA algorithm are as follows.
 	\item We also calculate the between-class scatter matrix by 
           %
           \begin{equation}
-            \Sigma_B = \sum\limits_{i =1}^c \dfrac{N_i}{N} (\pmb \mu_i - \pmb \mu) (\pmb \mu_i - \pmb \mu)^T
+            \Sigma_B = \sum\limits_{i =1}^n \dfrac{N_i}{N} (\pmb \mu_i - \pmb \mu) (\pmb \mu_i - \pmb \mu)^T
           \end{equation}
 	\item We need to find eigenvectors and eigenvalues of $\Sigma^{-1} \Sigma_b$.
 	\item We then sort the eigenvectors depending on the magnitude of eigenvalues.
@@ -57,4 +57,4 @@ The steps that we follow in our LDA algorithm are as follows.
 
 \subsubsection{Helpful Functions}
 
-To accomplish the above pseudo code, we used own created functions.
+To accomplish the above pseudo code, we used own created functions. After we do steps 1-7, there is a function \code{classify_comparison} which applies discriminant function in order to classify the test data. I also tried to calculate if I get good results using the distances from the centers of each classes, although it did not work very well on MNIST dataset it does perform well with Extended Yale datasets.
