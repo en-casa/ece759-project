@@ -33,8 +33,8 @@ k = 10; % number of classes
 
 [train, test] = loadMNIST(N_tr);
 %% use PCA to see the results
-numFeatures = 20;
-[train, U, V] = pca_(train, numFeatures);
+% numFeatures = 20;
+% [train, U, V] = pca_(train, numFeatures);
 
 %% Construct scatter matrices and calculate within-class and between class
 % covariance
@@ -92,6 +92,8 @@ cov_equal_each_class = {average_cov average_cov average_cov average_cov average_
 %     accuracy(n) = classifyNN(n,transf_test', transf_train', test{1,2}, train{1,2});
 % end
 [acc_test_comp acc_train_comp] = classify_comparison(k,5,mu_each_class, cov_equal_each_class, transf_test', test{1,2}, transf_train', train{1,2}); % 0.88 and 0.89 resp using just knn
+
+%% This part uses kNN in order to class after transformation
 [acc_test_5 acc_train_5] = classifyNN(k,5,mu_each_class, cov_each_class, transf_test', test{1,2}, transf_train', train{1,2}); % 0.88 and 0.89 resp using just knn
 [acc_test_5 acc_train_5] = classifyNN(k,5,mu_each_class, cov_equal_each_class, transf_test', test{1,2}, transf_train', train{1,2}); % 0.87 and 0.88 resp using just knn
 [acc_test_5_p acc_train_5_p] = classifyNN_pure(5,transf_test', transf_train', test{1,2}, train{1,2});
@@ -131,7 +133,7 @@ for i = 1:size(transf_test,1)
    end
 end
 acc = count/size(transf_test,1) % 0.8639
-% we get a similar result as our method
+% we get a similar result as our methodp
 
 
 

@@ -5,7 +5,7 @@ Our classification success criterion is the extent to which the error rate is mi
 LDA relies on the assumption of a normal distribution for each class. Linear discriminant analysis generally achieves good performance in the tasks of face and object recognition, even though the assumptions of common covariance matrix among groups and normality are often violated \cite{Li2006}.
 
 Since the MNIST and Yale datasets are high-dimensional, we cannot check the normality of individual pixels. Instead, we reduce the dimensions via orthogonal projection.
-To do this, we employ multiclass LDA, as we have several classes (10 for MNIST and 38 for Yale B.) The class separation in a direction $\pmb w$ in this case is given by the ratio \cite{wiki:LDA}.
+To do this, we employ multiclass LDA, as we have several classes (10 for MNIST and 38 for Yale B.) The class separation in a direction $\pmb w$ in this case is given by the ratio \cite{wiki:LDA}}
 %
 \begin{equation}
   S = \frac{\pmb w^T \Sigma_b \pmb w}{\pmb w \Sigma \pmb w}  
@@ -57,4 +57,23 @@ The steps that we follow in our LDA algorithm are as follows.
 
 \subsubsection{Helpful Functions}
 
-To accomplish the above pseudo code, we used own created functions. After we do steps 1-7, there is a function \code{classify\_comparison} which applies discriminant function in order to classify the test data. I also tried to calculate if I get good results using the distances from the centers of each classes, although it did not work very well on MNIST dataset it does perform well with Extended Yale datasets.
+h the above pseudo code, we used own created functions. After we do steps 1-7, there is a function \code{classify_comparison} which applies discriminant function in order to classify the test data. I also tried to calculate if I get good results using the distances from the centers of each classes using \code{classify_from_centroid}, although it did not work very well on MNIST dataset it does perform well with Extended Yale datasets.
+
+\subsubsection{Derivation of discriminant function}
+We classify the data point as being in class $\pmb i$ if
+\(P(\pmb x|i) P(i) > P(\pmb x|j) P(j)\), for $\forall j\neq i$. 
+Assuming all covariances are equal $\Sigma = \Sigma_i = \Sigma_j$ and they follow a Multivariate Normal distribution formula $P(\pmb x| i) = \dfrac{1}{(2 \pi)^{n/2} |\Sigma_i|^{1/2} exp(-\frac{1}{2} (\pmb x - \pmb \mu_i)^T \Sigma_i^{-1} (\pmb x - \pmb \mu_i) ) $ the above condition becomes
+
+\(\dfrac{P(i)}{(2 \pi)^{n/2} |\Sigma_i|^{1/2} exp(-\frac{1}{2} (\pmb x - \pmb \mu_i)^T \Sigma^{-1} (\pmb x - \pmb \mu_i) ) > \dfrac{P(j)}{(2 \pi)^{n/2} |\Sigma|^{1/2} exp(-\frac{1}{2} (\pmb x - \pmb \mu_j)^T \Sigma^{-1} (\pmb x - \pmb \mu_j) )\) 
+		Taking the logarithm of both sides we get 
+		\(ln(|\Sigma|) - 2 ln(P(i)) + (\pmb x - \pmb \mu_i)^T \Sigma^{-1} (\pmb x - \pmb \mu_i) < ln(|\Sigma|) - 2 ln(P(j)) + (\pmb x - \pmb \mu_j)^T \Sigma^{-1} (\pmb x - \pmb \mu_j)\)
+		After some algebraic manipulation, we have 
+		\(
+		ln(P(i)) + \pmb \mu_i \Sigma^{-1} \pmb x^T - \frac{1}{2} \pmb \mu_i \Sigma^{-1} \pmb \mu_i^T > ln(P(j)) + \pmb \mu_j \Sigma^{-1} \pmb x^T - \frac{1}{2} \pmb \mu_j \Sigma^{-1} \pmb \mu_j^T    
+		\)
+		Let $f_i =  \pmb \mu_i \Sigma^{-1} \pmb x^T - \frac{1}{2} \pmb \mu_i \Sigma^{-1} \pmb \mu_i^T + ln(P(i))$, then we can write 
+		\(
+		f_i > f_j, \forall j\neq i
+		\)
+
+
