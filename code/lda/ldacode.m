@@ -32,7 +32,11 @@ k = 10; % number of classes
 %}
 
 [train, test] = loadMNIST(N_tr);
-% Construct scatter matrices and calculate within-class and between class
+%% use PCA to see the results
+numFeatures = 20;
+[train, U, V] = pca_(train, numFeatures);
+
+%% Construct scatter matrices and calculate within-class and between class
 % covariance
 mu = mean(train{1,1}, 2);
 num_variables = size(train{1,1},1);
