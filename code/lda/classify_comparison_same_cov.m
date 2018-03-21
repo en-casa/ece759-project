@@ -20,12 +20,12 @@ train_size = size(train_data, 2);
 train_N = size(train_data,2);
 test_N = size(test_data, 2);
 counter = zeros(test_N, 1);
+C_inv = inv(covariance);
 % performance on test data
 parfor test_n = 1:test_N
     test_vector = test_data(:, test_n);
     f = zeros(total_classes,1);
     for i = 1:total_classes
-        C_inv = inv(covariance);
         f(i,1) = mean_vector(:,i)'*C_inv*test_vector - (1/2)*mean_vector(:,i)'*C_inv*mean_vector(:,i) + log(1/total_classes);
     end
     a = find(f == max(f)) - 1;
@@ -41,7 +41,6 @@ parfor test_n = 1:train_N
     test_vector = train_data(:, test_n);
     f = zeros(total_classes,1);
     for i = 1:total_classes
-        C_inv = inv(covariance);
         f(i,1) = mean_vector(:,i)'*C_inv*test_vector - (1/2)*mean_vector(:,i)'*C_inv*mean_vector(:,i)+ log(1/total_classes);
     end
     a = find(f == max(f)) - 1;
