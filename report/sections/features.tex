@@ -1,6 +1,6 @@
 \subsection{Decision Tree  and Extra-Tree Feature Generation}
 
-In working with the decision trees, we utilized dimensionality reduction techniques including linear discriminant analysis (LDA) and principle components analysis (PCA) for training and testing classical decision trees, which pass over all features to consider which decision nodes to generate. 
+In working with the decision trees, we utilized dimensionality reduction techniques including linear discriminant analysis (LDA) and principle components analysis (PCA) for training and testing classical decision trees, which pass over all features to consider which decision nodes to generate. This improved the computational requirements of the algorithm, as features in lower dimensions require less processing to distinguish.
 
 LDA reduces data with $K$ classes in large dimensions (on the order of the number of pixels) to 
 $K$ dimensions which captures the most energy of the data. Implementing LDA as dimensionality reduction, MNIST and Extended YaleB datasets are reduced to 10 and 38 variables respectively (for each data point.) We then worked with this transformed data as the input to our decision tree classifier for training and testing.
@@ -25,4 +25,4 @@ LDA maximizes the class separability and can be represented visually as in the f
 	\centering\includegraphics[width=0.4\textwidth]{../images/lda}
 	\caption{LDA visualization \cite{images:ldapca}.}
 	\end{figure}
-The underlying concept of LDA is taking the eigenvectors of $ \dfrac{\Sigma_b}{\Sigma_w}$ where $\Sigma_w$ is within-class scatter matrix and $\Sigma_b$ is between-class scatter matrix. This division of matrices separates the classes away from one another. This is distinct from PCA, which is unsupervised, thereby only capturing the data in a minimum number of variables irrespective of class.
+        The underlying concept of LDA is taking the eigenvectors of $ \dfrac{\Sigma_b}{\Sigma_w}$ where $\Sigma_w$ is within-class scatter matrix and $\Sigma_b$ is between-class scatter matrix. This division of matrices separates the classes away from one another. This is distinct from PCA, which is unsupervised, thereby only capturing the data in a minimum number of variables irrespective of class. Please see Section (\ref{sec:lda}) for more information on LDA.
