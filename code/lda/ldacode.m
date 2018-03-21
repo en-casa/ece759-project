@@ -121,10 +121,28 @@ end
 
 accuracy1_train = classify_from_centroid(transf_train', train{1,2}, centroid);
 accuracy1 = classify_from_centroid(transf_test', test{1,2},centroid);
+%%
+CVO = cvpartition(train{1,2},'k',5);
+err = zeros(CVO.NumTestSets,1);
+
+
+%%
+load('fisheriris');
+CVO = cvpartition(species,'k',10);
+err = zeros(CVO.NumTestSets,1);
+for i = 1:CVO.NumTestSets
+    trIdx = CVO.training(i);
+    teIdx = CVO.test(i);
+    ytest = classify(meas(teIdx,:),meas(trIdx,:),...
+		 species(trIdx,:));
+    err(i) = sum(~strcmp(ytest,species(teIdx)));
+end
+cvErr = sum(err)/sum(CVO.TestSize);
+
 
 %% this is classification through matlab discriminant classification
 mdl = fitcdiscr(transf_train, train{1,2},'DiscrimType','linear'); % this one works since n>m in tansf_train
-mdl = fitcdiscr(train{1,1}', train{1,2},'DiscrimType','linear'); % error saying Predictor x1 has zero within-class variance.
+%mdl = fitcdiscr(train{1,1}', train{1,2},'DiscrimType','linear'); % error saying Predictor x1 has zero within-class variance.
 pred = predict(mdl, transf_test);
 count = 0;
 for i = 1:size(transf_test,1)
@@ -134,8 +152,36 @@ for i = 1:size(transf_test,1)
 end
 acc = count/size(transf_test,1) % 0.8639
 % we get a similar result as our methodp
-
-
+% Lets try the same thing in decision tree
+mdl_tree = fitctree(transf_train, train{1,2});
+pred = predict(mdl_tree, transf_test);
+count = 0;
+for i = 1:size(transf_test,1)
+   if pred(i) ==  test{1,2}(i);
+       count = count + 1;
+   end
+end
+acc_tree = count/size(transf_test,1)
+% this result is from pca 
+mdl_tree_pca = fitctree(train{3}, train{2});
+pred = predict(mdl_tree_pca, test{3});
+count = 0;
+for i = 1:size(test{2},1)
+   if pred(i) ==  test{2}(i);
+       count = count + 1;
+   end
+end
+acc_tree_pca = count/size(test{2},1)
+% with pure data
+mdl_tree_pca = fitctree(train{1}', train{2});
+pred = predict(mdl_tree_pca, test{1}');
+count = 0;
+for i = 1:size(test{2},1)
+   if pred(i) ==  test{2}(i);
+       count = count + 1;
+   end
+end
+acc_tree_pca = count/size(test{2},1)
 
 
 

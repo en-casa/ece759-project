@@ -23,7 +23,7 @@ fprintf('begin Yale B decision tree script\n');
 
 % hyper-parameters
 % for feature selection
-usePCA = false;
+usePCA = true;
 if usePCA
 	N_tr = 2414/2; % training samples
 	N_te = N_tr; % test samples
