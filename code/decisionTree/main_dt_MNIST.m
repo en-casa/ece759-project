@@ -9,8 +9,6 @@ ECE 759 Project
 this script orchestrates the training and testing of
 the decision tree classifier
 
-features are generated using principal compenent analysis
-
 %}
 
 clear; close all;
