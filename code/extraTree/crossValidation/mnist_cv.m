@@ -29,7 +29,7 @@ N_tr = N - N_te;
 
 % for decision tree
 minLeaf = 5;
-numTreess = [100 500 1000]; % ensemble for majority voting
+numTreess = [10 50 100]; % ensemble for majority voting
 
 % partition data
 [train, test] = loadMNIST(N_tr);

@@ -43,8 +43,25 @@ The results of our cross validation are represented in the table below. The erro
   \caption{Average classification errors achieved with LDA, Decision Trees, and Extra-Trees after Cross Validation.}
 \end{table}
 
+\subsection{Hyperparameter Optimization}
 
+\subsubsection{Decision Trees}
 
+The figures below represent the accuracy and time performance of our decision tree algorithm on MNIST and Yale B after averaging with cross validation. Using cross validation allows us to generalize the effects of our changing hyperparameter, \code{minLeaf}, which is a value that defines the minimum number of samples required to make a leaf node in the tree. As soon as the set is split to a level below \code{minLeaf}, a class label is applied as the mode of the samples in the set.
+%
+\begin{figure}[H]
+  \centering\includegraphics[width=0.6\columnwidth]{../images/cv_dt_mnist}
+  \caption{Cross Validated Decision Tree Hyperparameter Results on MNIST.}
+\end{figure}
+
+Note that the timing results for MNIST have high variability. This is because we ran our tests on a shared server that was at high occupancy. In this way, the larger complexity of training our decision trees on MNIST was impacted by the other users. On our local computers, the decision tree was training in about 4 minutes, with a clear correlation between \code{minLeaf} and the time it took to complete. This process is evinced in the figure for the Yale B dataset, which was smaller and thus interrupted less on the server.
+%
+\begin{figure}[H]
+  \centering\includegraphics[width=0.6\columnwidth]{../images/cv_dt_yaleb}
+  \caption{Cross Validated Decision Tree Hyperparameter Results on Yale B.}
+\end{figure}
+
+\subsubsection{Extra Trees}
 
 %%%%%%%%%%
 %%%%%%%%%%

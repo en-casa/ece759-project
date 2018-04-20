@@ -43,8 +43,8 @@ all = {[train{1}, test{1}],[train{2}; test{2}]};
 
 %% k-fold cross validation across minLeaf
 
-trainTimes = zeros(minLeaves(end), k);
-errorRates = zeros(minLeaves(end), k);
+trainTimes = zeros(length(minLeaves), k);
+errorRates = zeros(length(minLeaves), k);
 
 for minLeaf = minLeaves
 	
