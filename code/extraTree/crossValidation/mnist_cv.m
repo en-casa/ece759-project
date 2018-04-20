@@ -18,13 +18,13 @@ features are generated using lda, as they yield the best performance
 clear; close all;
 addpath('utility', 'YaleB', 'YaleB/data', 'extraTree');
 
-fprintf('begin Cross Validation on Yale B extra-trees\n');
+fprintf('begin Cross Validation on MNIST extra-trees\n');
 
 % hyper-parameters
 k = 5; % k-fold cross validation
 % use k to partition data
-N = 2414;
-N_te = floor(N/k);
+N = 70e3;
+N_te = N/k;
 N_tr = N - N_te;
 
 % for decision tree
@@ -32,7 +32,7 @@ minLeaf = 5;
 numTreess = [100 500 1000]; % ensemble for majority voting
 
 % partition data
-[train, test] = loadYaleB(N_tr);
+[train, test] = loadMNIST(N_tr);
 
 % features are the raw pixels, so we reorder the cell
 train = {train{2}, train{1}};
@@ -93,7 +93,7 @@ for numTrees = numTreess
 end
 
 %% save, print results
-filename = 'extraTree/crossValidation/cv_yaleb_et.mat';
+filename = 'extraTree/crossValidation/cv_mnist_et.mat';
 save(filename, 'errorRates', 'trainTimes');
 
-fprintf('end Cross Validation on Yale B extra-trees\n');
+fprintf('end Cross Validation on MNIST extra-trees\n');

@@ -19,11 +19,12 @@ addpath('utility', 'YaleB', 'YaleB/data');
 fprintf('begin Yale B extra tree script\n');
 
 % hyper-parameters
+N = 2414;
 N_tr = 2000; % training samples
-N_te = 2414 - N_tr; % test samples
+N_te = N - N_tr; % test samples
 
 % for extra tree
-minLeaf = 50; % to prevent overfitting
+minLeaf = 5; % to prevent overfitting
 numTrees = 100; % ensemble for majority voting
 
 %seed = 152039828;

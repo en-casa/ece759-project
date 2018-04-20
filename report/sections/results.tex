@@ -26,6 +26,25 @@ In an effort to justify our choice of hyperparameters and examine the capability
   \caption{4-fold cross validation on a dataset.}
 \end{figure}
  
+The results of our cross validation are represented in the table below. The error rates are averaged over the 5 folds.
+\begin{table}[H]
+  \centering
+  \begin{tabular}{||c | c | c||} 
+    \hline
+    Algorithm & MNIST & Yale B \\
+    \hline\hline
+    LDA & \%  & \% \\ 
+    \hline
+    Decision Tree & \% & \% \\ 
+    \hline
+    Extra-Trees & \% (100 extra-trees) & \% (100 extra-trees) \\
+    \hline
+  \end{tabular}
+  \caption{Average classification errors achieved with LDA, Decision Trees, and Extra-Trees after Cross Validation.}
+\end{table}
+
+
+
 
 %%%%%%%%%%
 %%%%%%%%%%

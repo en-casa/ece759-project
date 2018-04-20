@@ -13,52 +13,53 @@ the decision tree classifier
 
 function [errorRate] = demonstration_et_MNIST()
 
-	addpath('utility', 'MNIST', 'MNIST/data', 'MNIST/loadMNIST', 'lda', ...
-		'decisionTree');
+	addpath('utility', 'MNIST', 'MNIST/data', 'MNIST/loadMNIST', ...
+		'extraTree');
 
-	fprintf('begin MNIST decision tree demonstration\n');
+	fprintf('begin MNIST extra tree demonstration\n');
 
 	% hyper-parameters
+	N = 70e3;
 	N_tr = 35e3; % training samples
 	N_te = 35e3; % test samples
 
-	% for feature selection
-	numFeatures = 10;
-
 	% for decision tree
 	minLeaf = 1; % to prevent overfitting
-
+	numTrees = 100; % ensemble for majority voting
+	
 	% partition data
-	% MNIST contains 70k examples
 	[train, test] = loadMNIST(N_tr);
 
-	%% dimensionality reduction / feature generation
-	% via linear discriminant analysis (lda)
-	st = cputime;
+	% features are the raw pixels, so we reorder the cell
+	train = {train{2}, train{1}};
+	test = {test{2}, test{1}};
 	
-	[train, test] = lda_features(train, test, 0:numFeatures-1);
-
-	fprintf('Features Generated in %4.2f minutes\n', (cputime - st)/60);
-
 	%% train
 	st = cputime;
 
-	tree = trainDecisionTree({train{2:3}}, minLeaf);
+	% create an ensemble of random trees
+	trees = cell(numTrees, 1);
+	for tree = 1:numTrees
+
+		fprintf('tree: %d\n', tree);
+		trees{tree} = trainExtraTree(train, minLeaf);
+
+	end
 
 	fprintf('Trained in %4.2f minutes\n',(cputime - st)/60);
 
 	%% test
 	st = cputime;
 
-	test = testDecisionTree(test, tree);
+	test = testExtraTree(test, trees);
 
 	fprintf('Tested in %4.2f minutes\n', (cputime - st)/60);
 
 	% Classification Error
-	errors = nnz(test{2}(:,1) ~= test{2}(:,2));
+	errors = nnz(test{1}(:,1) ~= test{1}(:,2));
 	errorRate = (errors/N_te)*100;
 
-	fprintf('\nnumFeatures: %d, minLeaf: %d, error rate: %2.2f\n', ...
-		numFeatures, minLeaf, errorRate);
+	fprintf('\nnumTrees: %d, minLeaf: %d, error rate: %2.2f\n', ...
+		numTrees, minLeaf, errorRate);
 	
 end
