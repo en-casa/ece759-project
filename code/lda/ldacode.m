@@ -91,7 +91,8 @@ cov_equal_each_class = {average_cov average_cov average_cov average_cov average_
 % % we apply Nearest neigbors in order to find which class it belongs
 %     accuracy(n) = classifyNN(n,transf_test', transf_train', test{1,2}, train{1,2});
 % end
-[acc_test acc_train] = classify_comparison_same_cov(k,5,mu_each_class, average_cov, transf_test', test{1,2}, transf_train', train{1,2}); % 0.88 and 0.89 resp using just knn
+[acc_test acc_train] = classify_comparison_same_cov(k,5,mu_each_class, cov_each_class, average_cov, ...
+transf_test', test{1,2}, transf_train', train{1,2}); % 0.88 and 0.89 resp using just knn
 %[acc_test_comp acc_train_comp] = classify_comparison(k,5,mu_each_class, cov_equal_each_class, transf_test', test{1,2}, transf_train', train{1,2}); % 0.88 and 0.89 resp using just knn
 
 %% This part uses kNN in order to class after transformation
