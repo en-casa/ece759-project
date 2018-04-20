@@ -36,14 +36,16 @@ outputs:
 %}
 
 function tree = trainDecisionTree(set, minLeaf)
-
+	
+	debug = false; % for ?printf statements
+	
 	% Check for base cases
 	% 1. no more features to split on
 	% this condition is rare
 	if (isempty(set{2}))
 		% return the single node tree root with label
 		% = mode label of set
-		fprintf('    no more features to split on\n');
+		if (debug) fprintf('    no more features to split on\n'); end
 		tree = {'leaf', mode(set{1})};
 		return
 	end
@@ -51,7 +53,7 @@ function tree = trainDecisionTree(set, minLeaf)
 	% 2. set is smaller than minLeaf
 	% this should reduce overfitting
 	if length(set{1}) < minLeaf
-		fprintf('    set is smaller than minLeaf\n');
+		if (debug) fprintf('    set is smaller than minLeaf\n'); end
 		tree = {'leaf', mode(set{1})};
 		return
 	end
@@ -60,7 +62,7 @@ function tree = trainDecisionTree(set, minLeaf)
 	thisSetEntropy = getEntropy(set);
 	if (~thisSetEntropy)
 		% create leaf node for decision tree to choose that class
-		fprintf('    all samples in same class\n');
+		if (debug) fprintf('    all samples in same class\n'); end
 		tree = {'leaf', set{1}(1)};
 		return
 	end
@@ -109,8 +111,8 @@ function tree = trainDecisionTree(set, minLeaf)
 			rightInfoGain = thisSetEntropy - getSplitEntropy(set, att, rightInd);
 
 			if length(set{1}) > 5000
-				fprintf('a: %d, l: %d, %1.5f, m: %d, %1.5f, r: %d, %1.5f\n', ...
-					att, leftInd, leftInfoGain, midInd, midInfoGain, rightInd, rightInfoGain);
+				if(debug) fprintf('a: %d, l: %d, %1.5f, m: %d, %1.5f, r: %d, %1.5f\n', ...
+					att, leftInd, leftInfoGain, midInd, midInfoGain, rightInd, rightInfoGain); end
 			end
 			
 			if (leftInfoGain > midInfoGain)
@@ -171,7 +173,7 @@ function tree = trainDecisionTree(set, minLeaf)
 	end
 	
 	if (~infoGainBest || ~attributeBest)
-		fprintf('    couldn''t find attribute to split on\n');
+		if (debug) fprintf('    couldn''t find attribute to split on\n'); end
 		% return the single node tree root with label
 		% = mode label of set
 		tree = {'leaf', mode(set{1})};

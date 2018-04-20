@@ -17,6 +17,22 @@ The table below illustrates the lowest classification errors we were able to ach
   \caption{Lowest classification errors achieved with LDA, Decision Trees, and Extra-Trees.}
 \end{table}
 
+\subsection{Cross Validation}
+
+In an effort to justify our choice of hyperparameters and examine the capability of our classifiers irrespective of training and test sets, we performed a 5-fold cross validation across the tuning parameters in each algorithm. For decision and extra trees, this consists of \code{minLeaf}. In $k$-fold cross validation, the classifier is trained $k$ times on different subsets, ensuring that each sample of the dataset is used only once for validation. The figure below illustrates this process. 
+%
+\begin{figure}[H]
+  \centering\includegraphics[width=0.6\columnwidth]{../images/K-fold_cross_validation_EN}
+  \caption{4-fold cross validation on a dataset.}
+\end{figure}
+ 
+
+%%%%%%%%%%
+%%%%%%%%%%
+%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% old
+\iffalse
 \subsection{Preliminary Hyperparameter Optimization}
 
 \subsubsection{Decision Trees}
@@ -50,3 +66,5 @@ The training configurations were primarily modifications to the algorithm's sear
 \item If the number of features left in a set was greater than 5, we considered only the first 5. Otherwise, we considered all features left. 
 \item For configurations 1-3, we utilized features generated via PCA. For this experiment, we utilized features generated with LDA. This yielded our best performance.
 \end{enumerate}
+
+\fi

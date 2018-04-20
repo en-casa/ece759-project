@@ -2,8 +2,8 @@
 
 n casale
 Kudiyar (Cody) Orazymbetov
-ece 759 project part 1
-18/03/16
+ece 759 project part 2
+18/04/20
 
 \fi
 
@@ -24,7 +24,7 @@ ece 759 project part 1
 \usepackage{matlab-prettifier}
 \lstset{style=Matlab-editor}
 
-\newcommand{\theassignment}{Project Part 1}
+\newcommand{\theassignment}{Project Part 2}
 \newcommand{\thecourse}{Pattern Recognition\\ECE 759}
 
 \begin{document}
@@ -60,6 +60,9 @@ ece 759 project part 1
 \section{Test Results}
 	\subfile{sections/results}
 
+\section{Analysis}
+	\subfile{sections/analysis}
+
 \section{Conclusion}
 	\subfile{sections/conclusion}
 
@@ -69,11 +72,13 @@ ece 759 project part 1
 
 \section{Code Listings}
 
-Below are the primary scripts that execute the project. Please see the
-\code{code} folder for supporting functions.
+Below are some of the primary scripts that execute the project. Please see the
+\code{code} folder for supporting functions and scripts.
 
-\lstinputlisting[caption=Main Code for Decision Tree on MNIST]{../code/decisionTree/main_dt_MNIST.m}
-\lstinputlisting[caption=Main Code for Extra-Trees on Yale B]{../code/extraTree/main_et_YaleB.m}
+\lstinputlisting[caption=Demonstration Code for Decision Tree on MNIST]{../code/demonstration_dt_MNIST.m}
+\lstinputlisting[caption=Demonstration Code for Extra-Trees on Yale B]{../code/demonstration_et_YaleB.m}
+\lstinputlisting[caption=Cross Validation Code for Decision Tree on MNIST]{../code/decisionTree/crossValidation/MNIST_cv.m}
+%\lstinputlisting[caption=Cross Validation Code for Extra-Trees on Yale B]{../code/extraTree/crossValidation/YaleB_cv.m}
 \lstinputlisting[caption=Main Code for LDA on MNIST]{../code/lda/ldacode.m}
 \lstinputlisting[caption=Main Code for LDA on Yale B]{../code/lda/lda_YaleB.m}
 

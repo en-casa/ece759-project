@@ -11,9 +11,10 @@ the decision tree classifier
 
 %}
 
-function [errorRate, minLeaf] = demonstration_dt_MNIST()
+function [errorRate] = demonstration_dt_MNIST()
 
-	addpath('utility', 'MNIST', 'MNIST/data', 'MNIST/loadMNIST', 'lda');
+	addpath('utility', 'MNIST', 'MNIST/data', 'MNIST/loadMNIST', 'lda', ...
+		'decisionTree');
 
 	fprintf('begin MNIST decision tree demonstration\n');
 
@@ -32,7 +33,7 @@ function [errorRate, minLeaf] = demonstration_dt_MNIST()
 	[train, test] = loadMNIST(N_tr);
 
 	%% dimensionality reduction / feature generation
-	% via prinicpal component analysis (pca) (svd)
+	% via linear discriminant analysis (lda)
 	st = cputime;
 	
 	[train, test] = lda_features(train, test, 0:numFeatures-1);
@@ -57,7 +58,7 @@ function [errorRate, minLeaf] = demonstration_dt_MNIST()
 	errors = nnz(test{2}(:,1) ~= test{2}(:,2));
 	errorRate = (errors/N_te)*100;
 
-	fprintf('numFeatures: %d, minLeaf: %d, error rate: %2.2f\n', ...
+	fprintf('\nnumFeatures: %d, minLeaf: %d, error rate: %2.2f\n', ...
 		numFeatures, minLeaf, errorRate);
 	
 end

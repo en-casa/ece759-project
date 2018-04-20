@@ -16,27 +16,26 @@ features are generated using lda, as they yield the best performance
 %}
 
 clear; close all;
-addpath('utility', 'MNIST', 'MNIST/data', 'MNIST/loadMNIST', 'lda', ...
-	'decisionTree');
+addpath('utility', 'YaleB', 'YaleB/data', 'decisionTree');
 
-fprintf('begin Cross Validation on MNIST decision trees\n');
+fprintf('begin Cross Validation on Yale B decision trees\n');
 
 % hyper-parameters
 k = 5; % k-fold cross validation
 % use k to partition data
-N_te = 70e3/k;
-N_tr = 70e3 - N_te;
+N = 2414;
+N_te = floor(N/k);
+N_tr = N - N_te;
 
 % for lda
-numFeatures = 10;
+numFeatures = 38;
 
 % for decision tree
 minLeaves = 0:10:100;
 minLeaves(1) = 1;
 
 % partition data
-% MNIST contains 70k examples
-[train, test] = loadMNIST(N_tr);
+[train, test] = loadYaleB(N_tr);
 
 % merge sets, they're already randomly shuffled
 all = {[train{1}, test{1}],[train{2}; test{2}]};
@@ -56,15 +55,15 @@ for minLeaf = minLeaves
 	for fold = 1:k
 		
 		% choose fold
-		inds_bool = false(70e3,1);
+		inds_bool = false(N,1);
 		ind_start = (fold-1)*N_te + 1;
-		inds_bool(ind_start:ind_start+N_te-1) = 1;
+		inds_bool(ind_start:ind_start + N_te - 1) = 1;
 		
 		test = {all{1}(:,inds_bool), all{2}(inds_bool)};
 		train = {all{1}(:,~inds_bool), all{2}(~inds_bool)};
 		
 		% dimensionality reduction / feature generation
-		[train, test] = lda_features(train, test, 0:numFeatures-1);
+		[train, test] = lda_features(train, test, 1:numFeatures);
 		
 		% train
 		st = cputime;
