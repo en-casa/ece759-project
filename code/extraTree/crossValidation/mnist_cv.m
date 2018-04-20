@@ -16,7 +16,8 @@ features are generated using lda, as they yield the best performance
 %}
 
 clear; close all;
-addpath('utility', 'YaleB', 'YaleB/data', 'extraTree');
+addpath('utility', 'MNIST', 'MNIST/data', 'MNIST/loadMNIST', 'lda', ...
+	'extraTree');
 
 fprintf('begin Cross Validation on MNIST extra-trees\n');
 
