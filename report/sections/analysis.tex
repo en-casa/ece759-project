@@ -1,8 +1,41 @@
 \subsection{Decision Trees}
+\subsubsection{Advantages of Decision Trees}
 
+Some advantages of decision trees include \cite{scikit:decisiontrees}.
+%
+\begin{enumerate}
+\item Ability to handle both quantitative and qualitative data.
+\item Easily represented in a graph form. The classifier is not a black box and can be fully understood.
+\item Well suited to large data sets.
+\end{enumerate}
 
+\subsubsection{Disadvantages of Decision Trees}
+
+Some disadvantages of decision trees include \cite{scikit:decisiontrees}.
+%
+\begin{enumerate}
+\item High computational complexity in our implementation. 
+\item Decision trees can become too complex if limits aren't placed on their growth. This can lead to overfitting.
+\item Single decision trees are sensitive to data order and variations in data.
+\item Decision trees are susceptible to favoring the class mode of the dataset.
+\end{enumerate}
+
+\subsubsection{Improving Decision Trees}
+
+Much of the drawbacks of using decision trees can be mitigated by ensemble methods such as boosting, bagging, and random forests. These utilize stochastic factors that improve the classification power of a single, thorough decision tree by training many poorer decision trees that then vote on a classification. The majority vote is then chosen for the class label in testing. Randomized decision trees train much faster than a classical decision tree, and our experiments show that they yield an improvement in accuracy, as well.
 
 \subsection{Extra Trees}
+\subsubsection{Advantages of Extra Trees}
+
+Extra trees have nearly the same advantages as decision trees. Though, due to the ensemble of randomly assigned splitting criteria, extra trees have less ``reasonability'' with respect to their decision making. The entirety of each tree is available, so they still are not black boxes, but their decision making is without any particular method. Additionally, the computational complexity of extra trees is less than that of classical decision trees. Though, taking the majority vote of all the decision trees introduces a logarithmic complexity on the order of the number of extra-trees employed. 
+
+Additionally, extra trees need no feature generation to be trained, they can run on the raw pixel data. Additionally, their training is less dependent on the size of the dataset and number of features it carries.
+
+\subsubsection{Disadvantages of Extra Trees}
+
+Like classical decision trees, extra trees can also become too complex if limits aren't placed on their growth. Likewise, they may favor the class mode of the dataset. 
+
+\subsubsection{Improving Extra Trees}
 
 
 

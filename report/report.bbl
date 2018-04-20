@@ -1,0 +1,47 @@
+\begin{thebibliography}{1}
+
+\bibitem{images:ldapca}
+Sebastian Raschka.
+\newblock What is the difference between lda and pca for dimensionality
+  reduction?, 2018.
+\newblock [Online; accessed 2018-03-14].
+
+\bibitem{lecun-mnisthandwrittendigit-2010}
+Yann LeCun and Corinna Cortes.
+\newblock {MNIST} handwritten digit database.
+\newblock 2010.
+
+\bibitem{wiki:id3}
+Wikipedia contributors.
+\newblock Id3 algorithm --- wikipedia{,} the free encyclopedia, 2017.
+\newblock [Online; accessed 14-March-2018].
+
+\bibitem{wiki:c45}
+Wikipedia contributors.
+\newblock C4.5 algorithm --- wikipedia{,} the free encyclopedia, 2018.
+\newblock [Online; accessed 14-March-2018].
+
+\bibitem{wiki:IG}
+Wikipedia contributors.
+\newblock Information gain in decision trees --- wikipedia{,} the free
+  encyclopedia, 2017.
+\newblock [Online; accessed 15-March-2018].
+
+\bibitem{Li2006}
+Tao Li, Shenghuo Zhu, and Mitsunori Ogihara.
+\newblock Using discriminant analysis for multi-class classification: an
+  experimental investigation.
+\newblock {\em Knowledge and Information Systems}, 10(4):453--472, Nov 2006.
+
+\bibitem{wiki:LDA}
+Wikipedia contributors.
+\newblock Linear discriminant analysis --- wikipedia{,} the free encyclopedia,
+  2017.
+\newblock [Online; accessed 15-March-2018].
+
+\bibitem{scikit:decisiontrees}
+Scikit Learn.
+\newblock Scikit documentation - decision trees, 2018.
+\newblock [Online; accessed 2018-04-19].
+
+\end{thebibliography}

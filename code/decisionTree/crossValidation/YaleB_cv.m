@@ -16,7 +16,7 @@ features are generated using lda, as they yield the best performance
 %}
 
 clear; close all;
-addpath('utility', 'YaleB', 'YaleB/data', 'decisionTree');
+addpath('utility', 'YaleB', 'YaleB/data', 'decisionTree', 'lda');
 
 fprintf('begin Cross Validation on Yale B decision trees\n');
 
@@ -31,7 +31,7 @@ N_tr = N - N_te;
 numFeatures = 38;
 
 % for decision tree
-minLeaves = 0:10:100;
+minLeaves = 0:30:300;
 minLeaves(1) = 1;
 
 % partition data
@@ -42,8 +42,8 @@ all = {[train{1}, test{1}],[train{2}; test{2}]};
 
 %% k-fold cross validation across minLeaf
 
-trainTimes = zeros(minLeaves(end), k);
-errorRates = zeros(minLeaves(end), k);
+trainTimes = zeros(length(minLeaves), k);
+errorRates = zeros(length(minLeaves), k);
 
 for minLeaf = minLeaves
 	
@@ -70,7 +70,7 @@ for minLeaf = minLeaves
 		tree = trainDecisionTree({train{2:3}}, minLeaf);
 		thisTrainTime = (cputime - st)/60;
 		fprintf('Trained in %4.2f minutes\n', thisTrainTime);
-		trainTimes(minLeaf, fold) = thisTrainTime;
+		trainTimes(minLeaves == minLeaf, fold) = thisTrainTime;
 		
 		% test
 		test = testDecisionTree(test, tree);
@@ -78,7 +78,7 @@ for minLeaf = minLeaves
 		% Classification Error
 		thisError = nnz(test{2}(:,1) ~= test{2}(:,2));
 		thisErrorRate = (thisError/N_te)*100;
-		errorRates(minLeaf, fold) = thisErrorRate;
+		errorRates(minLeaves == minLeaf, fold) = thisErrorRate;
 
 		fprintf('minLeaf: %d, fold: %d, error rate: %2.2f\n', ...
 			minLeaf, fold, thisErrorRate);
@@ -88,5 +88,7 @@ for minLeaf = minLeaves
 end
 
 %% save, print results
-%filename = sprintf('UV%2.0f.mat', errorRate);
-%save(filename, 'U', 'V', '-v7.3');
+filename = 'decisionTree/crossValidation/cv_yaleb_dt.mat';
+save(filename, 'errorRates', 'trainTimes');
+
+fprintf('end Cross Validation on Yale B decision trees\n');

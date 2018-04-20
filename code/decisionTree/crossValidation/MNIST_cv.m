@@ -31,7 +31,7 @@ N_tr = 70e3 - N_te;
 numFeatures = 10;
 
 % for decision tree
-minLeaves = 0:10:100;
+minLeaves = 0:50:500;
 minLeaves(1) = 1;
 
 % partition data
@@ -71,7 +71,7 @@ for minLeaf = minLeaves
 		tree = trainDecisionTree({train{2:3}}, minLeaf);
 		thisTrainTime = (cputime - st)/60;
 		fprintf('Trained in %4.2f minutes\n', thisTrainTime);
-		trainTimes(minLeaf, fold) = thisTrainTime;
+		trainTimes(minLeaves == minLeaf, fold) = thisTrainTime;
 		
 		% test
 		test = testDecisionTree(test, tree);
@@ -79,7 +79,7 @@ for minLeaf = minLeaves
 		% Classification Error
 		thisError = nnz(test{2}(:,1) ~= test{2}(:,2));
 		thisErrorRate = (thisError/N_te)*100;
-		errorRates(minLeaf, fold) = thisErrorRate;
+		errorRates(minLeaves == minLeaf, fold) = thisErrorRate;
 
 		fprintf('minLeaf: %d, fold: %d, error rate: %2.2f\n', ...
 			minLeaf, fold, thisErrorRate);
@@ -89,5 +89,7 @@ for minLeaf = minLeaves
 end
 
 %% save, print results
-%filename = sprintf('UV%2.0f.mat', errorRate);
-%save(filename, 'U', 'V', '-v7.3');
+filename = 'decisionTree/crossValidation/cv_mnist_dt.mat';
+save(filename, 'errorRates', 'trainTimes');
+
+fprintf('end Cross Validation on MNIST decision trees\n');

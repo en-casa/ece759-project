@@ -23,14 +23,13 @@ N_tr = 2000; % training samples
 N_te = 2414 - N_tr; % test samples
 
 % for extra tree
-minLeaf = 5; % to prevent overfitting
+minLeaf = 50; % to prevent overfitting
 numTrees = 100; % ensemble for majority voting
 
 %seed = 152039828;
 %rng(seed); % for reproducibility
 
 % partition data
-% MNIST contains 70k examples
 [train, test] = loadYaleB(N_tr);
 
 % features are the raw pixels, so we reorder the cell
@@ -62,7 +61,7 @@ fprintf('Tested in %4.2f minutes\n', (cputime - st)/60);
 errors = nnz(test{1}(:,1) ~= test{1}(:,2));
 errorRate = (errors/N_te)*100;
 
-filename = sprintf('mnist_extratree%2.0f_%d.mat', errorRate, minLeaf);
+filename = sprintf('yaleb_et_%2.0f_%d.mat', errorRate, minLeaf);
 %save(filename, 'trees');
 
 fprintf('minLeaf: %d, error rate: %2.2f\n', ...
