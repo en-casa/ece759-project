@@ -27,6 +27,7 @@ plot(numTreess, avgTrainTimes, 'LineWidth', 2);
 ylabel('Training Time (minutes)');
 title('Extra-Trees Average Error and Training Time Across numTrees for 5-Fold CV on MNIST');
 prettyPictureFig(f);
+set(findall(gca,'type','text'),'FontSize',17,'fontWeight','bold')
 
 saveImage('cv_et_mnist');
 
@@ -48,5 +49,6 @@ plot(numTreess, avgTrainTimes, 'LineWidth', 2);
 ylabel('Training Time (minutes)');
 title('Extra-Trees Average Error and Training Time Across numTrees for 5-Fold CV on Yale B');
 prettyPictureFig(f);
+set(findall(gca,'type','text'),'FontSize',17,'fontWeight','bold')
 
 saveImage('cv_et_yaleb');

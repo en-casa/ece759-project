@@ -1,7 +1,7 @@
 \pagebreak
 \subsection{Extra-Trees}
 
-The relative inadequacy of decision trees in classifying the samples of MNIST and Yale B led us to explore other tree-like classifiers. The first alternative that we considered is called \emph{extra-trees}, which are ensembles of binary decision trees that are grown in a stochastic manner. In testing, these ensembles \emph{vote} on the class by propagating the test sample down each tree until a leaf is found. The mode of all the votes is assigned to the global class prediction. See Section (\ref{sec:results}) for the result of this experiment. 
+The relative inadequacy of decision trees in classifying the samples of MNIST and Yale B led us to explore other tree-like classifiers. The first alternative that we considered is called \emph{extra-trees}, which are ensembles of binary decision trees that are grown in a stochastic manner. In testing, these ensembles \emph{vote} on the class by propagating the test sample down each tree until a leaf is found. The mode of all the votes is assigned to the global class prediction. See Section (\ref{sec:bestresults}) for the result of this experiment. 
 
 Training extra-trees requires less computational and theoretical effort than classical decision trees. The reduced steps are certainly tangential to a basic decision tree, but incorporate less rigour. By utilizing the ensemble of trees, we can overcome the inaccuracies of a single random decision tree and make a strong prediction. 
 

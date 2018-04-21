@@ -24,6 +24,15 @@ ece 759 project part 2
 \usepackage{matlab-prettifier}
 \lstset{style=Matlab-editor}
 
+% for side by side figures
+\usepackage{subfig}
+
+% for \cref{.}
+\usepackage{cleveref}
+\crefformat{section}{\S#2#1#3} % see manual of cleveref, section 8.2.1
+\crefformat{subsection}{\S#2#1#3}
+\crefformat{subsubsection}{\S#2#1#3}
+
 \newcommand{\theassignment}{Project Part 2}
 \newcommand{\thecourse}{Pattern Recognition\\ECE 759}
 
@@ -34,17 +43,18 @@ ece 759 project part 2
 \rhead{korazym, ncasale}
 
 \makeFancyTitle
-
+\setcounter{tocdepth}{2}
 \tableofcontents
 \pagebreak
+\chead{} % for blank 2nd page center header
 \makeatletter
 \let\@starttoc\@multitoc@starttoc
 \listoffigures
 \listoftables
 \lstlistoflistings
 \makeatother
-
 \pagebreak
+\chead{\textcolor{Red}\thesection :\ \textcolor{Red}\leftmark}
 
 \section{Introduction} 
 	\subfile{sections/introduction}
@@ -60,7 +70,7 @@ ece 759 project part 2
 \section{Test Results}
 	\subfile{sections/results}
 
-\section{Analysis}
+\section{Analysis of Classifiers}
 	\subfile{sections/analysis}
 
 \section{Conclusion}
@@ -80,6 +90,6 @@ Below are some of the primary scripts that execute the project. Please see the
 \lstinputlisting[caption=Cross Validation Code for Decision Tree on MNIST]{../code/decisionTree/crossValidation/MNIST_cv.m}
 %\lstinputlisting[caption=Cross Validation Code for Extra-Trees on Yale B]{../code/extraTree/crossValidation/YaleB_cv.m}
 \lstinputlisting[caption=Main Code for LDA on MNIST]{../code/lda/ldacode.m}
-\lstinputlisting[caption=Main Code for LDA on Yale B]{../code/lda/lda_YaleB.m}
+%\lstinputlisting[caption=Main Code for LDA on Yale B]{../code/lda/lda_YaleB.m}
 
 \end{document}
