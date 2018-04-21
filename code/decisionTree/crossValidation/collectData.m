@@ -28,6 +28,7 @@ plot(minLeaves, avgTrainTimes, 'LineWidth', 2);
 ylabel('Training Time (minutes)');
 title('Decision Tree Average Error and Training Time Across minLeaf for 5-Fold CV on MNIST');
 prettyPictureFig(f);
+set(findall(gca,'type','text'),'FontSize',17,'fontWeight','bold')
 
 saveImage('cv_dt_mnist');
 
@@ -50,5 +51,6 @@ plot(minLeaves, avgTrainTimes, 'LineWidth', 2);
 ylabel('Training Time (minutes)');
 title('Decision Tree Average Error and Training Time Across minLeaf for 5-Fold CV on Yale B');
 prettyPictureFig(f);
+set(findall(gca,'type','text'),'FontSize',17,'fontWeight','bold')
 
 saveImage('cv_dt_yaleb');

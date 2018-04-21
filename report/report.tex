@@ -24,6 +24,9 @@ ece 759 project part 2
 \usepackage{matlab-prettifier}
 \lstset{style=Matlab-editor}
 
+% for side by side figures
+\usepackage{subfig}
+
 \newcommand{\theassignment}{Project Part 2}
 \newcommand{\thecourse}{Pattern Recognition\\ECE 759}
 
@@ -34,17 +37,18 @@ ece 759 project part 2
 \rhead{korazym, ncasale}
 
 \makeFancyTitle
-
+\setcounter{tocdepth}{2}
 \tableofcontents
 \pagebreak
+\chead{}
 \makeatletter
 \let\@starttoc\@multitoc@starttoc
 \listoffigures
 \listoftables
 \lstlistoflistings
 \makeatother
-
 \pagebreak
+\chead{\textcolor{Red}\thesection :\ \textcolor{Red}\leftmark}
 
 \section{Introduction} 
 	\subfile{sections/introduction}
