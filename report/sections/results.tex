@@ -34,7 +34,7 @@ The best results of our cross validation are represented in the table below. The
     \hline
     Algorithm & MNIST & Yale B \\
     \hline\hline
-    LDA & \%  & \% \\ 
+    LDA & 14.5\%  & 2.5\% \\ 
     \hline
     Decision Tree & 17.9\% & 74.9\% \\ 
     \hline
@@ -43,6 +43,7 @@ The best results of our cross validation are represented in the table below. The
   \end{tabular}
   \caption{Average classification errors achieved with LDA, Decision Trees, and Extra-Trees after Cross Validation.}
 \end{table}
+
 
 \subsection{Hyperparameter Optimization}
 
@@ -63,6 +64,22 @@ Note that the timing results for MNIST have high variability. This is because we
 \end{figure}
 
 \subsubsection{Extra Trees}
+
+\subsubsection{LDA}
+The error rate is decreased for 1\% due to increasing the size of sample from half to $\frac{4}{5}$ of total data. This is due to capturing more distortion in the images and thus getting slightly less performance. As our error rates do not diverge much from each other, the LDA model we used is stable. 
+\begin{figure}[H]
+	\centering\includegraphics[width=0.6\columnwidth]{../images/cr-err-mnist}
+	\caption{Cross Validated LDA Error Rates for MNIST.}
+\end{figure}
+
+We also get stable LDA model for Yale B. We increased our performance by increasing the sample size and tested on different validation sets. 
+\begin{figure}[H]
+	\centering\includegraphics[width=0.6\columnwidth]{../images/cr-err-yale}
+	\caption{Cross Validated LDA Error Rates for Yale B.}
+\end{figure}
+
+Since LDA depends only on mean vector and covariance matrice, there are no hyperparameters. We could look at the prior probabilities if that increases our result, but sticking to equal probabilities gives the better result and intuitive as each number appearance is equally likely. 
+
 
 %%%%%%%%%%
 %%%%%%%%%%

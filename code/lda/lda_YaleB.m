@@ -101,9 +101,52 @@ end
 average_cov = sum_cov/k;
 cov_equal_each_class = {average_cov average_cov average_cov average_cov average_cov average_cov average_cov average_cov average_cov average_cov average_cov average_cov average_cov average_cov average_cov average_cov average_cov average_cov average_cov average_cov average_cov average_cov average_cov average_cov average_cov average_cov average_cov average_cov average_cov average_cov average_cov average_cov average_cov average_cov average_cov average_cov average_cov average_cov};
 % to see how our model works
-[acc_test_comp acc_train_comp] = classify_comparison_same_cov(k,5,mu_each_class, average_cov, transf_test', test{1,2}, transf_train', train{1,2}); % 0.88 and 0.89 resp using just knn
+[acc_test_comp acc_train_comp] = classify_comparison_same_cov(k,5,mu_each_class, cov_each_class,average_cov, transf_test', test{1,2}, transf_train', train{1,2}); % 0.88 and 0.89 resp using just knn
 %[acc_test_comp acc_train_comp] = classify_comparison(k,5,mu_each_class, cov_equal_each_class, transf_test', test{1,2}, transf_train', train{1,2}); % 0.88 and 0.89 resp using just knn
 %%
+t0 = cputime;
+N_tr = 2414; % training samples
+N_te = 0; % test samples
+transf_matrix = U(:,1:(k-1));
+[train, test] = loadYaleB(N_tr);
+train{1,2} = train{1,2} - 1;
+test{1,2} = test{1,2} - 1;
+% transform the data
+transf_train = train{1,1}' * transf_matrix;
+N_cross_val = 5;
+CVO = cvpartition(train{1,2},'k',N_cross_val);
+err = zeros(CVO.NumTestSets,1);
+for j = 1:N_cross_val
+    ind = CVO.training(j);
+    train_cv = transf_train(ind,:); train_cv_label = train{1,2}(ind,:);
+    test_cv = transf_train(~ind,:); test_cv_label = train{1,2}(~ind);
+    mu_each_class = zeros(k-1, k);
+    sum_cov = zeros(k-1,k-1);
+    for i = 0:(k-1)
+        ind1 = find(train_cv_label == i);
+        X = train_cv(ind1, :);
+        mu_each_class(:, i+1) = mean(X, 1)';
+        sum_cov = sum_cov + cov(X);
+    end
+    E_cov = sum_cov/k;
+    [acc_cross_valid_test(j) acc_cross_valid_train(j)] = classify_comparison_same_cov(k,5,mu_each_class, ...
+        cov_each_class, E_cov, test_cv', test_cv_label, train_cv', train_cv_label);
+    err(j) = 1 - acc_cross_valid_train(j);
+end
+mean_acc_test = mean(acc_cross_valid_test);
+sd_test = sqrt(var(acc_cross_valid_test));
+mean_acc_train = mean(acc_cross_valid_train);
+sd_train = sqrt(var(acc_cross_valid_train));
+fprintf('Tested in %4.2f minutes\n', (cputime - t0)/60);
+f = instantiateFig(1);
+plot([1:5],err*100, 'r')
+prettyPictureFig(f);
+xlabel('5-fold cross validation');
+ylabel('Error rate');
+title('Error rate for Yale B');
+print('../../images/cr-err-yale', '-dpng');
+
+%% this is different cross-validation technique
 t0 = cputime;
 N_cross_val = 5;
 CVO = cvpartition(train{1,2},'k',N_cross_val);

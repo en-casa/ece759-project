@@ -29,19 +29,15 @@ Much of the drawbacks of using decision trees can be mitigated by ensemble metho
 
 Extra trees have nearly the same advantages as decision trees. Though, due to the ensemble of randomly assigned splitting criteria, extra trees have less ``reasonability'' with respect to their decision making. The entirety of each tree is available, so they still are not black boxes, but their decision making is without any particular method. Additionally, the computational complexity of extra trees is less than that of classical decision trees. Though, taking the majority vote of all the decision trees introduces a logarithmic complexity on the order of the number of extra-trees employed. 
 
-Additionally, extra trees need no feature generation to be trained, they can run on the raw pixel data. Additionally, their training is less dependent on the size of the dataset and number of features it carries; in this way, extra trees scale well with the number of data samples.
+Additionally, extra trees need no feature generation to be trained, they can run on the raw pixel data. Additionally, their training is less dependent on the size of the dataset and number of features it carries.
 
 \subsubsection{Disadvantages of Extra Trees}
 
 Like classical decision trees, extra trees can also become too complex if limits aren't placed on their growth. Likewise, they may favor the class mode of the dataset. 
 
-Additionally, compared to classical decision trees, extra-trees require more work to label data, as the test sample must pass through every tree to obtain a vote. Then all of the votes are aggregated into an estimate. This means utilizing the classifier can be costly as the number of trees increases.
-
 \subsubsection{Improving Extra Trees}
 
-A possible improvement on extra-trees is to utilize a sub-window technique to split each sample into subframes that are associated with the original class. This serves to augment the dataset and may be particularly useful in cases where there are a lack of samples available. 
 
-In testing the data, a parallel computation can be utilized as each classifer votes independently of the others. In this way, the computational burden of testing the classifier can be reduced.
 
 \subsection{LDA}
 \subsubsection{Advantages of LDA}
@@ -67,6 +63,6 @@ Some disadvantages of LDA include \cite{notes:dislda}.
 
 \begin{enumerate}
 	\item Since the LDA does not capture the rotation and translation well, some deskewing methods might be a good idea to perform.
-	\item Covariance matrix smoothing 
+	\item Covariance matrix smoothing so it gives a better result. 
 	
 \end{enumerate}	

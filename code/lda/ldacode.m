@@ -125,6 +125,11 @@ accuracy1_train = classify_from_centroid(transf_train', train{1,2}, centroid);
 accuracy1 = classify_from_centroid(transf_test', test{1,2},centroid);
 %%
 t0 = cputime;
+N_tr = 35e3; % training samples
+N_te = 0; % test samples
+[train, test] = loadMNIST(N_tr);
+% transform the data
+transf_train = train{1,1}' * transf_matrix;
 N_cross_val = 5;
 CVO = cvpartition(train{1,2},'k',N_cross_val);
 err = zeros(CVO.NumTestSets,1);
@@ -141,7 +146,9 @@ for j = 1:N_cross_val
         sum_cov = sum_cov + cov(X);
     end
     E_cov = sum_cov/k;
-    [acc_cross_valid_test(j) acc_cross_valid_train(j)] = classify_comparison_same_cov(k,5,mu_each_class, E_cov, test_cv', test_cv_label, train_cv', train_cv_label);
+    [acc_cross_valid_test(j) acc_cross_valid_train(j)] = classify_comparison_same_cov(k,5,mu_each_class, ...
+        cov_each_class, E_cov, test_cv', test_cv_label, train_cv', train_cv_label);
+    err(j) = 1 - acc_cross_valid_train(j);
 end
 mean_acc_test = mean(acc_cross_valid_test);
 sd_test = sqrt(var(acc_cross_valid_test));
@@ -149,7 +156,14 @@ mean_acc_train = mean(acc_cross_valid_train);
 sd_train = sqrt(var(acc_cross_valid_train));
 fprintf('Tested in %4.2f minutes\n', (cputime - t0)/60);
 
-
+f = instantiateFig(1);
+plot([1:5],err*100, 'r')
+prettyPictureFig(f);
+xlabel('5-fold cross validation');
+ylabel('Error rate');
+title('Error rate for MNIST');
+print('../../images/cr-err-mnist', '-dpng');
+%%
 for i =0:k-1
     ind = find(train{1,2} == i);
     X = transf_train(ind, :);
