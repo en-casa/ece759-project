@@ -19,10 +19,6 @@ k = 10; % number of classes
 %}
 
 [train, test] = loadMNIST(N_tr);
-%% use PCA to see the results
-% numFeatures = 20;
-% [train, U, V] = pca_(train, numFeatures);
-
 %% Construct scatter matrices and calculate within-class and between class
 % covariance
 mu = mean(train{1,1}, 2);
@@ -73,11 +69,7 @@ end
 % covariance matrices
 average_cov = sum_cov/k;
 cov_equal_each_class = {average_cov average_cov average_cov average_cov average_cov average_cov average_cov average_cov average_cov average_cov};
-% this part is just a test on how nearest neigbors work
-% parfor n = 1:13
-% % we apply Nearest neigbors in order to find which class it belongs
-%     accuracy(n) = classifyNN(n,transf_test', transf_train', test{1,2}, train{1,2});
-% end
+
 [acc_test acc_train] = classify_comparison_same_cov(k,5,mu_each_class, cov_each_class, average_cov, ...
 transf_test', test{1,2}, transf_train', train{1,2}); % 0.88 and 0.89 resp using just knn
 %[acc_test_comp acc_train_comp] = classify_comparison(k,5,mu_each_class, cov_equal_each_class, transf_test', test{1,2}, transf_train', train{1,2}); % 0.88 and 0.89 resp using just knn
