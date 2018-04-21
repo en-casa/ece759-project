@@ -1,14 +1,14 @@
 \iffalse
 
 n casale
+Kudiyar Orazymbetov
 
-ece 592
-individual project slides
-17/10/31
+ece 759
+project slides
+18/04/23
 
 \fi
 
-% class stuff
 \documentclass{beamer}
 \usetheme{Boadilla}
 \usecolortheme{beaver}
@@ -23,7 +23,7 @@ individual project slides
   \newcommand{\miniscule}{\@setfontsize\miniscule{4}{5}}% \tiny: 5/6
 \makeatother
 
-%Setting subsection and subsubsection title color
+% setting subsection and subsubsection title color
 \RequirePackage{xcolor}
 \definecolor{Red}{RGB}{123, 25, 25}
 
@@ -49,7 +49,8 @@ individual project slides
 \setbeamertemplate{blocks}[rounded][shadow=false]
 \setbeamercolor{block body example}{bg=Red!10}
 %
-\setbeamerfont{title}{size=\Huge}
+\setbeamerfont{title}{size=\Large}
+\setbeamerfont{author in title}{size=\small}
 \setbeamerfont{date}{size=\scriptsize}
 % enumerate
 \setbeamercovered{transparent}
@@ -79,18 +80,15 @@ individual project slides
 \usepackage[absolute,overlay]{textpos}
 
 % doc stuff
-\title{review of clustering algorithms}
-\subtitle{\small DBSCAN, expectation-maximization, k-means}
-\author{nico casale}
+\title{LDA, Decision Trees, and Extra Trees}
+\subtitle{on the MNIST and Yale B Datasets}
+\author{Kudiyar Orazymbetov, Nico Casale}
 \institute{NCSU}
-\date{2017/11/29}
-
-% num samples
-\newcommand{\N}{2000 }
+\date{2017/04/23}
 
 \begin{document}
 
-% Title
+% title
 \begingroup
 \setbeamercolor{background canvas}{bg=gray!10}
 \begin{frame}[plain]
@@ -105,31 +103,33 @@ individual project slides
 \tableofcontents
 \end{frame}
 
-% Sections
+% sections
 \section{introduction}
 
 	\subfile{sections/introduction}
 		
-\section{DBSCAN}
+\section{decision trees}
 
 	\showProgress
 	
-	\subfile{sections/dbscan}
+%	\subfile{sections/dbscan}
 		
-\section{EM Algorithm}
+\section{extra trees}
 
 	\showProgress
 
-	\subfile{sections/em}
+%	\subfile{sections/em}
 		
-\section{\textit{k-means}}
+\section{linear discriminant analysis (LDA)}
 
 	\showProgress
 	
-	\subfile{sections/kmeans}
+%	\subfile{sections/kmeans}
+
+\section{results}
 
 \section{conclusion}
 
-	\subfile{sections/conclusion}
+\subfile{sections/conclusion}
 
 \end{document}
