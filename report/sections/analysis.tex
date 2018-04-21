@@ -40,3 +40,29 @@ Like classical decision trees, extra trees can also become too complex if limits
 
 
 \subsection{LDA}
+\subsubsection{Advantages of LDA}
+Some advantages of LDA include \cite{book:advlda}.
+%
+\begin{enumerate}
+	\item The analytical solutions makes the problem simpler and gives more insight.
+	\item The terms are all linear which eases the computational costs
+	\item Well suited to large data sets.
+\end{enumerate}
+
+\subsubsection{Disadvantages of Decision Trees}
+
+Some disadvantages of LDA include \cite{notes:dislda}.
+%
+\begin{enumerate}
+	\item LDA produces only $(C-1)$ feature projections. 
+	\item We are assuming Gaussian likelyhoods, but if distributions are non-Gaussian then LDA projections might lose some significant information.
+	\item LDA focuses more on the mean rather in the variance, thus if information more contained in the variance then we lose the distinctive features of classes.
+\end{enumerate}
+
+\subsubsection{Improving LDA}
+
+\begin{enumerate}
+	\item Since the LDA does not capture the rotation and translation well, some deskewing methods might be a good idea to perform.
+	\item Covariance matrix smoothing 
+	
+\end{enumerate}	
