@@ -64,7 +64,19 @@ Our cross-validated results indicate that the highest accuracy is achieved by se
 
 \subsubsection{Extra Trees}
 
-<<<<<<< HEAD
+The figure below represents the accuracy and time performance of our extra-tree classifier on MNIST and Yale B after averaging with cross validation. Using cross validation allows us to generalize the effects of our changing hyperparameter, \code{numTrees}, which is a value that defines the number of trees used for the ensemble. In general, more trees to vote on the classification label improves the results. Though a clear case of diminishing returns is observed after \code{numTrees = 50}.
+
+Note that the time to train the extra-trees increases linearly with the number of trees, as the training of a decision tree, especially in the random case, is of constant time complexity. This does not include the testing of trees, which increases as $O(numTrees\ast \log m)$. This is derived by considering that \textit{numTrees} trees must be passed through to decide a class label, which takes $\log m$ time, where $m$ is the depth of the tree.
+
+Our cross-validated results indicate that the highest accuracy is achieved by setting \code{numTrees > 50}, with \code{numTrees = 100} being a good compromise between time to execute and accuracy.
+%
+\begin{figure}[H]
+    \centering
+    \subfloat[]{{\includegraphics[width=0.5\columnwidth]{../images/cv_et_mnist} }}
+    \subfloat[]{{\includegraphics[width=0.5\columnwidth]{../images/cv_et_yaleb} }}
+    \caption{Cross Validated Extra Tree Hyperparameter Results on MNIST (a) and Yale B (b).}
+\end{figure}
+
 \subsubsection{LDA}
 The error rate is decreased for 1\% due to increasing the size of sample from half to $\frac{4}{5}$ of total data. This is due to capturing more distortion in the images and thus getting slightly less performance. As our error rates do not diverge much from each other, the LDA model we used is stable. 
 \begin{figure}[H]
@@ -79,48 +91,3 @@ We also get stable LDA model for Yale B. We increased our performance by increas
 \end{figure}
 
 Since LDA depends only on mean vector and covariance matrice, there are no hyperparameters. We could look at the prior probabilities if that increases our result, but sticking to equal probabilities gives the better result and intuitive as each number appearance is equally likely. 
-
-
-%%%%%%%%%%
-%%%%%%%%%%
-%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% old
-\iffalse
-\subsection{Preliminary Hyperparameter Optimization}
-
-\subsubsection{Decision Trees}
-
-The table below illustrates some results that we obtained during various configurations of the decision tree training algorithm on MNIST. In an effort to optimize training time vs. test accuracy, we noticed some trends in the algorithm's performance. Notably, utilizing \code{minLeaf} doesn't seem to contribute to over-fitting, as was noted in other implementations \cite{matlab:fitctree}. This may be in part to the type of algorithm we are using. Particularly, the pure C4.5 algorithm moves back up the tree if certain conditions are met, thereby improving a previously-made split. This bore more complexity than we were able to achieve at this time, but may be responsible for a more simpler tree generation on our part. Note that for MNIST, we used half of the 70k samples for training and half for testing.
-
-\begin{table}[H]
-  \centering
-  \begin{tabular}{||c | c | c | c | c | c | c | c | c | c | c | c | c ||} 
-    \hline
-    Training Configuration & 1 & 2 & 2 & 2 & 3 & 3 & 1 & 1 & 1 & 1 & 4 & 4 \\
-    \hline
-    numFeatures & 30 & 30 & 60 & 200 & 200 & 200 & 30 & 100 & 100 &  20 & 10 & 10 \\
-    \hline
-    minLeaf & 1 & 1 & 2 & 2 & 3 & 4 & 4 & 4 & 1 & 1 & 1 & 3 \\
-    \hline
-    Error Rate (\%) & 22 & 26 & 26 & 26 & 23 & 24 & 22.6 & 23.6 & 23.5 & 22.9 & 17.42 & 20.37 \\
-    \hline
-    Mins To Train & 48 & 2 & 2 & 3 & 12 & 12 & 47 & 60 & 102 & 11 & 3 & 3 \\
-    \hline
-  \end{tabular}
-  \caption{Hyperparameter Configuration of Decision Tree for MNIST.}
-\end{table}
-=======
-The figure below represents the accuracy and time performance of our extra-tree classifier on MNIST and Yale B after averaging with cross validation. Using cross validation allows us to generalize the effects of our changing hyperparameter, \code{numTrees}, which is a value that defines the number of trees used for the ensemble. In general, more trees to vote on the classification label improves the results. Though a clear case of diminishing returns is observed after \code{numTrees = 50}.
->>>>>>> 9868c303b221b3deda694b701ff6f1a10d9c5f02
-
-Note that the time to train the extra-trees increases linearly with the number of trees, as the training of a decision tree, especially in the random case, is of constant time complexity. This does not include the testing of trees, which increases as $O(numTrees\ast \log m)$. This is derived by considering that \textit{numTrees} trees must be passed through to decide a class label, which takes $\log m$ time, where $m$ is the depth of the tree.
-
-Our cross-validated results indicate that the highest accuracy is achieved by setting \code{numTrees > 50}, with \code{numTrees = 100} being a good compromise between time to execute and accuracy.
-%
-\begin{figure}[H]
-    \centering
-    \subfloat[]{{\includegraphics[width=0.5\columnwidth]{../images/cv_et_mnist} }}
-    \subfloat[]{{\includegraphics[width=0.5\columnwidth]{../images/cv_et_yaleb} }}
-    \caption{Cross Validated Extra Tree Hyperparameter Results on MNIST (a) and Yale B (b).}
-\end{figure}
