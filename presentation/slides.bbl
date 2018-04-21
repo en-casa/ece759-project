@@ -1,0 +1,11 @@
+\begin{thebibliography}{1}
+
+\bibitem{lecun-mnisthandwrittendigit-2010}
+Yann LeCun and Corinna Cortes.
+\newblock {MNIST} handwritten digit database.
+\newblock 2010.
+
+\bibitem{yaleB}
+Yale face database b.
+
+\end{thebibliography}
