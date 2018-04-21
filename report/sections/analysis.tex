@@ -1,12 +1,15 @@
+In this section we will discuss the advantages and drawbacks of each algorithm; additionally, we will discuss ways we feel would improve our results and the scalability of our classifiers.
+
 \subsection{Decision Trees}
 \subsubsection{Advantages of Decision Trees}
 
 Some advantages of decision trees include \cite{scikit:decisiontrees}.
 %
 \begin{enumerate}
-\item Ability to handle both quantitative and qualitative data.
-\item Easily represented in a graph form. The classifier is not a black box and can be fully understood.
-\item Well suited to large data sets.
+\item Ability to handle both quantitative and qualitative data. Our data is purely numerical, but decision trees in general can support a variety of informative input types.
+\item The hierarchy is easily represented in a graph form. The classifier is not a black box and can be fully understood. This is very appropriate for situations where the classifier's 'reasoning' needs to be transparent such that its intuitions (and biases) can be revealed.
+\item Predicting a class label is executed in $O(\log m)$ time, where $m$ is the depth of the tree.
+\item Training data ordering is less impactful on the decision tree, as the data is being sorted at every available feature iteratively. In this way, the outcome of the decision tree classifier is most connected to the structure of the sets of data used, not their individual parts.
 \end{enumerate}
 
 \subsubsection{Disadvantages of Decision Trees}
@@ -14,59 +17,59 @@ Some advantages of decision trees include \cite{scikit:decisiontrees}.
 Some disadvantages of decision trees include \cite{scikit:decisiontrees}.
 %
 \begin{enumerate}
-\item High computational complexity in our implementation. 
-\item Decision trees can become too complex if limits aren't placed on their growth. This can lead to overfitting.
-\item Single decision trees are sensitive to data order and variations in data.
-\item Decision trees are susceptible to favoring the class mode of the dataset.
+\item There is a high computational complexity to training in our implementation. This is most evident in a large dataset where the first few levels of the tree split and subsequently sort a large body of data. Training requires iterating over all of the available features in the set at hand \emph{and} searching over the possible splits to find the highest information gain.
+\item Decision trees can become too complex if limits aren't placed on their growth. This can lead to overfitting. \code{minLeaf} serves to prevent this kind of action.
+\item Single decision trees are sensitive to variations in data composition- feature generation is necessary as a single, classical decision tree cannot create a generalized classifier; it will also take very long to train if a raw image is used even of modest proportions.
+\item Decision trees are susceptible to favoring the class mode of the dataset. Additionally, they require larger datasets and very discriminative features to be most accurate.
 \end{enumerate}
 
 \subsubsection{Improving Decision Trees}
 
-Much of the drawbacks of using decision trees can be mitigated by ensemble methods such as boosting, bagging, and random forests. These utilize stochastic factors that improve the classification power of a single, thorough decision tree by training many poorer decision trees that then vote on a classification. The majority vote is then chosen for the class label in testing. Randomized decision trees train much faster than a classical decision tree, and our experiments show that they yield an improvement in accuracy, as well.
+Much of the drawbacks of using decision trees can be mitigated by ensemble methods such as boosting, bagging, and random forests. These utilize stochastic factors that improve the classification power of a single, thorough decision tree by training many poorer decision trees that then vote on a classification. The majority vote is then chosen for the class label in testing. Ensembles of decision trees can also eliminate the need for preprocessing and feature generation. Our extra-tree implementation learns by considering only the raw pixel data. This eases the intellectual requirements to generate a capable classifier. Randomized decision trees train much faster than a classical decision tree, and our experiments show that they yield an improvement in accuracy, as well.
 
 \subsection{Extra Trees}
 \subsubsection{Advantages of Extra Trees}
 
-Extra trees have nearly the same advantages as decision trees. Though, due to the ensemble of randomly assigned splitting criteria, extra trees have less ``reasonability'' with respect to their decision making. The entirety of each tree is available, so they still are not black boxes, but their decision making is without any particular method. Additionally, the computational complexity of extra trees is less than that of classical decision trees. Though, taking the majority vote of all the decision trees introduces a logarithmic complexity on the order of the number of extra-trees employed. 
+Extra trees have nearly the same advantages as decision trees. Though, due to the ensemble of randomly assigned splitting criteria, extra trees have less 'reasonability' with respect to their decision making. The entirety of each tree is available, so they still are not black boxes, but their decision making is without any particular method. Additionally, the computational complexity of extra trees is less than that of classical decision trees. Though, taking the majority vote of all the decision trees introduces a logarithmic complexity on the order of the number of extra-trees employed. 
 
-Additionally, extra trees need no feature generation to be trained, they can run on the raw pixel data. Additionally, their training is less dependent on the size of the dataset and number of features it carries; in this way, extra trees scale well with the number of data samples.
+Additionally, extra trees need no feature generation to be trained, they can run on the raw pixel data. Additionally, their training is less dependent on the size of the dataset and number of features it carries; in this way, extra trees scale well with the number of data samples. Note that there is $O(n)$ complexity in making a random split, where $n$ is the size of the parent, unsplit set. This is derived from the comparison that must be made at the feature value. This is better than a classical decision tree, which needs to sort the set \emph{and} calculate the information gain for each candidate split \emph{for each} available feature. 
 
 \subsubsection{Disadvantages of Extra Trees}
 
 Like classical decision trees, extra trees can also become too complex if limits aren't placed on their growth. Likewise, they may favor the class mode of the dataset. 
 
-Additionally, compared to classical decision trees, extra-trees require more work to label data, as the test sample must pass through every tree to obtain a vote. Then all of the votes are aggregated into an estimate. This means utilizing the classifier can be costly as the number of trees increases.
+Additionally, compared to classical decision trees, extra-trees require more work to label data, as the test sample must pass through every tree to obtain a vote. Then all of the votes are aggregated into an estimate. This means utilizing the classifier can be costly as the number of trees increases, precisely in $O(numTrees\ast \log m)$. This is derived by considering that \textit{numTrees} trees must be passed through to decide a class label, which takes $\log m$ time, where $m$ is the depth of the tree.
 
 \subsubsection{Improving Extra Trees}
 
-A possible improvement on extra-trees is to utilize a sub-window technique to split each sample into subframes that are associated with the original class. This serves to augment the dataset and may be particularly useful in cases where there are a lack of samples available. 
+A possible improvement on extra-trees is to utilize a sub-window technique to split each sample into subframes that are associated with the original class. This serves to augment the dataset and may be particularly useful in cases where there are a lack of samples available, as in the Yale B dataset.
 
-In testing the data, a parallel computation can be utilized as each classifer votes independently of the others. In this way, the computational burden of testing the classifier can be reduced.
+In testing the data, a parallel computation can be utilized as each classifier votes independently of the others. In this way, the computational burden of testing the classifier can be reduced.
 
 \subsection{LDA}
 \subsubsection{Advantages of LDA}
 Some advantages of LDA include \cite{book:advlda}.
 %
 \begin{enumerate}
-	\item The analytical solutions makes the problem simpler and gives more insight.
-	\item The terms are all linear which eases the computational costs
-	\item Well suited to large data sets.
+	\item The analytical solution makes the problem simpler and gives more insight into the statistics of the data.
+	\item The terms are all linear which eases the computational cost.
+	\item Well-suited to large data sets.
 \end{enumerate}
 
-\subsubsection{Disadvantages of Decision Trees}
+\subsubsection{Disadvantages of LDA}
 
 Some disadvantages of LDA include \cite{notes:dislda}.
 %
 \begin{enumerate}
-	\item LDA produces only $(C-1)$ feature projections. 
-	\item We are assuming Gaussian likelyhoods, but if distributions are non-Gaussian then LDA projections might lose some significant information.
-	\item LDA focuses more on the mean rather in the variance, thus if information more contained in the variance then we lose the distinctive features of classes.
+	\item LDA produces only $(C-1)$ feature projections, where $C$ is the number of classes in the dataset. This limits the expressiveness of the features, especially in comparison to PCA. 
+	\item Our implementation assumes Gaussian likelihoods, but if the true distributions are non-Gaussian, then LDA's projections may lose significant information.
+	\item LDA focuses more on the mean rather the variance, thus if information is more contained in the variance, we lose some of the expressiveness of the classes.
 \end{enumerate}
 
 \subsubsection{Improving LDA}
 
+We can improve our LDA implementation by considering:
 \begin{enumerate}
-	\item Since the LDA does not capture the rotation and translation well, some deskewing methods might be a good idea to perform.
-	\item Covariance matrix smoothing 
-	
-\end{enumerate}	
+	\item Since LDA does not capture the rotation and translation of the raw images well, some deskewing methods may improve our classification results.
+	\item Covariance matrix smoothing can help to give a better feature generation through LDA. 
+\end{enumerate}

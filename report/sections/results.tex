@@ -65,7 +65,7 @@ Our cross-validated results indicate that the highest accuracy is achieved by se
 
 The figure below represents the accuracy and time performance of our extra-tree classifier on MNIST and Yale B after averaging with cross validation. Using cross validation allows us to generalize the effects of our changing hyperparameter, \code{numTrees}, which is a value that defines the number of trees used for the ensemble. In general, more trees to vote on the classification label improves the results. Though a clear case of diminishing returns is observed after \code{numTrees = 50}.
 
-Note that the time to train the extra-trees increases linearly with the number of trees, as the training of a decision tree, especially in the random case, is of constant time complexity. This does not include the testing of trees, which increases as $O(numTrees\ast \log n)$. This is derived by considering that \textit{numTrees} trees must be passed through to decide a class label, which takes $\log n$ time.
+Note that the time to train the extra-trees increases linearly with the number of trees, as the training of a decision tree, especially in the random case, is of constant time complexity. This does not include the testing of trees, which increases as $O(numTrees\ast \log m)$. This is derived by considering that \textit{numTrees} trees must be passed through to decide a class label, which takes $\log m$ time, where $m$ is the depth of the tree.
 
 Our cross-validated results indicate that the highest accuracy is achieved by setting \code{numTrees > 50}, with \code{numTrees = 100} being a good compromise between time to execute and accuracy.
 %
