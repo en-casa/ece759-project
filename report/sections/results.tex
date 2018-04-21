@@ -78,16 +78,18 @@ Our cross-validated results indicate that the highest accuracy is achieved by se
 \end{figure}
 
 \subsubsection{LDA}
-The error rate is decreased for 1\% due to increasing the size of sample from half to $\frac{4}{5}$ of total data. This is due to capturing more distortion in the images and thus getting slightly less performance. As our error rates do not diverge much from each other, the LDA model we used is stable. 
+Our error rate increased by 1\% over our best result due to the increasing size of the training set from half to $\frac{4}{5}$ of the total data for 5-fold cross validation. This captures more of the noise and distortion in the images and thus is less performant. The figure below shows the variation among the 5 folds in error. As our error rates do not exhibit much variance, we feel the LDA model we used is stable.
+%
 \begin{figure}[H]
 	\centering\includegraphics[width=0.6\columnwidth]{../images/cr-err-mnist}
-	\caption{Cross Validated LDA Error Rates for MNIST.}
+	\caption{Cross Validated, LDA Error Rates for MNIST.}
 \end{figure}
 
-We also get stable LDA model for Yale B. We increased our performance by increasing the sample size and tested on different validation sets. 
+We also get a stable LDA model for the Yale B dataset. We increased our performance by increasing the training set and tested on different validation sets. 
+%
 \begin{figure}[H]
 	\centering\includegraphics[width=0.6\columnwidth]{../images/cr-err-yale}
 	\caption{Cross Validated LDA Error Rates for Yale B.}
 \end{figure}
 
-Since LDA depends only on mean vector and covariance matrice, there are no hyperparameters. We could look at the prior probabilities if that increases our result, but sticking to equal probabilities gives the better result and intuitive as each number appearance is equally likely. 
+Since LDA depends only on the mean vector and covariance matrice, there are no hyperparameters to consider. We tried to look at the prior probabilities to see if that increases our result, but sticking to equal probabilities yields a better result; this is intuitive as each class appearance is equiprobable. 
