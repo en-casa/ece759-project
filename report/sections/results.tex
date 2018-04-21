@@ -26,7 +26,8 @@ In an effort to justify our choice of hyperparameters and examine the capability
   \caption{4-fold cross validation on a dataset.}
 \end{figure}
  
-The results of our cross validation are represented in the table below. The error rates are averaged over the 5 folds.
+The best results of our cross validation are represented in the table below. The error rates are averaged over the 5 folds. Note that because the 5-fold cross validation yields a larger test set than in our previous results, the error rate for decision trees on the Yale B dataset was higher. If we used a higher-fold cross validation, the results would have been better.
+%
 \begin{table}[H]
   \centering
   \begin{tabular}{||c | c | c||} 
@@ -35,7 +36,7 @@ The results of our cross validation are represented in the table below. The erro
     \hline\hline
     LDA & \%  & \% \\ 
     \hline
-    Decision Tree & \% & \% \\ 
+    Decision Tree & 17.9\% & 74.9\% \\ 
     \hline
     Extra-Trees & \% (100 extra-trees) & \% (100 extra-trees) \\
     \hline

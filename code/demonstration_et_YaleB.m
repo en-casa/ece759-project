@@ -25,7 +25,7 @@ function [errorRate] = demonstration_et_YaleB()
 
 	% for decision tree
 	minLeaf = 1; % to prevent overfitting
-	numTrees = 100; % ensemble for majority voting
+	numTrees = 50; % ensemble for majority voting
 	
 	% partition data
 	[train, test] = loadYaleB(N_tr);
@@ -51,7 +51,7 @@ function [errorRate] = demonstration_et_YaleB()
 	%% test
 	st = cputime;
 
-	test = testExtraTree(test, trees);
+	test = testExtraTrees(test, trees);
 
 	fprintf('Tested in %4.2f minutes\n', (cputime - st)/60);
 
