@@ -8,4 +8,14 @@ Yann LeCun and Corinna Cortes.
 \bibitem{yaleB}
 Yale face database b.
 
+\bibitem{wiki:c45}
+Wikipedia contributors.
+\newblock C4.5 algorithm --- wikipedia{,} the free encyclopedia, 2018.
+\newblock [Online; accessed 14-March-2018].
+
+\bibitem{wiki:et}
+{Wikipedia contributors}.
+\newblock Random forest --- {Wikipedia}{,} the free encyclopedia, 2018.
+\newblock [Online; accessed 23-April-2018].
+
 \end{thebibliography}

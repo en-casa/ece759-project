@@ -1,7 +1,7 @@
 \begin{frame}
   \frametitle{extremely randomized (extra) trees}
 
-  recursive, random tree
+  recursive, random training algorithm \cite{wiki:et} :
   \begin{enumerate}
   \item check stopping conditions
     % 
@@ -10,8 +10,8 @@
     \item set is smaller than \code{minLeaf}
     \item all samples in the same class
     \end{itemize}
-  \item choose random feature. simply use the raw pixels as features. 
-  \item find the mean and variance of this feature across the set. generate a random value from a normal distribution with this mean and variance. 
+  \item choose \emph{random} feature. simply use the \emph{raw pixels as features} 
+  \item find the mean and variance of this feature across the set. generate a random value from a \emph{normal distribution} with this mean and variance
   \item recur on the subsets obtained by splitting the parent set on the randomly chosen feature and threshold
   \end{enumerate}
 
