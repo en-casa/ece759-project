@@ -79,6 +79,15 @@ project slides
 % for overlays floating text
 \usepackage[absolute,overlay]{textpos}
 
+% custom highlighting (depends on xcolor, soul) (for \code{.})
+\RequirePackage{soul}
+\newcommand{\hlc}[2][yellow]{{%
+    \colorlet{foo}{#1}%
+    \sethlcolor{foo}\hl{#2}}%
+}
+% use highlighting to identify code
+\newcommand{\code}[1]{\hlc[pink!20]{\texttt{#1}}} 
+
 % doc stuff
 \title{LDA, Decision Trees, and Extra Trees}
 \subtitle{on the MNIST and Yale B Datasets}
@@ -112,7 +121,7 @@ project slides
 
 	\showProgress
 	
-%	\subfile{sections/dbscan}
+	\subfile{sections/dt}
 		
 \section{extra trees}
 
@@ -133,3 +142,8 @@ project slides
 \subfile{sections/conclusion}
 
 \end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

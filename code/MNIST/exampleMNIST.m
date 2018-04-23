@@ -39,3 +39,5 @@ end
 f = instantiateFig(1);
 imshow(I);
 prettyPictureFig(f);
+
+saveImage('mnistExample');

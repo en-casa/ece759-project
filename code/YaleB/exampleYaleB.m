@@ -22,10 +22,10 @@ close all;
 addpath('./utility');
 addpath('YaleB', './YaleB/data');
 
-[faces, labels] = loadYaleB();
+[faces, labels] = loadYaleB_old();
 
-sz_col = 42; 
-sz_row = 48;
+sz_col = 32; 
+sz_row = 32;
 stride = 12; 
 rows = 8; 
 
@@ -41,3 +41,5 @@ f = instantiateFig(2);
 imagesc(Y);
 colormap(gray);
 prettyPictureFig(f);
+
+saveImage('yalebExample');

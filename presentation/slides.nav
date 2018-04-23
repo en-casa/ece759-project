@@ -14,30 +14,34 @@
 \headcommand {\sectionentry {2}{decision trees}{5}{decision trees}{0}}
 \headcommand {\slideentry {2}{0}{1}{5/5}{}{0}}
 \headcommand {\beamer@framepages {5}{5}}
-\headcommand {\beamer@sectionpages {5}{5}}
-\headcommand {\beamer@subsectionpages {5}{5}}
-\headcommand {\sectionentry {3}{extra trees}{6}{extra trees}{0}}
-\headcommand {\slideentry {3}{0}{1}{6/6}{}{0}}
+\headcommand {\slideentry {2}{0}{2}{6/6}{}{0}}
 \headcommand {\beamer@framepages {6}{6}}
-\headcommand {\beamer@sectionpages {6}{6}}
-\headcommand {\beamer@subsectionpages {6}{6}}
-\headcommand {\sectionentry {4}{linear discriminant analysis (LDA)}{7}{linear discriminant analysis (LDA)}{0}}
-\headcommand {\slideentry {4}{0}{1}{7/7}{}{0}}
+\headcommand {\slideentry {2}{0}{3}{7/7}{}{0}}
 \headcommand {\beamer@framepages {7}{7}}
-\headcommand {\beamer@sectionpages {7}{7}}
-\headcommand {\beamer@subsectionpages {7}{7}}
-\headcommand {\sectionentry {5}{results}{8}{results}{0}}
-\headcommand {\beamer@sectionpages {8}{7}}
-\headcommand {\beamer@subsectionpages {8}{7}}
-\headcommand {\sectionentry {6}{conclusion}{8}{conclusion}{0}}
-\headcommand {\slideentry {6}{0}{1}{8/8}{}{0}}
+\headcommand {\beamer@sectionpages {5}{7}}
+\headcommand {\beamer@subsectionpages {5}{7}}
+\headcommand {\sectionentry {3}{extra trees}{8}{extra trees}{0}}
+\headcommand {\slideentry {3}{0}{1}{8/8}{}{0}}
 \headcommand {\beamer@framepages {8}{8}}
-\headcommand {\slideentry {6}{0}{2}{9/9}{}{0}}
+\headcommand {\beamer@sectionpages {8}{8}}
+\headcommand {\beamer@subsectionpages {8}{8}}
+\headcommand {\sectionentry {4}{linear discriminant analysis (LDA)}{9}{linear discriminant analysis (LDA)}{0}}
+\headcommand {\slideentry {4}{0}{1}{9/9}{}{0}}
 \headcommand {\beamer@framepages {9}{9}}
-\headcommand {\slideentry {6}{0}{3}{10/10}{}{0}}
+\headcommand {\beamer@sectionpages {9}{9}}
+\headcommand {\beamer@subsectionpages {9}{9}}
+\headcommand {\sectionentry {5}{results}{10}{results}{0}}
+\headcommand {\beamer@sectionpages {10}{9}}
+\headcommand {\beamer@subsectionpages {10}{9}}
+\headcommand {\sectionentry {6}{conclusion}{10}{conclusion}{0}}
+\headcommand {\slideentry {6}{0}{1}{10/10}{}{0}}
 \headcommand {\beamer@framepages {10}{10}}
-\headcommand {\beamer@partpages {1}{10}}
-\headcommand {\beamer@subsectionpages {8}{10}}
-\headcommand {\beamer@sectionpages {8}{10}}
-\headcommand {\beamer@documentpages {10}}
-\headcommand {\gdef \inserttotalframenumber {10}}
+\headcommand {\slideentry {6}{0}{2}{11/11}{}{0}}
+\headcommand {\beamer@framepages {11}{11}}
+\headcommand {\slideentry {6}{0}{3}{12/12}{}{0}}
+\headcommand {\beamer@framepages {12}{12}}
+\headcommand {\beamer@partpages {1}{12}}
+\headcommand {\beamer@subsectionpages {10}{12}}
+\headcommand {\beamer@sectionpages {10}{12}}
+\headcommand {\beamer@documentpages {12}}
+\headcommand {\gdef \inserttotalframenumber {12}}
