@@ -12,19 +12,27 @@
 \begin{frame}
   \frametitle{training decision trees}
   
-  training algorithm:
+  recursive training algorithm:
   %
   \begin{enumerate}
   \item check stopping conditions
     %
-    \begin{enumerate}
+    \begin{itemize}
     \item no more features
     \item set is smaller than \code{minLeaf}
     \item all samples in the same class
     \item no feature improves information gain (IG)
-    \end{enumerate}
+    \end{itemize}
   \item iterate over each available feature, perform a line search to approximate the highest IG
   \item recur over the subsets given by splitting at the feature and threshold with the highest IG 
   \end{enumerate}
+
+\begin{equation}
+  \mathrm{IG}(X) = \mathrm{H}(X) - \sum_{i=1}^{2} \frac{|S_i|}{|X|} \mathrm{H}(S_i)
+\end{equation}
+
+\begin{equation}
+  \mathrm{H}(X) = -\sum_{i=1}^n {\mathrm{P}(x_i) \log_2 \mathrm{P}(x_i)}
+\end{equation} 
   
 \end{frame}
